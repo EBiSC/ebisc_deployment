@@ -1,0 +1,9 @@
+image: coreos_stable
+flavor: s1.tiny
+network: EBiSC_private
+security_group: protected
+auto_ip: false
+role: worker
+new_cluster: true
+cluster_size: 5
+vm_id: 1

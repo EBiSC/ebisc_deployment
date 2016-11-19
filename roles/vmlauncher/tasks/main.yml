@@ -1,0 +1,28 @@
+- name: set vm name
+  set_fact: vm="{{ role }}-{{ vm_id }}"
+
+- name: get discovery token
+  uri:
+    url: "https://discovery.etcd.io/new?size={{ cluster_size }}"
+    return_content: yes
+  when: new_cluster
+  register: discovery_token
+
+#- template: src="{{role}}.cloud-config.yaml.j2" dest=/tmp/cloud-config
+
+#- fail: msg="here"
+#  when: true
+
+- name: "launch vm {{vm}}"
+  os_server: 
+    state: present
+    name: "{{ vm }}"
+    image: "{{image}}"
+    flavor: "{{flavor}}"
+    network: "{{network}}"
+    auto_ip: "{{ auto_ip }}"
+    security_groups: "{{security_group}}"
+    wait: yes
+    userdata: "{{lookup('template', role + '.cloud-config.yaml.j2')}}"
+
+- meta: refresh_inventory

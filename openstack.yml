@@ -1,0 +1,6 @@
+- name: Set up openstack and launch VMs
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: vmlauncher, cluster_size: 1 }
+      

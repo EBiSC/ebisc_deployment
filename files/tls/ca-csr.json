@@ -1,0 +1,15 @@
+{
+    "CN": "EBiSC",
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "Eng",
+            "L": "Embassy",
+            "O": "EBiSC",
+            "OU": "IMS"
+        }
+    ]
+}
