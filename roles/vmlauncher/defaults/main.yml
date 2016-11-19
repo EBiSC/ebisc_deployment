@@ -3,7 +3,5 @@ flavor: s1.tiny
 network: EBiSC_private
 security_group: protected
 auto_ip: false
-role: worker
-new_cluster: true
-cluster_size: 5
-vm_id: 1
+cluster_size: 8
+max_etcd_servers: 5

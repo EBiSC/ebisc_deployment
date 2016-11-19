@@ -2,5 +2,6 @@
   hosts: localhost
   connection: local
   roles:
-    - { role: vmlauncher, cluster_size: 1 }
+    #- { role: vmlauncher, cluster_size: 1 }
+    - vmlauncher
       

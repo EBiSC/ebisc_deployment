@@ -1,11 +1,18 @@
-- name: set vm name
-  set_fact: vm="{{ role }}-{{ vm_id }}"
+- set_fact:
+    cluster_peers: "{{[]}}"
+    bootstrap_cluster: true
+- name: Test if a cluster already exists
+  set_fact:
+    bootstrap_cluster: false
+    cluster_peers: "{{cluster_peers + [ 'https://' + hostvars[item].openstack.private_v4 ]}}"
+  when: hostvars[item].openstack is defined and hostvars[item].openstack.name.find("worker") == 0
+  with_items: "{{groups['all']}}"
 
 - name: get discovery token
   uri:
-    url: "https://discovery.etcd.io/new?size={{ cluster_size }}"
+    url: "https://discovery.etcd.io/new?size={{ [ cluster_size, max_etcd_servers ] | min }}"
     return_content: yes
-  when: new_cluster
+  when: bootstrap_cluster
   register: discovery_token
 
 #- template: src="{{role}}.cloud-config.yaml.j2" dest=/tmp/cloud-config
@@ -13,16 +20,16 @@
 #- fail: msg="here"
 #  when: true
 
-- name: "launch vm {{vm}}"
-  os_server: 
-    state: present
-    name: "{{ vm }}"
-    image: "{{image}}"
-    flavor: "{{flavor}}"
-    network: "{{network}}"
-    auto_ip: "{{ auto_ip }}"
-    security_groups: "{{security_group}}"
-    wait: yes
-    userdata: "{{lookup('template', role + '.cloud-config.yaml.j2')}}"
+- include: launch.yml
+  vars:
+    vm_id: "{{item}}"
+    proxy: false
+  with_sequence: count="{{ [ cluster_size, max_etcd_servers ] | min }}"
+
+- include: launch.yml
+  vars:
+    vm_id: "{{item}}"
+    proxy: true
+  with_sequence: count="{{ [ cluster_size - max_etcd_servers, 0 ] | max }}"
 
 - meta: refresh_inventory

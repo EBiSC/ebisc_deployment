@@ -1,0 +1,19 @@
+- name: set vm name
+  set_fact: vm="{{ proxy | ternary('proxy-worker', 'worker')}}-{{ vm_id }}"
+
+#- name: debug printing cloud-config to /tmp/{{vm}}.cloudconfig
+#  template:
+#    src: worker.cloud-config.yaml.j2
+#    dest: "/tmp/{{vm}}.cloudconfig"
+
+- name: "launch vm {{vm}}"
+  os_server: 
+    state: present
+    name: "{{ vm }}"
+    image: "{{image}}"
+    flavor: "{{flavor}}"
+    network: "{{network}}"
+    auto_ip: "{{ auto_ip }}"
+    security_groups: "{{security_group}}"
+    wait: yes
+    userdata: "{{lookup('template', 'worker.cloud-config.yaml.j2')}}"
