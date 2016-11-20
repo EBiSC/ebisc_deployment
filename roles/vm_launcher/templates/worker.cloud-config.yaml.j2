@@ -9,14 +9,12 @@ coreos:
 {% else %}
     initial-cluster: {{ cluster_peers | join( ",") }}
     initial-cluster-state: existing
-{% if not proxy %}
-    initial-advertise-peer-urls: https://$private_ipv4:2380
-{% endif %}
 {% endif %}
 {% if proxy %}
     proxy: on
 {% else %}
     listen-peer-urls: https://$private_ipv4:2380
+    initial-advertise-peer-urls: https://$private_ipv4:2380
 {% endif %}
     advertise-client-urls: https://$private_ipv4:2379
     # http for localhost but TLS for any other connection
