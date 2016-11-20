@@ -3,5 +3,5 @@
   connection: local
   roles:
     #- { role: vmlauncher, cluster_size: 1 }
-    - vmlauncher
+    - vm_launcher
       
