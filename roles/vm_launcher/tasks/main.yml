@@ -15,21 +15,16 @@
   when: bootstrap_cluster
   register: discovery_token
 
-#- template: src="{{role}}.cloud-config.yaml.j2" dest=/tmp/cloud-config
-
-#- fail: msg="here"
-#  when: true
-
 - include: launch.yml
   vars:
     vm_id: "{{item}}"
-    proxy: false
+    vm_role: "{{vm_roles.worker}}"
   with_sequence: count="{{ [ cluster_size, max_etcd_servers ] | min }}"
 
 - include: launch.yml
   vars:
     vm_id: "{{item}}"
-    proxy: true
+    vm_role: "{{vm_roles.proxy_worker}}"
   with_sequence: count="{{ [ cluster_size - max_etcd_servers, 0 ] | max }}"
 
 - meta: refresh_inventory

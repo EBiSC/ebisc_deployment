@@ -1,5 +1,7 @@
 - name: set vm name
-  set_fact: vm="{{ proxy | ternary('proxy-worker', 'worker')}}-{{ vm_id }}"
+  set_fact:
+    vm: "{{ vm_role.name }}-{{ vm_id }}"
+    proxy: "{{vm_role.proxy}}"
 
 #- name: debug printing cloud-config to /tmp/{{vm}}.cloudconfig
 #  template:
@@ -13,7 +15,7 @@
     image: "{{image}}"
     flavor: "{{flavor}}"
     network: "{{network}}"
-    auto_ip: "{{ auto_ip }}"
-    security_groups: "{{security_group}}"
+    auto_ip: "{{ vm_role.auto_ip }}"
+    security_groups: "{{ vm_role.security_group }}"
     wait: yes
     userdata: "{{lookup('template', 'worker.cloud-config.yaml.j2')}}"

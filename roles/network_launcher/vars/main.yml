@@ -1,0 +1,17 @@
+network: EBiSC_private
+router: router_EBiSC
+external_network: net_external
+security_groups: protected
+vm_user: core
+
+subnet:
+  name: EBiSC_subnet
+  cidr: '192.168.0.0/24'
+  dns_nameserver: '8.8.8.8'
+  enable_dhcp: true
+  gateway_ip: 192.168.0.1
+
+security_rules:
+  etcd2:
+    - {type: IPv4, protocol: tcp, remote: '192.168.0.0/24'}
+    - {type: IPv4, protocol: icmp, remote: '192.168.0.0/24'}

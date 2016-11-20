@@ -1,0 +1,15 @@
+image: coreos_stable
+flavor: s1.tiny
+network: EBiSC_private
+
+vm_roles:
+  worker:
+    name: worker
+    auto_ip: false
+    security_group: etcd2
+    proxy: false
+  proxy_worker:
+    name: "proxy-worker"
+    auto_ip: false
+    security_group: etcd2
+    proxy: true

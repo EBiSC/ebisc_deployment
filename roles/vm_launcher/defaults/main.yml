@@ -1,7 +1,2 @@
-image: coreos_stable
-flavor: s1.tiny
-network: EBiSC_private
-security_group: protected
-auto_ip: false
 cluster_size: 8
 max_etcd_servers: 5

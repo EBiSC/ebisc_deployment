@@ -2,6 +2,7 @@
   hosts: localhost
   connection: local
   roles:
-    #- { role: vmlauncher, cluster_size: 1 }
+    - network_launcher
+    #- { role: vm_launcher, cluster_size: 2 }
     - vm_launcher
       
