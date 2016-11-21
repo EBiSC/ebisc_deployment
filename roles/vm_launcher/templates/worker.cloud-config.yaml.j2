@@ -24,10 +24,13 @@ coreos:
     cert-file: /home/core/etcd2.pem
     key-file: /home/core/etcd2-key.pem
     trusted-ca-file: /home/core/ca.pem
+    heartbeat-interval: 250
+    election-timeout: 2500
   fleet:
     etcd_servers: https://$private_ipv4:2379
     etcd_cafile: /home/core/ca.pem
     public_ip: $private_ipv4
+    agent_ttl: "60s"
   locksmith:
     endpoint: https://$private_ipv4:2379
     etcd_cafile: /home/core/ca.pem
@@ -37,13 +40,6 @@ coreos:
     - name: fleet.service
       command: start
     - name: fleet.service
-      drop-ins:
-        - name: 50-etcd_credentials.conf
-          content: |
-            [Service]
-            Environment="FLEET_ETCD_USERNAME=root"
-            Environment="FLEET_ETCD_PASSWORD={{ etcd_root_password }}"
-    - name: locksmith.service
       drop-ins:
         - name: 50-etcd_credentials.conf
           content: |
