@@ -13,6 +13,7 @@ coreos:
 {% if proxy %}
     proxy: on
 {% else %}
+    name: {{ vm }}
     listen-peer-urls: https://$private_ipv4:2380
     initial-advertise-peer-urls: https://$private_ipv4:2380
 {% endif %}

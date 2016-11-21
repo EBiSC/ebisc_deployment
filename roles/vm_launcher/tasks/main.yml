@@ -4,7 +4,7 @@
 - name: Test if a cluster already exists
   set_fact:
     bootstrap_cluster: false
-    cluster_peers: "{{cluster_peers + [ 'https://' + hostvars[item].openstack.private_v4 ]}}"
+    cluster_peers: "{{cluster_peers + [ hostvars[item].openstack.name + '=' + 'https://' + hostvars[item].openstack.private_v4 + ':2380' ]}}"
   when: hostvars[item].openstack is defined and hostvars[item].openstack.name.find("worker") == 0
   with_items: "{{groups['all']}}"
 
