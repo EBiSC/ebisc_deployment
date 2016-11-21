@@ -32,8 +32,10 @@ coreos:
     public_ip: $private_ipv4
     agent_ttl: "60s"
   locksmith:
-    endpoint: https://$private_ipv4:2379
+    endpoint: https://127.0.0.1:2379
     etcd_cafile: /home/core/ca.pem
+    etcd_certfile: /home/core/etcd2.pem
+    etcd_keyfile: /home/core/etcd2-key.pem
   units:
     - name: etcd2.service
       command: start
