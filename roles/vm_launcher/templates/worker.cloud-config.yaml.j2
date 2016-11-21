@@ -17,19 +17,20 @@ coreos:
     initial-advertise-peer-urls: https://$private_ipv4:2380
 {% endif %}
     advertise-client-urls: https://$private_ipv4:2379
-    # http for localhost but TLS for any other connection
-    listen-client-urls: https://$private_ipv4:2379
-    peer-cert-file: /home/core/peer.pem
-    peer-key-file: /home/core/peer-key.pem
+    listen-client-urls: https://127.0.0.1:2379,https://$private_ipv4:2379
+    peer-cert-file: /home/core/etcd1.pem
+    peer-key-file: /home/core/etcd1-key.pem
     peer-trusted-ca-file: /home/core/ca.pem
-    cert-file: /home/core/server.pem
-    key-file: /home/core/server-key.pem
+    cert-file: /home/core/etcd2.pem
+    key-file: /home/core/etcd2-key.pem
     trusted-ca-file: /home/core/ca.pem
   fleet:
-    etcd_servers: https://127.0.0.1:2379
+    etcd_servers: https://$private_ipv4:2379
+    etcd_cafile: /home/core/ca.pem
     public_ip: $private_ipv4
   locksmith:
-    endpoint: https://127.0.0.1:2379
+    endpoint: https://$private_ipv4:2379
+    etcd_cafile: /home/core/ca.pem
   units:
     - name: etcd2.service
       command: start
@@ -69,26 +70,26 @@ coreos:
         ExecStart=/usr/sbin/setenforce 1
         ExecStop=/usr/sbin/setenforce 0
 write_files:
-  - path: /home/core/server.pem
+  - path: /home/core/etcd1.pem
     permissions: 0644
     content: |
-      {{ lookup('file', 'tls/server.pem') | indent(6, false) }}
-  - path: /home/core/server-key.pem
+      {{ lookup('file', 'etcd-tls/etcd1.pem') | indent(6, false) }}
+  - path: /home/core/etcd1-key.pem
     permissions: 0644
     content: |
-      {{ server_key_pem | indent(6, false) }}
-  - path: /home/core/peer.pem
+      {{ etcd1_key_pem | indent(6, false) }}
+  - path: /home/core/etcd2.pem
     permissions: 0644
     content: |
-      {{ lookup('file', 'tls/peer.pem') | indent(6, false) }}
-  - path: /home/core/peer-key.pem
+      {{ lookup('file', 'etcd-tls/etcd2.pem') | indent(6, false) }}
+  - path: /home/core/etcd2-key.pem
     permissions: 0644
     content: |
-      {{ peer_key_pem | indent(6, false) }}
+      {{ etcd2_key_pem | indent(6, false) }}
   - path: /home/core/ca.pem
     permissions: 0644
     content: |
-      {{ lookup('file', 'tls/ca.pem') | indent(6, false) }}
+      {{ lookup('file', 'etcd-tls/ca.pem') | indent(6, false) }}
   - path: /etc/selinux/config
     permissions: 644
     content: |
