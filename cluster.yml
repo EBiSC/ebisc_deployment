@@ -1,0 +1,6 @@
+- name: Bootstrap coreos VMs ready to use ansible
+  hosts: coreos
+  gather_facts: false
+  roles:
+    - coreos-bootstrap
+      

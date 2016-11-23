@@ -1,5 +1,6 @@
 inventory/openstack.py
 *.retry
+vendor
 
 # vim swap
 [._]*.s[a-w][a-z]

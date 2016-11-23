@@ -1,0 +1,8 @@
+---
+# Partial list of required roles
+# Install with: ansible-galaxy install -r ansible-requirements.yml -p vendor/
+
+# Nginx
+- src: defunctzombie.coreos-bootstrap
+  version: master
+  name: coreos-bootstrap

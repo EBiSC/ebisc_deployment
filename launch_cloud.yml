@@ -3,6 +3,6 @@
   connection: local
   roles:
     - network_launcher
-    #- { role: vm_launcher, cluster_size: 2 }
+    - { role: vm_launcher, cluster_size: 5 }
     - vm_launcher
       
