@@ -1,2 +1,1 @@
 cluster_size: 8
-max_etcd_servers: 5

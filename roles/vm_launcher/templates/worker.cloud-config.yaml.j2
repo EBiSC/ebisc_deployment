@@ -4,7 +4,7 @@ coreos:
     reboot-strategy: etcd-lock
     group: stable
   etcd2:
-{% if bootstrap_cluster %}
+{% if existing_cluster_size == 0 %}
     discovery: {{ discovery_token.content }}
 {% else %}
     initial-cluster: {{ cluster_peers | join( ",") }}

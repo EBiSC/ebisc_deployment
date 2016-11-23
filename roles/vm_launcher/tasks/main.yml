@@ -1,30 +1,31 @@
 - set_fact:
     cluster_peers: "{{[]}}"
-    bootstrap_cluster: true
+    existing_cluster_size: 0
 - name: Test if a cluster already exists
   set_fact:
-    bootstrap_cluster: false
+    existing_cluster_size: "{{existing_cluster_size}} + 1"
     cluster_peers: "{{cluster_peers + [ hostvars[item].openstack.name + '=' + 'https://' + hostvars[item].openstack.private_v4 + ':2380' ]}}"
-  when: hostvars[item].openstack is defined and hostvars[item].openstack.name.find("worker") == 0
+  when: hostvars[item].openstack is defined and hostvars[item].openstack.name.find("etcd") == 0
   with_items: "{{groups['all']}}"
 
 - name: get discovery token
   uri:
-    url: "https://discovery.etcd.io/new?size={{ [ cluster_size, max_etcd_servers ] | min }}"
+    url: "https://discovery.etcd.io/new?size={{ num_etcd_servers }}"
     return_content: yes
-  when: bootstrap_cluster
+  when: existing_cluster_size == 0
   register: discovery_token
 
 - include: launch.yml
   vars:
     vm_id: "{{item}}"
-    vm_role: "{{vm_roles.worker}}"
-  with_sequence: count="{{ [ cluster_size, max_etcd_servers ] | min }}"
+    vm_role: "{{vm_roles.etcd}}"
+  with_sequence: count="{{ num_etcd_servers }}"
+  when: existing_cluster_size == 0
 
 - include: launch.yml
   vars:
     vm_id: "{{item}}"
     vm_role: "{{vm_roles.proxy_worker}}"
-  with_sequence: count="{{ [ cluster_size - max_etcd_servers, 0 ] | max }}"
+  with_sequence: count="{{ [ cluster_size - num_etcd_servers, 0 ] | max }}"
 
 - meta: refresh_inventory
