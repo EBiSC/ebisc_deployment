@@ -4,3 +4,15 @@
   roles:
     - coreos-bootstrap
       
+- name: Load docker registry on all machines
+  hosts: "etcd-worker-1"
+  tasks:
+    - name: Make directory for unit files
+      file:
+        dest: /home/core/fleet
+        state: directory
+    - name: copy unit file
+      template:
+        dest: /home/core/fleet/registry.service
+        src: units/registry.service.j2
+      
