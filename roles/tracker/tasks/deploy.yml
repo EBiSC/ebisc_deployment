@@ -1,0 +1,29 @@
+- name: Create repo directory
+  file:
+    path: /var/projects/tracker
+    state: directory
+    owner: core
+  become: yes
+
+- name: Initialise git repo
+  git: dest=/var/projects/tracker repo=git@github.com:EMBL-EBI-GCA/ebisc_tracker_2.git accept_hostkey=yes update=yes version=dev/deployment
+  register: git
+
+- name: build tracker webserver
+  docker_image:
+    path: /var/projects/tracker
+    dockerfile: Dockerfile-webserver
+    name: ebisc/tracker-webserver
+    state: present
+    tag: "{{git.after}}"
+  register: docker_build
+
+- name: retag image
+  command: "docker tag ebisc/tracker-webserver:{{git.after}} ebisc/tracker-webserver:latest"
+
+- name: restart webserver
+  become: yes
+  systemd:
+    name: tracker-webserver.service
+    state: restarted
+  when: docker_build.changed

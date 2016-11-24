@@ -1,0 +1,9 @@
+- name: ssh key
+  template:
+    dest: /home/core/.ssh/authorized_keys.d/ansible
+    src: authorized_keys.j2
+  register: registered_keys
+
+- name: update ssh keys
+  command: /usr/bin/update-ssh-keys
+  when: registered_keys.changed

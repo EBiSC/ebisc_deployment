@@ -1,0 +1,65 @@
+- name: install docker-py
+  pip:
+    executable: /home/core/bin/pip
+    name: docker-py
+    state: present
+
+- name: create docker network
+  docker_network:
+    name: tracker
+    state: present
+
+- name: "copy unit file {{item}}"
+  become: yes
+  copy:
+    dest: "/etc/systemd/system/{{item}}"
+    src: "{{item}}"
+  with_items:
+    - mongodb-backups.timer
+    - mongodb-backups.service
+    - tracker-webserver.service
+    - tracker.service
+    - tracker.timer
+
+- name: "copy unit template file {{item}}"
+  become: yes
+  template:
+    dest: "/etc/systemd/system/{{item}}"
+    src: "{{item}}.j2"
+  with_items:
+    - mongodb.service
+
+- name: make directories for mongodb config
+  become: yes
+  file:
+    path: "/etc/systemd/system/{{ item }}.d"
+    state: directory
+  with_items:
+    - mongodb.service
+    - mongodb-backups.service
+    - tracker-webserver.service
+    - tracker.service
+
+- name: "copy unit configuration {{item}}"
+  become: yes
+  template:
+    dest: "/etc/systemd/system/{{item}}.d/50-ansible.conf"
+    src: "{{item}}.conf.j2"
+  with_items:
+    - mongodb.service
+    - mongodb-backups.service
+    - tracker-webserver.service
+    - tracker.service
+
+- name: "enable {{ item }}"
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - mongodb.service
+    - tracker-webserver.service
+    - mongodb-backups.timer
+    - tracker.timer

@@ -1,21 +1,26 @@
-- name: set vm name
-  set_fact:
-    vm: "{{ vm_role.name }}-{{ vm_id }}"
-    proxy: "{{vm_role.proxy}}"
 
-#- name: debug printing cloud-config to /tmp/{{vm}}.cloudconfig
-#  template:
-#    src: worker.cloud-config.yaml.j2
-#    dest: "/tmp/{{vm}}.cloudconfig"
-
-- name: "launch vm {{vm}}"
+- name: "launch vm {{vm.name}}"
   os_server: 
     state: present
-    name: "{{ vm }}"
+    name: "{{ vm.name }}"
     image: "{{image}}"
-    flavor: "{{flavor}}"
+    flavor: "{{vm.flavor}}"
     network: "{{network}}"
-    auto_ip: "{{ vm_role.auto_ip }}"
-    security_groups: "{{ vm_role.security_group }}"
+    auto_ip: "{{ vm.auto_ip }}"
+    security_groups: "{{ vm.security_group }}"
     wait: yes
-    userdata: "{{lookup('template', 'worker.cloud-config.yaml.j2')}}"
+    userdata: "{{lookup('template', 'coreos.cloud-config.yaml.j2')}}"
+
+- name: "create cinder image {{ item.name }}  for {{ vm.name }}"
+  os_volume:
+    size: "{{item.size}}"
+    display_name: "{{item.name}}"
+    wait: yes
+  with_items: "{{vm.volumes}}"
+
+- name: "attach volume {{ item.name }}  to {{ vm.name }}"
+  os_server_volume:
+    server: "{{ vm.name }}"
+    volume: "{{ item.name }}"
+    wait: yes
+  with_items: "{{vm.volumes}}"

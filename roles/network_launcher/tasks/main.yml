@@ -1,13 +1,13 @@
 
-- name: create etcd2 security group
+- name: create protected security group
   os_security_group:
-    name: etcd2
+    name: protected
     description: "Opens all ports to the local subnet only. Protected from the world by the bastion"
     wait: yes
 
-- name: configure etcd2 security group
+- name: configure protected security group
   os_security_group_rule:
-    security_group: etcd2
+    security_group: protected
     state: present
     ethertype: "{{item.type}}"
     protocol: "{{item.protocol}}"
@@ -16,7 +16,7 @@
     port_range_min: "{{item.port_min | default(omit)}}"
     port_range_max: "{{item.port_max | default(omit)}}"
     wait: yes
-  with_items: "{{security_rules.etcd2}}"
+  with_items: "{{security_rules.protected}}"
 
 - name: configure network
   os_network:

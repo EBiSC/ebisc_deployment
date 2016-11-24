@@ -1,22 +1,4 @@
-[etcd-worker-1]
-[etcd-worker-2]
-[etcd-worker-3]
-[etcd-worker-4]
-[etcd-worker-5]
-[proxy-worker-1]
-[proxy-worker-2]
-[proxy-worker-3]
-[proxy-worker-4]
-[proxy-worker-5]
+[tracker2]
 
 [coreos:children]
-etcd-worker-1
-etcd-worker-2
-etcd-worker-3
-etcd-worker-4
-etcd-worker-5
-proxy-worker-1
-proxy-worker-2
-proxy-worker-3
-proxy-worker-4
-proxy-worker-5
+tracker2

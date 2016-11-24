@@ -1,0 +1,30 @@
+
+  - name: find cinder dev to mount
+    set_fact: "device_path={{ item.device  }}"
+    with_items: "{{vars.openstack.volumes}}"
+    when: item.name == volume.name
+
+  - fail: msg="Did not find device for attached volume"
+    when: device_path is not defined
+
+  - name: format cinder dev
+    become: yes
+    filesystem:
+      dev: "{{ device_path }}"
+      force: no
+      fstype: ext4
+
+  - name: mount cinder dev
+    become: yes
+    mount:
+      name: "{{ volume.mount }}"
+      src: "{{ device_path }}"
+      fstype: ext4
+      state: mounted
+
+  - name: make sub-directories
+    become: yes
+    file:
+      path: "{{volume.mount}}/{{item}}"
+      state: directory
+    with_items: "{{volume.sub_directories}}"

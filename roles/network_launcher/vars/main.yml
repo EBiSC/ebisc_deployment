@@ -12,6 +12,7 @@ subnet:
   gateway_ip: 192.168.0.1
 
 security_rules:
-  etcd2:
-    - {type: IPv4, protocol: tcp, remote: '192.168.0.0/24'}
+  protected:
+    - {port_min: 22, port_max: 22, type: IPv4, protocol: tcp, remote: '192.168.0.0/24'}
+    - {port_min: 80, port_max: 80, type: IPv4, protocol: tcp, remote: '192.168.0.0/24'}
     - {type: IPv4, protocol: icmp, remote: '192.168.0.0/24'}
