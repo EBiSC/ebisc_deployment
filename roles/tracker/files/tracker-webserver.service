@@ -8,6 +8,7 @@ After=docker.service
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --name %p \
+  --restart=always \
   --read-only \
   --cap-drop=all \
   --net=tracker \
