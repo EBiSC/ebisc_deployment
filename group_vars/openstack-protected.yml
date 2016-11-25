@@ -1,1 +1,1 @@
-ansible_ssh_common_args: '-o ControlMaster=auto -o ControlPersist=30m -o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p -q core@{{hostvars[groups.bastion2[0]].ansible_ssh_host}}" -o HostName={{vars.openstack.private_v4}}'
+ansible_ssh_common_args: '-o ControlMaster=auto -o ControlPersist=30m -o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p -q core@{{hostvars[groups.bastion[0]].ansible_ssh_host}}" -o HostName={{vars.openstack.private_v4}}'

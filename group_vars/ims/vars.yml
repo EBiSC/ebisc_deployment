@@ -1,0 +1,6 @@
+volume:
+  name: ims_database
+  mount: /mnt/cinder1
+  sub_directories:
+    - postgres_data
+
