@@ -27,4 +27,6 @@
     file:
       path: "{{volume.mount}}/{{item}}"
       state: directory
+      mode: 0770
+      owner: 184
     with_items: "{{volume.sub_directories}}"
