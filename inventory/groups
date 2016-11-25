@@ -6,3 +6,8 @@
 [coreos:children]
 tracker2
 bastion2
+
+[openstack-protected:children]
+tracker2
+ims
+ims_staging
