@@ -6,7 +6,7 @@
   become: yes
 
 - name: Initialise git repo
-  git: dest=/var/projects/tracker repo=git@github.com:EMBL-EBI-GCA/ebisc_tracker_2.git accept_hostkey=yes update=yes version=dev/deployment
+  git: dest=/var/projects/tracker repo=git@github.com:EMBL-EBI-GCA/ebisc_tracker_2.git accept_hostkey=yes update=yes version=master
   register: git
 
 - name: build tracker webserver
