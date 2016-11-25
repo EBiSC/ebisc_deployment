@@ -4,8 +4,8 @@ coreos:
     reboot-strategy: reboot
     group: stable
   locksmith:
-    reboot_window_start: 00:00
-    reboot_window_length: 1h
+    window_start: 00:00
+    window_length: 1h
   units:
     - name: enforce-selinux.service
       command: start
