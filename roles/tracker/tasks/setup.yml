@@ -1,15 +1,9 @@
-- name: install docker-py
-  pip:
-    executable: /home/core/bin/pip
-    name: docker-py
-    state: present
-
 - name: create docker network
   docker_network:
     name: tracker
     state: present
 
-- name: "copy unit file {{item}}"
+- name: "copy unit file"
   become: yes
   copy:
     dest: "/etc/systemd/system/{{item}}"
@@ -21,7 +15,7 @@
     - tracker.service
     - tracker.timer
 
-- name: "copy unit template file {{item}}"
+- name: "copy unit template file"
   become: yes
   template:
     dest: "/etc/systemd/system/{{item}}"
@@ -40,7 +34,7 @@
     - tracker-webserver.service
     - tracker.service
 
-- name: "copy unit configuration {{item}}"
+- name: "copy unit configuration"
   become: yes
   template:
     dest: "/etc/systemd/system/{{item}}.d/50-ansible.conf"
@@ -51,7 +45,7 @@
     - tracker-webserver.service
     - tracker.service
 
-- name: "enable {{ item }}"
+- name: "enable unit"
   become: yes
   systemd:
     daemon_reload: yes

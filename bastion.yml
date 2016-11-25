@@ -1,0 +1,11 @@
+- name: Bootstrap coreos VMs ready to use ansible
+  hosts: bastion2
+  gather_facts: false
+  roles:
+    - coreos-bootstrap
+      
+- name: Set up data tracker
+  hosts: bastion2
+  roles:
+    - common
+    - bastion

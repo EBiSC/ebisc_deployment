@@ -1,0 +1,95 @@
+error_log  stderr warn;
+
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+    multi_accept off;
+}
+
+
+http {
+
+    server_names_hash_bucket_size 64;
+
+    client_max_body_size 64m;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    sendfile        on;
+    tcp_nopush      on;
+    tcp_nodelay     on;
+
+    keepalive_timeout  65;
+    keepalive_requests 100;
+
+    gzip  on;
+
+    server {
+      listen 8080;
+      server_name
+            cells.ebisc.org
+            www.cells.ebisc.org
+            cell.ebisc.org
+            www.cell.ebisc.org
+            catalog.ebisc.org
+            www.catalog.ebisc.org
+            catalogue.ebisc.org
+            www.catalogue.ebisc.org
+            ebisc.douglasconnect.com;
+      rewrite ^/(.*) https://cells.ebisc.org/$1 permanent;
+    }
+
+
+    server {
+      listen 8080;
+      server_name cells-stage.ebisc.org;
+      rewrite ^/(.*) https://cells-stage.ebisc.org/$1 permanent;
+    }
+
+{% if tracker_ip is defined %}
+    server {
+      listen 8080;
+      server_name www.funwithipsc.top;
+      location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://{{ tracker_ip }}:80;
+      }
+    }
+{% endif %}
+
+{% if ims_staging_ip is defined %}
+    server {
+      listen 8443;
+      server_name cells-stage.ebisc.org;
+      location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://{{ ims_staging_ip }}:80;
+      }
+      ssl on;
+      ssl_certificate     /srv/ssl/cells-stage.ebisc.org.crt;
+      ssl_certificate_key /srv/ssl/cells-stage.ebisc.org.key;
+    }
+{% endif %}
+
+{% if ims_ip is defined %}
+    server {
+      listen 8443;
+      server_name cells.ebisc.org 193.62.54.96;
+
+      location / {
+        proxy_set_header Host cells.ebisc.org;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://{{ ims_ip }}:80;
+      }
+      ssl on;
+      ssl_certificate     /srv/ssl/cells.ebisc.org.crt;
+      ssl_certificate_key /srv/ssl/cells.ebisc.org.key;
+    }
+{% endif %}
+
+}

@@ -1,4 +1,8 @@
 [tracker2]
+[bastion2]
+[ims]
+[ims_staging]
 
 [coreos:children]
 tracker2
+bastion2

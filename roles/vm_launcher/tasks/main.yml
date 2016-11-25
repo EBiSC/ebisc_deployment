@@ -2,6 +2,7 @@
 - include: launch.yml
   with_items:
     - "{{vm_roles.tracker}}"
+    - "{{vm_roles.bastion}}"
   loop_control:
     loop_var: vm
 

@@ -10,3 +10,9 @@ vm_roles:
     volumes:
       - size: 4
         name: tracker_mongodb_data
+  bastion:
+    flavor: s1.modest
+    name: "bastion2"
+    auto_ip: false
+    security_group: bastion
+    volumes: "{{[]}}"
