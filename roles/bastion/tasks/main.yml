@@ -1,9 +1,3 @@
-- name: install docker-py
-  pip:
-    executable: /home/core/bin/pip
-    name: docker-py
-    state: present
-
 - name: "copy unit file "
   become: yes
   copy:
