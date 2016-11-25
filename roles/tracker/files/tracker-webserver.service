@@ -12,7 +12,7 @@ ExecStart=/usr/bin/docker run --name %p \
   --read-only \
   --cap-drop=all \
   --net=tracker \
-  --publish 8000:8000 \
+  --publish 80:8000 \
   -e MONGODB_USER=${MONGODB_USER} \
   -e MONGODB_PASSWORD=${MONGODB_PASSWORD} \
   -e MONGODB_DATABASE=${MONGODB_DATABASE} \
