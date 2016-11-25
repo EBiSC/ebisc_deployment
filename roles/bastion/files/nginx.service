@@ -13,6 +13,6 @@ ExecStart=/usr/bin/docker run --name %p \
   --tmpfs /run \
   --cap-drop=all \
   --publish 80:8080 --publish 443:8443 \
-  -v /var/projects/ebisc/tls:/srv/ssl:z \
+  -v /var/projects/ebisc/tls:/srv/ssl:Z \
   ebisc/nginx:latest
 ExecStop=/usr/bin/docker stop %p

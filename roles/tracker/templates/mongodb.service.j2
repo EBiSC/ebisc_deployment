@@ -14,7 +14,7 @@ ExecStart=/usr/bin/docker run --name %p --restart=always \
   -e MONGODB_PASSWORD=${MONGODB_PASSWORD} \
   -e MONGODB_DATABASE=${MONGODB_DATABASE} \
   -e MONGODB_ADMIN_PASSWORD=${MONGODB_ADMIN_PASSWORD} \
-  -v {{ volume.mount }}/mongodb_data:/var/lib/mongodb/data:z \
+  -v {{ volume.mount }}/mongodb_data:/var/lib/mongodb/data:Z \
   centos/mongodb-32-centos7
 ExecStop=/usr/bin/docker stop %p
 TimeoutStartSec=0
