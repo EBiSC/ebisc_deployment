@@ -1,0 +1,17 @@
+[Unit]
+Description=Run nginx
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --read-only \
+  --restart=always \
+  --tmpfs /var/cache/nginx \
+  --tmpfs /run \
+  --cap-drop=all \
+  --publish 80:8080 --publish 443:8443 \
+  ebisc/ims-nginx:latest
+ExecStop=/usr/bin/docker stop %p

@@ -1,0 +1,8 @@
+FROM nginx:stable
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+RUN chmod g+w /var/cache/nginx /run
+
+EXPOSE 8080
+
+USER 1001
