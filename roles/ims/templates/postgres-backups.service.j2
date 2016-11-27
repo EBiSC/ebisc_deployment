@@ -1,0 +1,24 @@
+[Unit]
+Description=Postgres database backups for IMS
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --cap-drop=all \
+  --net=ebisc \
+  -e WALE_SWIFT_PREFIX=swift://{{ vm }}/pgsql \
+  -e SWIFT_AUTHURL=${SWIFT_AUTHURL} \
+  -e SWIFT_USER=${SWIFT_USER} \
+  -e SWIFT_PASSWORD=${SWIFT_PASSWORD} \
+  -e PGHOST=postgres \
+  -e PGPASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
+  -v {{ volume.mount }}/postgres_data:/var/lib/pgsql/data:z \
+  ebisc/postgres:latest \
+  run-backup-push
+ExecStop=/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target

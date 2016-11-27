@@ -1,0 +1,50 @@
+- name: create docker network
+  docker_network:
+    name: ebisc
+    state: present
+
+- name: "copy unit file"
+  become: yes
+  copy:
+    dest: "/etc/systemd/system/{{item}}"
+    src: "{{item}}"
+  with_items:
+    - postgres-backups.timer
+
+- name: "copy unit template file"
+  become: yes
+  template:
+    dest: "/etc/systemd/system/{{item}}"
+    src: "{{item}}.j2"
+  with_items:
+    - postgres.service
+    - postgres-backups.service
+
+- name: make directories for service config
+  become: yes
+  file:
+    path: "/etc/systemd/system/{{ item }}.d"
+    state: directory
+  with_items:
+    - postgres.service
+    - postgres-backups.service
+
+- name: "copy unit configuration"
+  become: yes
+  template:
+    dest: "/etc/systemd/system/{{item}}.d/50-ansible.conf"
+    src: "{{item}}.conf.j2"
+  with_items:
+    - postgres.service
+    - postgres-backups.service
+
+- name: "enable unit"
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - postgres.service
+    - postgres-backups.timer

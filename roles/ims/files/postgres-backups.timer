@@ -1,0 +1,9 @@
+[Unit]
+Description=Take backups of postgres at 08:00:00
+
+[Timer]
+OnCalendar=*-*-* 08:00:00
+Unit=postgres-backups.service
+
+[Install]
+WantedBy=multi-user.target

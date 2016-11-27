@@ -9,4 +9,5 @@ volume:
   name: tracker_mongodb_data
   mount: /mnt/cinder1
   sub_directories:
-    - mongodb_data
+    - name: mongodb_data
+      owner: 184

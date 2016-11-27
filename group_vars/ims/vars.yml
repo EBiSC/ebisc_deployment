@@ -1,6 +1,14 @@
+postgresql_user: ebisc_user
+postgresql_database: ebisc
+swift_auth: https://extcloud03-ceilometer.ebi.ac.uk:8081/auth/v1.0
+swift_user: swift-test
+
+vm: ims
+
 volume:
   name: ims_database
   mount: /mnt/cinder1
   sub_directories:
-    - postgres_data
+    - name: postgres_data
+      owner: 26
 

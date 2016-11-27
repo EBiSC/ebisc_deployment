@@ -1,0 +1,25 @@
+[Unit]
+Description=Postgres database for IMS
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p --restart=always \
+  --cap-drop=all \
+  --net=ebisc \
+  -e POSTGRESQL_USER=${POSTGRESQL_USER} \
+  -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} \
+  -e POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE} \
+  -e POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
+  -e WALE_SWIFT_PREFIX=swift://{{ vm }}/pgsql \
+  -e SWIFT_AUTHURL=${SWIFT_AUTHURL} \
+  -e SWIFT_USER=${SWIFT_USER} \
+  -e SWIFT_PASSWORD=${SWIFT_PASSWORD} \
+  -v {{ volume.mount }}/postgres_data:/var/lib/pgsql/data:z \
+  ebisc/postgres:latest
+ExecStop=/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target

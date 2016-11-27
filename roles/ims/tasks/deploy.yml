@@ -1,0 +1,30 @@
+- name: Create project directories
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: core
+  become: yes
+  with_items:
+    - /var/projects/ebisc/ebisc-ims
+    - /var/projects/ebisc/postgres
+    - /var/projects/ebisc/elasticsearch
+
+- name: Initialise git repo
+  git: dest=/var/projects/ebisc/ebisc-ims repo=git@github.com:DouglasConnect/ebisc.git accept_hostkey=yes update=yes version=master
+  register: git
+
+- name: copy files
+  copy: "dest=/var/projects/ebisc/{{ item }} src={{ item }}"
+  with_items:
+    - postgres/Dockerfile-postgres
+    - postgres/run-backup-push
+    - postgres/run-wal-push
+
+- name: build postgres image
+  docker_image:
+    path: /var/projects/ebisc/postgres
+    dockerfile: Dockerfile-postgres
+    name: ebisc/postgres
+    state: present
+    force: yes
+  notify: restart postgres
