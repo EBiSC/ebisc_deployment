@@ -10,6 +10,7 @@
     src: "{{item}}"
   with_items:
     - postgres-backups.timer
+    - elasticsearch.service
 
 - name: "copy unit template file"
   become: yes
@@ -48,3 +49,4 @@
   with_items:
     - postgres.service
     - postgres-backups.timer
+    - elasticsearch.service
