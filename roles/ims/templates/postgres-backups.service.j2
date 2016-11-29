@@ -13,7 +13,7 @@ ExecStart=/usr/bin/docker run --name %p \
   -e SWIFT_AUTHURL=${SWIFT_AUTHURL} \
   -e SWIFT_USER=${SWIFT_USER} \
   -e SWIFT_PASSWORD=${SWIFT_PASSWORD} \
-  -e PGHOST=postgres \
+  -e PGHOST=ims-postgres \
   -e PGPASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
   -v {{ volume.mount }}/postgres_data:/var/lib/pgsql/data:z \
   ebisc/postgres:latest \
