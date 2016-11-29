@@ -8,7 +8,7 @@
   file:
     path: "{{item}}"
     state: directory
-    mode: "0700"
+    mode: "0750"
     owner: core
   become: yes
   with_items:
