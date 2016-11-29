@@ -38,12 +38,21 @@
 - name: retag image
   command: "docker tag ebisc/ims-uwsgi:{{git.after}} ebisc/ims-uwsgi:latest"
 
+- name: collectstatic and migrate django
+  become: yes
+  systemd:
+    daemon_reload: yes
+    name: ims-deploy.service
+    state: restarted
+  when: true
+
 - name: restart uwsgi
   become: yes
   systemd:
+    daemon_reload: yes
     name: ims-uwsgi.service
     state: restarted
-  when: docker_build.changed
+  when: true
 
 - name: build postgres image
   docker_image:

@@ -23,6 +23,7 @@
     - ims-uwsgi.service
     - ims-nginx.service
     - ims-updates.service
+    - ims-deploy.service
     - postgres-backups.service
 
 - name: make directories for service config
@@ -33,6 +34,7 @@
   with_items:
     - ims-postgres.service
     - ims-updates.service
+    - ims-deploy.service
     - ims-uwsgi.service
     - postgres-backups.service
 
@@ -44,5 +46,6 @@
   with_items:
     - ims-postgres.service
     - ims-updates.service
+    - ims-deploy.service
     - ims-uwsgi.service
     - postgres-backups.service

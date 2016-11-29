@@ -1,13 +1,12 @@
 [Unit]
-Description=IMS daily imports
+Description=IMS collectstatic and migrate
 Requires=docker.service
 Requires=ims-postgres.service
-Requires=ims-elasticsearch.service
 After=docker.service
 After=ims-postgres.service
-After=ims-elasticsearch.service
 
 [Service]
+Type=oneshot
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --name %p \
@@ -16,16 +15,11 @@ ExecStart=/usr/bin/docker run --name %p \
   -e DB_PASS=${POSTGRESQL_PASSWORD} \
   -e DB_HOST=ims-postgres \
   -e DB_NAME=${POSTGRESQL_DATABASE} \
-  -e ES_HOST=ims-elasticsearch \
-  -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
   --read-only \
   --net=ebisc \
   -v {{ volume.mount }}/media:/app/var/media:z \
   -v {{ volume.mount }}/static:/app/var/static:z \
   ebisc/ims-uwsgi:latest \
-  run-ims-update
+  run-deploy
 ExecStop=/usr/bin/docker stop %p
 TimeoutStartSec=0
-
-[Install]
-WantedBy=multi-user.target

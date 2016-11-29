@@ -1,0 +1,64 @@
+- name: Sync the database from localhost
+  hosts: ims
+  tasks:
+    - name: tmp file should not exist
+      become: yes
+      file: "path=/tmp/ebisc.sql.gz state=absent"
+
+    - name: Copy the backup
+      copy: "src=ebisc.sql.gz dest=/tmp/ebisc.sql.gz"
+
+    - name: Import the database
+      environment:
+        PG_ADMIN_PASSWORD: "{{ postgresql_admin_password }}"
+        PGDATABASE: "{{ postgresql_database }}"
+      command: /var/projects/ebisc/scripts/import_db.bash
+
+    - name: delete the remote backup
+      file:
+        path: /tmp/ebisc.sql.gz
+        state: absent
+
+- name: Sync the media files from localhost
+  hosts: ims
+  tasks:
+    - name: tmp file should not exist
+      become: yes
+      file: "path=/tmp/media.tar.gz state=absent"
+
+    - name: Copy the backup
+      copy:
+        src: "media.tar.gz"
+        dest: /tmp/media.tar.gz
+        mode: 644
+
+    - name: Untar the media files
+      become: yes
+      command: "tar -xzf /tmp/media.tar.gz -C /tmp"
+      
+    - name: Untar the media files
+      become: yes
+      command: "rsync -a --remove-source-files --delete-during /tmp/media {{ volume.mount }}"
+      
+    - name: Change permissions on the media files
+      become: yes
+      file:
+        path: "{{ volume.mount }}/media"
+        mode: g+rw
+        group: 0
+        recurse: yes
+        state: directory
+
+    - name: delete the remote backup
+      file:
+        path: /tmp/media.tar.gz
+        state: absent
+
+    - name: restart services to avoid problems with selinx labels
+      become: yes
+      systemd:
+        name: "{{ item }}"
+        state: restarted
+      with_items:
+        - ims-nginx.service
+        - ims-uwsgi.service

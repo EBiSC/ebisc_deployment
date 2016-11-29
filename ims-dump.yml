@@ -12,13 +12,13 @@
       fetch:
         dest: "{{ playbook_dir }}"
         fail_on_missing: yes
-        src: /tmp/db.backup.gz
+        src: /tmp/ebisc.sql.gz
         flat: yes
 
     - name: delete the remote backup
       become: yes
       file:
-        path: /tmp/db.backup.gz
+        path: /tmp/ebisc.sql.gz
         state: absent
 
 - name: Dump the media files to localhost
