@@ -24,6 +24,7 @@
   copy: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }} mode=0755"
   with_items:
     - dump_db.bash
+    - import_db.bash
 
 - name: build ims uwsgi
   docker_image:

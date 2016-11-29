@@ -20,11 +20,11 @@ RUN \
   pip install python-swiftclient==3.1.0 && \
   pip install https://github.com/wal-e/wal-e/archive/v1.0.1.zip
 
-RUN \
-     echo "wal_level = archive"   >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_mode = on"     >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_command = 'run-wal-push %p'" >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_timeout = 60"  >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template
+#RUN \
+     #echo "wal_level = archive"   >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
+  #&& echo "archive_mode = on"     >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
+  #&& echo "archive_command = 'run-wal-push %p'" >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
+  #&& echo "archive_timeout = 60"  >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template
 
 COPY run-backup-push run-wal-push /usr/bin/
 RUN chmod 755 /usr/bin/run-backup-push /usr/bin/run-wal-push
