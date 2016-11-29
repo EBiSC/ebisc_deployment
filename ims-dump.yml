@@ -4,8 +4,8 @@
     - name: Dump the current database
       environment:
         PG_PASSWORD: "{{ postgresql_password }}"
-        POSTGRESQL_USER: "{{ postgresql_user }}"
-        POSTGRESQL_DATABASE: "{{ postgresql_database }}"
+        PG_USER: "{{ postgresql_user }}"
+        PG_DATABASE: "{{ postgresql_database }}"
       command: /var/projects/ebisc/scripts/dump_db.bash
 
     - name: fetch the backup
