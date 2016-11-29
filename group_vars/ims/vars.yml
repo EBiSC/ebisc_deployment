@@ -1,4 +1,4 @@
-postgresql_user: ebisc_user
+postgresql_user: www
 postgresql_database: ebisc
 swift_auth: https://extcloud03-ceilometer.ebi.ac.uk:8081/auth/v1.0
 swift_user: swift-test
