@@ -1,0 +1,32 @@
+[Unit]
+Description=UWSGI server for IMS
+Requires=docker.service
+Wants=ims-postgres.service
+Wants=ims-elasticsearch.service
+After=docker.service
+After=ims-postgres.service
+After=ims-elasticsearch.service
+
+[Service]
+KillMode=none
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --restart=always \
+  --cap-drop=all \
+  -e DB_USER=${POSTGRESQL_USER} \
+  -e DB_PASSWORD=${POSTGRESQL_PASSWORD} \
+  -e DB_HOST=ims-postgres \
+  -e ES_HOST=ims-elasticsearch \
+  -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
+  --publish 9191:9191 \
+  --read-only \
+  --net=ebisc \
+  -v {{ volume.mount }}/media:/media:z \
+  -v {{ volume.mount }}/static:/static:z \
+  ebisc/ims-uwsgi:latest
+ExecStop=/usr/bin/docker stop %p
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

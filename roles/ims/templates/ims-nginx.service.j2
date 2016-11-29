@@ -1,17 +1,25 @@
 [Unit]
 Description=Run nginx
 Requires=docker.service
+Requires=ims-uwsgi.service
 After=docker.service
+After=ims-uwsgi.service
+BindsTo=ims-uwsgi.service
 
 [Service]
+KillMode=none
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --name %p \
   --read-only \
+  --cap-drop=all \
   --restart=always \
   --tmpfs /var/cache/nginx \
   --tmpfs /run \
   --cap-drop=all \
-  --publish 80:8080 --publish 443:8443 \
+  --publish 80:8080 \
+  --net=ebisc \
+  -v {{ volume.mount }}/media:/media:z \
+  -v {{ volume.mount }}/static:/static:z \
   ebisc/ims-nginx:latest
 ExecStop=/usr/bin/docker stop %p

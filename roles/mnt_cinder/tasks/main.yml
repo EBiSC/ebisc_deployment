@@ -28,5 +28,5 @@
       path: "{{volume.mount}}/{{item.name}}"
       state: directory
       mode: 0770
-      owner: "{{item.owner}}"
+      owner: "{{item.owner | default('root')}}"
     with_items: "{{volume.sub_directories}}"

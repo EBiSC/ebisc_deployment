@@ -10,7 +10,8 @@
     src: "{{item}}"
   with_items:
     - postgres-backups.timer
-    - elasticsearch.service
+    - ims-elasticsearch.service
+    - ims-updates.timer
 
 - name: "copy unit template file"
   become: yes
@@ -18,7 +19,10 @@
     dest: "/etc/systemd/system/{{item}}"
     src: "{{item}}.j2"
   with_items:
-    - postgres.service
+    - ims-postgres.service
+    - ims-uwsgi.service
+    - ims-nginx.service
+    - ims-updates.service
     - postgres-backups.service
 
 - name: make directories for service config
@@ -27,7 +31,9 @@
     path: "/etc/systemd/system/{{ item }}.d"
     state: directory
   with_items:
-    - postgres.service
+    - ims-postgres.service
+    - ims-updates.service
+    - ims-uwsgi.service
     - postgres-backups.service
 
 - name: "copy unit configuration"
@@ -36,17 +42,7 @@
     dest: "/etc/systemd/system/{{item}}.d/50-ansible.conf"
     src: "{{item}}.conf.j2"
   with_items:
-    - postgres.service
+    - ims-postgres.service
+    - ims-updates.service
+    - ims-uwsgi.service
     - postgres-backups.service
-
-- name: "enable unit"
-  become: yes
-  systemd:
-    daemon_reload: yes
-    enabled: yes
-    name: "{{ item }}"
-    state: started
-  with_items:
-    - postgres.service
-    - postgres-backups.timer
-    - elasticsearch.service

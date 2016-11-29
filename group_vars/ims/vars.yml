@@ -11,4 +11,5 @@ volume:
   sub_directories:
     - name: postgres_data
       owner: 26
+    - name: static
 

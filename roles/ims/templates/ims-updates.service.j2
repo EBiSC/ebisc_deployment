@@ -1,0 +1,31 @@
+[Unit]
+Description=IMS daily imports
+Requires=docker.service
+Requires=ims-postgres.service
+Requires=ims-elasticsearch.service
+After=docker.service
+After=ims-postgres.service
+After=ims-elasticsearch.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --cap-drop=all \
+  -e DB_USER=${POSTGRESQL_USER} \
+  -e DB_PASSWORD=${POSTGRESQL_PASSWORD} \
+  -e DB_HOST=ims-postgres \
+  -e DB_NAME=${POSTGRESQL_DATABASE} \
+  -e ES_HOST=ims-elasticsearch \
+  -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
+  --read-only \
+  --net=ebisc \
+  -v {{ volume.mount }}/media:/media:z \
+  -v {{ volume.mount }}/static:/static:z \
+  ebisc/ims-uwsgi:latest \
+  run-ims-update
+ExecStop=/usr/bin/docker stop %p
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
