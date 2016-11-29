@@ -8,10 +8,31 @@
     - name: Copy the backup
       copy: "src=ebisc.sql.gz dest=/tmp/ebisc.sql.gz"
 
+    - name: postgres should not be running
+      become: yes
+      systemd:
+        name: "ims-postgres.service"
+        state: stopped
+
+    - name: postgres directory should be empty
+      become: yes
+      file:
+        path: "{{ volume.mount }}/postgres_data/userdata"
+        state: absent
+
+    - name: postgres should be running
+      become: yes
+      systemd:
+        name: "ims-postgres.service"
+        state: started
+
+    - pause: seconds=5
+
     - name: Import the database
       environment:
-        PG_ADMIN_PASSWORD: "{{ postgresql_admin_password }}"
         PGDATABASE: "{{ postgresql_database }}"
+        PGUSER: "{{ postgresql_user }}"
+        PGPASSWORD: "{{ postgresql_password }}"
       command: /var/projects/ebisc/scripts/import_db.bash
 
     - name: delete the remote backup
