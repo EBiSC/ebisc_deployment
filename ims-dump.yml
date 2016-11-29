@@ -1,0 +1,42 @@
+- name: Dump the database to localhost
+  hosts: ims
+  tasks:
+    - name: Dump the current database
+      environment:
+        PG_PASSWORD: "{{ postgresql_password }}"
+        POSTGRESQL_USER: "{{ postgresql_user }}"
+        POSTGRESQL_DATABASE: "{{ postgresql_database }}"
+      command: /var/projects/ebisc/scripts/dump_db.bash
+
+    - name: fetch the backup
+      fetch:
+        dest: "{{ playbook_dir }}"
+        fail_on_missing: yes
+        src: /tmp/db.backup.gz
+        flat: yes
+
+    - name: delete the remote backup
+      become: yes
+      file:
+        path: /tmp/db.backup.gz
+        state: absent
+
+- name: Dump the media files to localhost
+  hosts: ims
+  tasks:
+    - name: Tar the media files
+      become: yes
+      command: "tar -czf /tmp/media.tar.gz -C {{ volume.mount }} media"
+
+    - name: fetch the backup
+      fetch:
+        dest: "{{ playbook_dir }}"
+        fail_on_missing: yes
+        src: /tmp/media.tar.gz
+        flat: yes
+
+    - name: delete the remote backup
+      become: yes
+      file:
+        path: /tmp/media.tar.gz
+        state: absent
