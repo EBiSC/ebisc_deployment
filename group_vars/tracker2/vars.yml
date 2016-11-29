@@ -1,7 +1,7 @@
 mongodb_user: ebisc_user
 mongodb_database: ebisc
 swift_auth: https://extcloud03-ceilometer.ebi.ac.uk:8081/auth/v1.0
-swift_user: swift-test
+swift_user: swift-ebisc
 hpscreg_user: ebisctracker
 ims_user: ebi
 
