@@ -10,6 +10,7 @@
     src: "{{item}}"
   with_items:
     - postgres-backups.timer
+    - freezer-backups.timer
     - ims-elasticsearch.service
     - ims-updates.timer
 
@@ -25,6 +26,7 @@
     - ims-updates.service
     - ims-deploy.service
     - postgres-backups.service
+    - freezer.service
 
 - name: make directories for service config
   become: yes
@@ -37,6 +39,7 @@
     - ims-deploy.service
     - ims-uwsgi.service
     - postgres-backups.service
+    - freezer.service
 
 - name: "copy unit configuration"
   become: yes
@@ -49,3 +52,4 @@
     - ims-deploy.service
     - ims-uwsgi.service
     - postgres-backups.service
+    - freezer.service

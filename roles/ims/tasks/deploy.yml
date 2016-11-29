@@ -7,6 +7,7 @@
   with_items:
     - /var/projects/ebisc/ebisc-ims
     - /var/projects/ebisc/postgres
+    - /var/projects/ebisc/freezer
     - /var/projects/ebisc/scripts
 
 - name: Initialise git repo
@@ -19,6 +20,8 @@
     - postgres/Dockerfile-postgres
     - postgres/run-backup-push
     - postgres/run-wal-push
+    - freezer/Dockerfile-freezer
+    - freezer/run-freezer-backup
 
 - name: copy scripts
   copy: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }} mode=0755"
@@ -82,6 +85,21 @@
     state: restarted
   when: docker_build.changed
 
+- name: build freezer
+  docker_image:
+    path: /var/projects/ebisc/freezer
+    dockerfile: Dockerfile-freezer
+    name: ebisc/freezer
+    state: present
+    force: yes
+
+- name: restart nginx
+  become: yes
+  systemd:
+    name: ims-nginx.service
+    state: restarted
+  when: docker_build.changed
+
 - name: "enable unit"
   become: yes
   systemd:
@@ -96,3 +114,4 @@
     - ims-elasticsearch.service
     - ims-updates.timer
     - postgres-backups.timer
+    - freezer-backups.timer

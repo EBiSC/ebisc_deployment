@@ -1,0 +1,22 @@
+[Unit]
+Description=Freezer media directory backups for IMS
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --read-only \
+  --tmpfs /.freezer \
+  --cap-drop=all \
+  --net=ebisc \
+  -e OS_AUTH_URL=${SWIFT_AUTHURL} \
+  -e OS_USERNAME=${SWIFT_USER} \
+  -e OS_PASSWORD=${SWIFT_PASSWORD} \
+  -v {{ volume.mount }}/media/:/var/media/:z,ro \
+  ebisc/freezer:latest
+ExecStop=/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target

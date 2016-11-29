@@ -1,0 +1,13 @@
+FROM debian:jessie
+
+RUN apt-get update && \
+    apt-get install -y python-pip python-dev libssl-dev libffi-dev && \
+    pip install freezer==1.1.2
+
+COPY run-freezer-backup /usr/local/bin/
+RUN chmod 755 /usr/local/bin/run-freezer-backup \
+  && mkdir /.freezer \
+  && chmod 775 /.freezer
+
+CMD ["run-freezer-backup"]
+USER 1001
