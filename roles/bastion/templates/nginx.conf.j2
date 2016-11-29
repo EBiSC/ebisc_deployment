@@ -71,8 +71,8 @@ http {
         proxy_pass http://{{ ims_staging_ip }}:80;
       }
       ssl on;
-      ssl_certificate     /srv/ssl/cells-stage.ebisc.org.crt;
-      ssl_certificate_key /srv/ssl/cells-stage.ebisc.org.key;
+      ssl_certificate     /srv/ssl/ebisc.org.crt;
+      ssl_certificate_key /srv/ssl/ebisc.org.key;
     }
 {% endif %}
 
@@ -87,8 +87,8 @@ http {
         proxy_pass http://{{ ims_ip }}:80;
       }
       ssl on;
-      ssl_certificate     /srv/ssl/cells.ebisc.org.crt;
-      ssl_certificate_key /srv/ssl/cells.ebisc.org.key;
+      ssl_certificate     /srv/ssl/ebisc.org.crt;
+      ssl_certificate_key /srv/ssl/ebisc.org.key;
     }
 {% endif %}
 

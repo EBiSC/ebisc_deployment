@@ -29,10 +29,7 @@
 
 
 - name: copy files
-  template: dest=/var/projects/ebisc/tls/cells-stage.ebisc.org.key src=cells-stage.ebisc.org.key.j2
-  notify: restart nginx
-- name: copy files
-  template: dest=/var/projects/ebisc/tls/cells.ebisc.org.key src=cells.ebisc.org.key.j2
+  template: dest=/var/projects/ebisc/tls/ebisc.org.key src=cells.ebisc.org.key.j2
   notify: restart nginx
 - name: copy files
   template: dest=/var/projects/ebisc/nginx.conf src=nginx.conf.j2
@@ -43,8 +40,7 @@
   notify: restart nginx
   with_items:
     - Dockerfile-nginx
-    - tls/cells.ebisc.org.crt
-    - tls/cells-stage.ebisc.org.crt
+    - tls/ebisc.org.crt
 
 - name: "enable unit"
   become: yes
