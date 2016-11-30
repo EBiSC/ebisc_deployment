@@ -1,0 +1,11 @@
+      
+- name: Restore data tracker from latest backup in swift
+  hosts: tracker2
+  tasks:
+    - name: "Start the restore service"
+      become: yes
+      systemd:
+        daemon_reload: yes
+        enabled: yes
+        name: "mongodb-restore.service"
+        state: started
