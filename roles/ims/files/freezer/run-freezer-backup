@@ -7,9 +7,9 @@ set -e
 # OS_AUTH_URL
 # OS_USERNAME
 
-freezerc \
+freezer-agent \
   --path-to-backup /var/media \
   --container ims_media --backup-name media \
 
-freezerc \
+freezer-agent \
   --action admin --container $CONTAINER --remove-older-than 60 --backup-name media
