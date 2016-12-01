@@ -18,6 +18,12 @@ ExecStart=/usr/bin/docker run --name %p \
   -e DB_NAME=${POSTGRESQL_DATABASE} \
   -e ES_HOST=ims-elasticsearch \
   -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
+  -e SECRET_KEY=${DJANGO_SECRET_KEY} \
+  -e HPSCREG_PASSWORD=${HPSCREG_PASSWORD} \
+  -e HPSCREG_USER=${HPSCREG_USER} \
+  -e LIMS_PASSWORD=${HPSCREG_PASSWORD} \
+  -e LIMS_USER=${LIMS_USER} \
+  -e BIOSAMPLE_KEY=${BIOSAMPLE_KEY} \
   --read-only \
   --net=ebisc \
   -v {{ volume.mount }}/media:/app/var/media:z \
