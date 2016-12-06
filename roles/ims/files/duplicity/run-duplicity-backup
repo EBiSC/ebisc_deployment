@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+function usage() {
+  echo "Required environment variables:"
+  echo "  AWS_ACCESS_KEY_ID"
+  echo "  AWS_SECRET_ACCESS_KEY"
+  echo "  AWS_ENDPOINT_URL"
+  echo "  AWS_BUCKET"
+  exit 1
+}
+
+# require parameters
+if [ -z "$AWS_ACCESS_KEY_ID" ]; then usage; fi
+if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then usage; fi
+if [ -z "$AWS_ENDPOINT_URL" ]; then usage; fi
+if [ -z "$AWS_BUCKET" ]; then usage; fi
+
+duplicity --full-if-older-than 1M \
+  --name media_daily_s3 \
+  --no-encryption \
+  --archive-dir /tmp/cache \
+  --allow-source-mismatch \
+  /var/media \
+  ${AWS_ENDPOINT_URL}:8082/${AWS_BUCKET}/ims_media
+
+duplicity remove-older-than 2M \
+  --force \
+  --name media_daily_s3 \
+  --archive-dir /tmp/cache \
+  ${AWS_ENDPOINT_URL}/${AWS_BUCKET}/ims_media
