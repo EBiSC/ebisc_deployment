@@ -4,7 +4,6 @@ set -e
 
 export WALE_LOG_DESTINATION=stdout,stderr
 export PGUSER=postgres
-export SWIFT_AUTH_VERSION=1
 
 echo "pushing $1"
 exit

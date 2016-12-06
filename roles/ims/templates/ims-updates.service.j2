@@ -24,7 +24,9 @@ ExecStart=/usr/bin/docker run --name %p \
   -e LIMS_PASSWORD=${HPSCREG_PASSWORD} \
   -e LIMS_USER=${LIMS_USER} \
   -e BIOSAMPLE_KEY=${BIOSAMPLE_KEY} \
+  -e SECRET_KEY=${DJANGO_SECRET_KEY} \
   --read-only \
+  --tmpfs /tmp \
   --net=ebisc \
   -v {{ volume.mount }}/media:/app/var/media:z \
   -v {{ volume.mount }}/static:/app/var/static:z \
