@@ -51,3 +51,15 @@
 
 - name: retag image
   command: "docker tag ebisc/mongodb-backups:{{git.after}} ebisc/mongodb-backups:latest"
+
+- name: build db-backups-s3
+  docker_image:
+    path: /var/projects/tracker
+    dockerfile: Dockerfile-db-backups-s3
+    name: ebisc/mongodb-backups-s3
+    state: present
+    tag: "{{git.after}}"
+  register: docker_build
+
+- name: retag image
+  command: "docker tag ebisc/mongodb-backups-s3:{{git.after}} ebisc/mongodb-backups-s3:latest"

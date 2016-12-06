@@ -11,6 +11,7 @@
   with_items:
     - mongodb-backups.timer
     - mongodb-backups.service
+    - mongodb-backups-s3.service
     - mongodb-restore.service
     - tracker-webserver.service
     - tracker.service
@@ -32,6 +33,7 @@
   with_items:
     - mongodb.service
     - mongodb-backups.service
+    - mongodb-backups-s3.service
     - mongodb-restore.service
     - tracker-webserver.service
     - tracker.service
@@ -44,6 +46,7 @@
   with_items:
     - mongodb.service
     - mongodb-backups.service
+    - mongodb-backups-s3.service
     - mongodb-restore.service
     - tracker-webserver.service
     - tracker.service

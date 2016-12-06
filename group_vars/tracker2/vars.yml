@@ -4,6 +4,9 @@ swift_auth: https://extcloud03-ceilometer.ebi.ac.uk:8081/auth/v1.0
 swift_user: swift-ebisc
 hpscreg_user: ebisctracker
 ims_user: ebi
+aws_access_key: ozB4pHyzrPUjXo1fw5p7
+aws_endpoint_url: https://extcl03-adm-ceilometer.ebi.ac.uk:8082
+aws_bucket: vac-test-versioning
 
 volume:
   name: tracker_mongodb_data
