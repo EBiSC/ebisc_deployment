@@ -23,10 +23,10 @@ duplicity --full-if-older-than 1M \
   --archive-dir /tmp/cache \
   --allow-source-mismatch \
   /var/media \
-  ${AWS_ENDPOINT_URL}:8082/${AWS_BUCKET}/ims_media
+  ${AWS_ENDPOINT_URL}:8082/${AWS_BUCKET}
 
 duplicity remove-older-than 2M \
   --force \
   --name media_daily_s3 \
   --archive-dir /tmp/cache \
-  ${AWS_ENDPOINT_URL}/${AWS_BUCKET}/ims_media
+  ${AWS_ENDPOINT_URL}/${AWS_BUCKET}

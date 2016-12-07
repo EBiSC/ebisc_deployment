@@ -1,12 +1,9 @@
 mongodb_user: ebisc_user
 mongodb_database: ebisc
-swift_auth: https://extcloud03-ceilometer.ebi.ac.uk:8081/auth/v1.0
-swift_user: swift-ebisc
 hpscreg_user: ebisctracker
 ims_user: ebi
-aws_access_key: ozB4pHyzrPUjXo1fw5p7
-aws_endpoint_url: https://extcl03-adm-ceilometer.ebi.ac.uk:8082
-aws_bucket: vac-test-versioning
+aws_access_key: DuiolYQGNGoAxNyYQMun
+s3_host: s3.embassy.ebi.ac.uk
 
 volume:
   name: tracker_mongodb_data

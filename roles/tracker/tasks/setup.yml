@@ -10,7 +10,6 @@
     src: "{{item}}"
   with_items:
     - mongodb-backups.timer
-    - mongodb-backups.service
     - mongodb-backups-s3.service
     - mongodb-restore.service
     - tracker-webserver.service
@@ -32,7 +31,6 @@
     state: directory
   with_items:
     - mongodb.service
-    - mongodb-backups.service
     - mongodb-backups-s3.service
     - mongodb-restore.service
     - tracker-webserver.service
@@ -45,7 +43,6 @@
     src: "{{item}}.conf.j2"
   with_items:
     - mongodb.service
-    - mongodb-backups.service
     - mongodb-backups-s3.service
     - mongodb-restore.service
     - tracker-webserver.service

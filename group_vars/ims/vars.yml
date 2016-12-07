@@ -1,11 +1,7 @@
 postgresql_user: www
 postgresql_database: ebisc
-swift_auth: https://extcloud03-ceilometer.ebi.ac.uk:8081/auth/v1.0
-swift_user: swift-test
-aws_access_key: ozB4pHyzrPUjXo1fw5p7
-wale_aws_endpoint_url: https+path://extcl03-adm-ceilometer.ebi.ac.uk:8082
-duplicity_aws_endpoint_url: s3://extcl03-adm-ceilometer.ebi.ac.uk:8082
-aws_bucket: vac-test-versioning
+aws_access_key: DuiolYQGNGoAxNyYQMun
+s3_host: s3.embassy.ebi.ac.uk
 
 vm: ims
 

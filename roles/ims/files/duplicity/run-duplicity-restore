@@ -23,5 +23,5 @@ duplicity restore \
   --no-encryption \
   --name media_daily_s3 \
   --archive-dir /tmp/cache \
-  ${AWS_ENDPOINT_URL}:8082/${AWS_BUCKET}/ims_media \
+  ${AWS_ENDPOINT_URL}/${AWS_BUCKET} \
   /var/media
