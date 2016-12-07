@@ -5,7 +5,7 @@ Embassy
 EBiSC is a tenant of Embassy. This means we have quotas of cloud resources with which we can launch virtual machines to deploy the IMS.
 
 The Embassy cloud workspace is at [https://extcloud03.ebi.ac.uk](https://extcloud03.ebi.ac.uk). You will need a personal user account and password.
-It shows you what resources we have available, and what resources we are using. You could also get this information using command [line clients]().
+It shows you what resources we have available, and what resources we are using. You could also get this information using command [line clients](http://docs.openstack.org/user-guide/cli.html).
 
 Our virtual infrastructure
 --------------------------
@@ -29,7 +29,7 @@ To access any VM by ssh, you must tunnel through the bastion host.
 
 ####Persistent disk
 
-We have a quota of ??? GB of block storage. See [openstack cinder]().
+We have a quota of 80 TB of block storage. See [openstack cinder](https://en.wikipedia.org/wiki/OpenStack#Block_Storage_.28Cinder.29).
 
 Our VMs can mount volumes of block storage.  This means when a VM is terminated and restarted, we do not lose the data on the volume.
 It has the added advantage of 7 daily snapshots.
@@ -38,7 +38,7 @@ However, *we must not rely on these snapshots* as a backup, because they are not
 
 ####S3-compatible object stores
 
-This is what we use to backup data. Embassy cloud's object store is [Amazon S3](???) compatible, which means we can use [Amazon client tools](???) to interact with it.
+This is what we use to backup data. Embassy cloud's object store is [Amazon S3](https://en.wikipedia.org/wiki/Amazon_S3) compatible, which means we can use [Amazon client tools](http://docs.aws.amazon.com/cli/latest/reference/s3/) to interact with it.
 The object store is only accessible from within the cloud; not externally visible.
 
 We use the object store for automatic daily backups of various things that could not be recovered from git repos:
