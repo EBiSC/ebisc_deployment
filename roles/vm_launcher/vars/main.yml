@@ -21,5 +21,13 @@ vm_roles:
     auto_ip: false
     security_group: bastion
     volumes:
-      - size: 4
+      - size: 20
         name: ims_database
+
+  - name: "ims_staging"
+    flavor: s1.modest
+    auto_ip: false
+    security_group: bastion
+    volumes:
+      - size: 20
+        name: ims_staging_database

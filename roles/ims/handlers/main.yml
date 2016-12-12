@@ -1,3 +1,0 @@
-- name: restart postgres
-  become: yes
-  action: systemd name=ims-postgres.service state=restarted

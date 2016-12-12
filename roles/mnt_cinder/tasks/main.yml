@@ -1,6 +1,6 @@
 
   - name: find cinder dev to mount
-    set_fact: "device_path={{ item.device  }}"
+    set_fact: "device_path=/dev/disk/by-id/virtio-{{ item.id[0:20] }}"
     with_items: "{{vars.openstack.volumes}}"
     when: item.name == volume.name
 
@@ -27,6 +27,6 @@
     file:
       path: "{{volume.mount}}/{{item.name}}"
       state: directory
-      mode: 0770
+      mode: "0770"
       owner: "{{item.owner | default('root')}}"
     with_items: "{{volume.sub_directories}}"

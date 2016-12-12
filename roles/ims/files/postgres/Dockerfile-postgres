@@ -27,5 +27,6 @@ RUN \
 
 COPY run-backup-push run-wal-push /usr/bin/
 RUN chmod 755 /usr/bin/run-backup-push /usr/bin/run-wal-push
+RUN localedef -c -i en_US -f UTF-8 en_US.UTF-8
 
 USER 26

@@ -1,11 +1,11 @@
 - name: Bootstrap coreos VMs ready to use ansible
-  hosts: ims
+  hosts: ims,ims_staging
   gather_facts: false
   roles:
     - coreos-bootstrap
       
 - name: Set up IMS
-  hosts: ims
+  hosts: ims,ims_staging
   roles:
     - common
     - mnt_cinder

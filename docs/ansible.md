@@ -31,3 +31,11 @@ Download the openstack.py inventory file and put it in your inventory directory.
 Check your private key is in group_vars/all.yml. These keys are copied onto the VMs, so only these users can ssh in.
 
 Check you have a key on your local machine that gives you access to the git repo at https://github.com/DouglasConnect/ebisc. The remote VM will use your local private key to access github.
+
+Playbooks
+=========
+
+1. IMS.yml
+----------
+
+The playbook IMS.yml configures 

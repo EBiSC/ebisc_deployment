@@ -28,4 +28,5 @@ SSH keys
 You will need ssh keys set up. There are no passwords.
 Add your ssh key to the file [group_vars/all.yml](../group_vars/all.yml) in this repo.
 Then run the ansible playbooks to copy the keys to each VM.
-Actually, you'll need to find a friend who has ssh keys already set up and ask them to run the playbooks for you.
+
+Actually, you'll need to find a friend who has ssh keys already set up and ask them to run the playbooks for you. Running the playbook will make sure your ssh key gets added to /home/core/.ssh/authorized_keys.d/ansible on the remote host.

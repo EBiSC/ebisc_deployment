@@ -36,11 +36,34 @@
     dockerfile: Dockerfile-uwsgi
     name: ebisc/ims-uwsgi
     state: present
+    buildargs:
+      ROLE: "{{ ims_role }}"
     tag: "{{git.after}}"
   register: docker_build
 
 - name: retag image
   command: "docker tag ebisc/ims-uwsgi:{{git.after}} ebisc/ims-uwsgi:latest"
+
+- name: build postgres image
+  docker_image:
+    path: /var/projects/ebisc/postgres
+    dockerfile: Dockerfile-postgres
+    name: ebisc/postgres
+    state: present
+    force: yes
+  register: postgres_build
+
+- name: restart postgres
+  become: yes
+  systemd:
+    name: ims-postgres.service
+    state: restarted
+  when: postgres_build.changed
+
+- name: Wait for postgres to start
+  pause:
+    seconds: 5
+  when: postgres_build.changed
 
 - name: collectstatic and migrate django
   become: yes
@@ -57,15 +80,6 @@
     name: ims-uwsgi.service
     state: restarted
   when: true
-
-- name: build postgres image
-  docker_image:
-    path: /var/projects/ebisc/postgres
-    dockerfile: Dockerfile-postgres
-    name: ebisc/postgres
-    state: present
-    force: yes
-  notify: restart postgres
 
 - name: build ims nginx
   docker_image:
@@ -106,6 +120,16 @@
     - ims-uwsgi.service
     - ims-nginx.service
     - ims-elasticsearch.service
+
+- name: "enable unit"
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: "{{ item }}"
+    state: started
+  with_items:
     - ims-updates.timer
     - postgres-backups.timer
     - duplicity-backups.timer
+  when: ims_role == "production"

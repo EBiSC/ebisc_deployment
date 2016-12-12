@@ -4,11 +4,11 @@ aws_access_key: DuiolYQGNGoAxNyYQMun
 aws_bucket: ebisc
 s3_host: s3.embassy.ebi.ac.uk
 
-vm: ims
-ims_role: production
+vm: ims_staging
+ims_role: staging
 
 volume:
-  name: ims_database
+  name: ims_staging_database
   mount: /mnt/cinder1
   sub_directories:
     - name: postgres_data

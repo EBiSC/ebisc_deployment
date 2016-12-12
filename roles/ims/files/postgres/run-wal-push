@@ -2,6 +2,11 @@
 
 set -e
 
+if [ "$ENABLE_BACKUPS" != true ]; then
+  echo "ENABLE_BACKUPS is not true so not pushing wal file"
+  exit 0
+fi
+
 export WALE_LOG_DESTINATION=stdout,stderr
 export PGUSER=postgres
 
