@@ -3,6 +3,7 @@ mongodb_database: ebisc
 hpscreg_user: ebisctracker
 ims_user: ebi
 aws_access_key: DuiolYQGNGoAxNyYQMun
+aws_bucket: ebisc
 s3_host: s3.embassy.ebi.ac.uk
 
 volume:

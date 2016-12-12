@@ -8,6 +8,7 @@ function usage() {
   echo "  AWS_SECRET_ACCESS_KEY"
   echo "  AWS_ENDPOINT_URL"
   echo "  AWS_BUCKET"
+  echo "  AWS_PREFIX"
   exit 1
 }
 
@@ -16,6 +17,7 @@ if [ -z "$AWS_ACCESS_KEY_ID" ]; then usage; fi
 if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then usage; fi
 if [ -z "$AWS_ENDPOINT_URL" ]; then usage; fi
 if [ -z "$AWS_BUCKET" ]; then usage; fi
+if [ -z "$AWS_PREFIX" ]; then usage; fi
 
 duplicity restore \
   --name media_daily_s3 \
@@ -23,5 +25,5 @@ duplicity restore \
   --no-encryption \
   --name media_daily_s3 \
   --archive-dir /tmp/cache \
-  ${AWS_ENDPOINT_URL}/${AWS_BUCKET} \
+  ${AWS_ENDPOINT_URL}/${AWS_BUCKET}/${AWS_PREFIX} \
   /var/media

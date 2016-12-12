@@ -1,6 +1,7 @@
 postgresql_user: www
 postgresql_database: ebisc
 aws_access_key: DuiolYQGNGoAxNyYQMun
+aws_bucket: ebisc
 s3_host: s3.embassy.ebi.ac.uk
 
 vm: ims

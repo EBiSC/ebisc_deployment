@@ -4,12 +4,13 @@ Requires=docker.service
 After=docker.service
 
 [Service]
+Type=oneshot
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
   --net=ebisc \
-  -e WALE_S3_PREFIX=s3://{{ vm }}-postgres/pgsql \
+  -e WALE_S3_PREFIX=s3://${AWS_BUCKET}/{{ vm }}-postgres/pgsql \
   -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
   -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e WALE_S3_ENDPOINT=https+path://${S3_HOST} \
