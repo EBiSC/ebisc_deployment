@@ -40,7 +40,7 @@
     buildargs:
       ROLE: "{{ ims_role }}"
     tag: "{{git.after}}"
-  register: docker_build
+  register: uwsgi_build
 
 - name: retag image
   command: "docker tag ebisc/ims-uwsgi:{{git.after}} ebisc/ims-uwsgi:latest"
@@ -72,7 +72,7 @@
     daemon_reload: yes
     name: ims-deploy.service
     state: restarted
-  when: true
+  when: uwsgi_build.changed
 
 - name: restart uwsgi
   become: yes
@@ -80,7 +80,7 @@
     daemon_reload: yes
     name: ims-uwsgi.service
     state: restarted
-  when: true
+  when: uwsgi_build.changed
 
 - name: build ims nginx
   docker_image:
@@ -89,7 +89,7 @@
     name: ebisc/ims-nginx
     state: present
     tag: "{{git.after}}"
-  register: docker_build
+  register: nginx_build
 
 - name: retag image
   command: "docker tag ebisc/ims-nginx:{{git.after}} ebisc/ims-nginx:latest"
@@ -99,7 +99,7 @@
   systemd:
     name: ims-nginx.service
     state: restarted
-  when: docker_build.changed
+  when: nginx_build.changed
 
 - name: build duplicity
   docker_image:

@@ -5,7 +5,7 @@ Embassy
 EBiSC is a tenant of Embassy. This means we have quotas of cloud resources with which we can launch virtual machines to deploy the IMS.
 
 The Embassy cloud workspace is at [https://extcloud03.ebi.ac.uk](https://extcloud03.ebi.ac.uk). You will need a personal user account and password.
-It shows you what resources we have available, and what resources we are using. You could also get this information using command [line clients](http://docs.openstack.org/user-guide/cli.html).
+It shows you what resources we have available, and what resources we are using. You could also get this information using [command line clients](http://docs.openstack.org/user-guide/cli.html).
 
 Our virtual infrastructure
 --------------------------
