@@ -2,7 +2,7 @@
 Environment="POSTGRESQL_USER={{ postgresql_user }}"
 Environment="POSTGRESQL_PASSWORD={{ postgresql_password }}"
 Environment="POSTGRESQL_DATABASE={{ postgresql_database }}"
-Environment="SECRET_KEY={{ django_secret_key }}"
+Environment="DJANGO_SECRET_KEY={{ django_secret_key }}"
 {% if ims_role == "production" %}
 Environment="SENDGRID_API_KEY={{ email_api_key }}"
 Environment="BIOSAMPLE_KEY={{ biosample_key }}"

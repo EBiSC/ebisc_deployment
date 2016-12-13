@@ -33,3 +33,12 @@
         enabled: yes
         name: "duplicity-restore.service"
         state: started
+    - name: "restart nginx and uwsgi"
+      become: yes
+      systemd:
+        enabled: yes
+        name: "{{item}}"
+        state: restarted
+      with_items:
+        - ims-nginx.service
+        - ims-uwsgi.service
