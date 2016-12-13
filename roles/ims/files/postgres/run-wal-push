@@ -8,8 +8,6 @@ if [ "$ENABLE_BACKUPS" != true ]; then
 fi
 
 export WALE_LOG_DESTINATION=stdout,stderr
-export PGUSER=postgres
 
 echo "pushing $1"
-exit
 wal-e wal-push $1

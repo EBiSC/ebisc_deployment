@@ -17,4 +17,6 @@ volume:
       owner: 1001
     - name: static
       owner: 1001
+    - name: elasticsearch
+      owner: 105
 
