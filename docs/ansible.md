@@ -135,3 +135,34 @@ To do just one or the other you could use the ``--tags`` option on the command l
 
 This playbook is to help you in development. Once you have copied the database and media files to your local machine then you
 can run IMS locally.
+
+7. ims-restore.yml
+------------------
+
+This command will recover IMS after a failure:
+
+    ansible-playbook --limit=ims ims-restore.yml
+
+Assume something bad has happened and you have lost
+the IMS VM and the IMS's persistent disk.  First you would run ims.yml to restart ims. But the ims's
+database will still be empty and you will be missing all the media files (CofAs etc).
+Luckily the database and media files are backed up in the S3 object store.
+
+This playbook is also used for syncing ims to ims_staging.  You would run this command:
+
+    ansible-playbook --limit=ims_staging ims-restore.yml
+
+The above command works because IMS regularly backs up to S3 but ims_staging does ever do backups. So doing a restore 
+on ims_staging will pull backups from IMS production.
+
+This playbook does two things:
+
+* Fetches the latest database backup from the S3 object store and loads it into the database
+* Fetches the latest media files backup from S3 and restores it to the /mnt/cinder1/media directory
+
+The playbook restores both ims and ims_staging.
+You could use ``--limit=ims`` to just restore to ims, or ``--limit=ims_staging`` to just restore to ims_staging.
+You could use ``--tags=database`` option to restore just the database or ``--tags=media`` to just restore the media files.
+For example:
+
+    ansible-playbook --limit=ims --tags=media ims-restore.yml
