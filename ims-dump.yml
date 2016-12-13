@@ -1,5 +1,6 @@
 - name: Dump the database to localhost
   hosts: ims
+  tags: database
   tasks:
     - name: Dump the current database
       environment:
@@ -23,6 +24,7 @@
 
 - name: Dump the media files to localhost
   hosts: ims
+  tags: media
   tasks:
     - name: Tar the media files
       become: yes

@@ -1,5 +1,5 @@
       
-- name: Restore data tracker from latest backup in swift
+- name: Restore data tracker from latest backup in S3 object store
   hosts: tracker2
   tasks:
     - name: "Start the restore service"
