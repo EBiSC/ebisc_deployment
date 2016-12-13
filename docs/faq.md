@@ -7,7 +7,7 @@ FAQ
 
 You see this error message if your openstack environment variables are not set properly. Try sourcing ``source embassy-openrc.sh``.
 
-###And this one?
+####And this one?
 
 ``ERROR! Decryption failed``
 
@@ -36,13 +36,13 @@ If IMS is still missing data, then restore it from the S3 object store:
 
     ansible-playbook --limit=ims ims-restore.yml
 
-###How do I sync IMS staging from IMS?
+####How do I sync IMS staging from IMS?
 
 Use the ims-restore.yml playbook to "restore" files onto ims_staging using the backups in the S3 object store.
 
     ansible-playbook --limit=ims_staging ims-restore.yml
 
-###How do I deploy a new version of the tracker?
+####How do I deploy a new version of the tracker?
 
 Do a ``git push`` to push your updates to the tracker git repo. Then run the tracker playbook:
 
