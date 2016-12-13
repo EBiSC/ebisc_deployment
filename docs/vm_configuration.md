@@ -1,3 +1,6 @@
+
+**Warning** - Read the [ansible.md](ansible.md) documentation before you read this page.  Most of the time, you should configure the VMs using ansible.
+
 VM configuration
 ===============
 
@@ -7,7 +10,7 @@ Systemd
 -------
 
 Systemd is the coreos init system used for starting and stopping daemons.
-Recommended documentation from [freedesktop.org](https://www.freedesktop.org/wiki/Software/systemd/), [Archlinux](https://wiki.archlinux.org/index.php/Systemd).
+Recommended documentation from [freedesktop.org](https://www.freedesktop.org/wiki/Software/systemd/) or [Archlinux](https://wiki.archlinux.org/index.php/Systemd).
 
 We use systemd to start and stop all processes, e.g. postgres, webservers, elasticsearch etc. Generally, this is done with ansible playbooks so you do not need to ssh into the VM.
 When you run an ansible playbook, it will copy the systemd unit files onto the remote VM, it will build the docker image, and then enable the unit so it starts on boot.
@@ -55,6 +58,8 @@ Cron does not exist.  Instead we use [systemd timers](https://www.freedesktop.or
 
 A list of systemd units
 -----------------------
+
+Look in /etc/systemd/system and you will find these unit files.
 
 ###1. IMS
 
