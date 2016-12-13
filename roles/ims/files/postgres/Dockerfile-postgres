@@ -25,8 +25,8 @@ RUN \
   && echo "archive_command = 'run-wal-push %p'" >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
   && echo "archive_timeout = 60"  >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template
 
-COPY run-backup-push run-wal-push /usr/bin/
-RUN chmod 755 /usr/bin/run-backup-push /usr/bin/run-wal-push
+COPY run-backup-push run-wal-push run-backup-fetch /usr/bin/
+RUN chmod 755 /usr/bin/run-backup-push /usr/bin/run-wal-push /usr/bin/run-backup-fetch
 RUN localedef -c -i en_US -f UTF-8 en_US.UTF-8
 
 USER 26

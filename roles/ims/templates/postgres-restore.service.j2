@@ -1,0 +1,25 @@
+[Unit]
+Description=Resore postgres database for IMS from S3
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --cap-drop=all \
+  --net=ebisc \
+  -e WALE_S3_PREFIX=s3://${AWS_BUCKET}/ims-postgres/pgsql \
+  -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  -e WALE_S3_ENDPOINT=https+path://${S3_HOST} \
+  -e PGHOST=ims-postgres \
+  -e PGPASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
+  -v {{ volume.mount }}/postgres_data:/var/lib/pgsql/data:z \
+  ebisc/postgres:latest \
+  run-backup-fetch
+ExecStop=/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target

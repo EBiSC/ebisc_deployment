@@ -26,7 +26,9 @@
     - ims-updates.service
     - ims-deploy.service
     - postgres-backups.service
+    - postgres-restore.service
     - duplicity.service
+    - duplicity-restore.service
 
 - name: make directories for service config
   become: yes
@@ -39,7 +41,9 @@
     - ims-deploy.service
     - ims-uwsgi.service
     - postgres-backups.service
+    - postgres-restore.service
     - duplicity.service
+    - duplicity-restore.service
 
 - name: "copy unit configuration"
   become: yes
@@ -52,4 +56,6 @@
     - ims-deploy.service
     - ims-uwsgi.service
     - postgres-backups.service
+    - postgres-restore.service
     - duplicity.service
+    - duplicity-restore.service

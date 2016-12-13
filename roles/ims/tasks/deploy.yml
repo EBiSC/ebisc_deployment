@@ -19,6 +19,7 @@
   with_items:
     - postgres/Dockerfile-postgres
     - postgres/run-backup-push
+    - postgres/run-backup-fetch
     - postgres/run-wal-push
     - duplicity/Dockerfile-duplicity
     - duplicity/run-duplicity-backup

@@ -23,7 +23,6 @@ duplicity restore \
   --name media_daily_s3 \
   --force \
   --no-encryption \
-  --name media_daily_s3 \
   --archive-dir /tmp/cache \
   ${AWS_ENDPOINT_URL}/${AWS_BUCKET}/${AWS_PREFIX} \
   /var/media
