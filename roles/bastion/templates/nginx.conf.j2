@@ -64,7 +64,7 @@ http {
 {% if ims_staging_ip is defined %}
     server {
       listen 8443;
-      server_name cells-stage.ebisc.org;
+      server_name cells-stage.ebisc.org 193.62.54.96;
       location / {
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -79,7 +79,7 @@ http {
 {% if ims_ip is defined %}
     server {
       listen 8443;
-      server_name cells.ebisc.org 193.62.54.96;
+      server_name cells.ebisc.org;
 
       location / {
         proxy_set_header Host cells.ebisc.org;
