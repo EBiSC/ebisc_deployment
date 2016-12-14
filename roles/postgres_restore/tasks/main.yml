@@ -29,9 +29,9 @@
 
 - name: "copy restore file"
   become: yes
-  copy:
+  template:
     dest: "{{volume.mount}}/postgres_data/userdata/recovery.conf"
-    src: "recovery.conf"
+    src: "recovery.conf.j2"
     owner: "26"
 
 - name: "Restart postgres"
