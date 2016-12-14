@@ -1,0 +1,42 @@
+- name: test if the postgresql.conf file exists
+  become: yes
+  stat:
+    path: "{{volume.mount }}/postgres_data/userdata/postgresql.conf"
+  register: postgresql_conf
+
+- name: test if the pg_hba.conf file exists
+  become: yes
+  stat:
+    path: "{{volume.mount }}/postgres_data/userdata/pg_hba.conf"
+  register: pg_hba_conf
+
+- include: reinit.yml
+  when: (postgresql_conf.stat.exists == False) or (pg_hba_conf.stat.exists == False)
+
+- name: "Stop postgres"
+  become: yes
+  systemd:
+    daemon_reload: yes
+    name: "ims-postgres.service"
+    state: stopped
+
+- name: "Start the postgres restore service"
+  become: yes
+  systemd:
+    enabled: yes
+    name: "postgres-restore.service"
+    state: started
+
+- name: "copy restore file"
+  become: yes
+  copy:
+    dest: "{{volume.mount}}/postgres_data/userdata/recovery.conf"
+    src: "recovery.conf"
+    owner: "26"
+
+- name: "Restart postgres"
+  become: yes
+  systemd:
+    enabled: yes
+    name: "ims-postgres.service"
+    state: started

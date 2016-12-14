@@ -21,6 +21,7 @@
     - postgres/run-backup-push
     - postgres/run-backup-fetch
     - postgres/run-wal-push
+    - postgres/run-wal-fetch
     - duplicity/Dockerfile-duplicity
     - duplicity/run-duplicity-backup
     - duplicity/run-duplicity-restore

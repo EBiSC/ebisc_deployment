@@ -1,0 +1,17 @@
+- name: delete the userdata directory
+  become: yes
+  file: 
+    state: absent
+    path: "{{volume.mount}}/postgres_data/userdata"
+
+- name: "Restart postgres"
+  become: yes
+  systemd:
+    enabled: yes
+    name: "ims-postgres.service"
+    state: started
+
+- name: Wait for postgres to start
+  pause:
+    seconds: 5
+

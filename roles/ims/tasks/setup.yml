@@ -11,7 +11,6 @@
   with_items:
     - postgres-backups.timer
     - duplicity-backups.timer
-    - ims-elasticsearch.service
     - ims-updates.timer
 
 - name: "copy unit template file"
@@ -29,6 +28,7 @@
     - postgres-restore.service
     - duplicity.service
     - duplicity-restore.service
+    - ims-elasticsearch.service
 
 - name: make directories for service config
   become: yes
