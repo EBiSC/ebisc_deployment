@@ -64,10 +64,16 @@
 
 - name: Wait for postgres to start
   pause:
-    seconds: 5
+    seconds: 10
   when: postgres_build.changed
 
-- name: collectstatic and migrate django
+- name: start elasticsearch
+  become: yes
+  systemd:
+    name: ims-elasticsearch.service
+    state: started
+
+- name: "collectstatic, migrate django, and import toelastic"
   become: yes
   systemd:
     daemon_reload: yes
