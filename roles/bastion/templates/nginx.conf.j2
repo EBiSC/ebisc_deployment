@@ -89,9 +89,23 @@ http {
         proxy_pass http://{{ ims_ip }}:80;
       }
       ssl on;
-      ssl_certificate     /srv/ssl/ebisc.org.crt;
-      ssl_certificate_key /srv/ssl/ebisc.org.key;
+      ssl_certificate     /srv/ssl/cells.ebisc.org/fullchain.pem;
+      ssl_certificate_key /srv/ssl/cells.ebisc.org/privKey.pem;
     }
 {% endif %}
 
+{% for host in ['catalog.ebisc.org', 'catalogue.ebisc.org', 'cell.ebisc.org', 'cells.ebisc.org', 'www.catalog.ebisc.org', 'www.catalogue.ebisc.org', 'www.cell.ebisc.org', 'www.cells.ebisc.org']  %}
+    server {
+      listen 8443;
+      server_name {{ host }};
+      rewrite ^/(.*) https://cells.ebisc.org/$1 permanent;
+
+      ssl on;
+      ssl_certificate     /srv/ssl/{{ host }}/fullchain.pem;
+      ssl_certificate_key /srv/ssl/{{ host }}/privKey.pem;
+    }
+{% endfor %}
+
 }
+
+

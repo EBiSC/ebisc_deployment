@@ -6,14 +6,25 @@
 
 - name: Create project directory
   file:
-    path: "{{item}}"
+    path: "/var/projects/ebisc"
     state: directory
     mode: "0750"
     owner: core
   become: yes
+
+- name: copy files
+  copy: "dest=/var/projects/ebisc/ src={{item}}"
+  notify: restart nginx
   with_items:
-    - /var/projects/ebisc
-    - /var/projects/ebisc/tls
+    - Dockerfile-nginx
+    - tls
+
+- name: copy tls private keys
+  template:
+    dest: "/var/projects/ebisc/tls/{{ item.name }}/privKey.pem"
+    src: privKey.pem.j2
+  with_items: "{{tls_keys}}"
+  notify: restart nginx
 
 - set_fact:
     tracker_ip: "{{hostvars[item].openstack.private_v4}}"
@@ -27,23 +38,12 @@
     ims_staging_ip: "{{hostvars[item].openstack.private_v4}}"
   with_items: "{{groups.ims_staging}}"
 
-
-- name: copy files
-  template: dest=/var/projects/ebisc/tls/ebisc.org.key src=ebisc.org.key.j2
-  notify: restart nginx
 - name: copy files
   template: dest=/var/projects/ebisc/nginx.conf src=nginx.conf.j2
   notify: restart nginx
 - name: copy files
   template: dest=/var/projects/ebisc/htpasswd src=htpasswd.j2
   notify: restart nginx
-
-- name: copy files
-  copy: "dest=/var/projects/ebisc/{{item}} src={{item}}"
-  notify: restart nginx
-  with_items:
-    - Dockerfile-nginx
-    - tls/ebisc.org.crt
 
 - name: "enable unit"
   become: yes
