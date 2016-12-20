@@ -73,8 +73,8 @@ http {
         proxy_pass http://{{ ims_staging_ip }}:80;
       }
       ssl on;
-      ssl_certificate     /srv/ssl/ebisc.org.crt;
-      ssl_certificate_key /srv/ssl/ebisc.org.key;
+      ssl_certificate     /srv/ssl/cells-stage.ebisc.org/fullchain.pem;
+      ssl_certificate_key /srv/ssl/cells-stage.ebisc.org/privKey.pem;
     }
 {% endif %}
 
