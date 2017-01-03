@@ -10,5 +10,6 @@ Environment="LIMS_USER={{ lims_user }}"
 Environment="DJANGO_SECRET_KEY={{ django_secret_key }}"
 {% if ims_role == "production" %}
 Environment="SENDGRID_API_KEY={{ email_api_key }}"
+Environment="MAILTO={{ log_mail_to }}"
 Environment="BIOSAMPLE_KEY={{ biosample_key }}"
 {% endif %}

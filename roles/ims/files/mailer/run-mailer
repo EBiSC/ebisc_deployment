@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+function usage() {
+  echo "Required environment variables:"
+  echo "  AUTH_PASS"
+  echo "  FROM_HOST"
+  echo "  SUBJECT"
+  echo "  TO"
+  exit 1
+}
+
+# require parameters
+if [ -z "$AUTH_PASS" ]; then usage; fi
+if [ -z "$FROM_HOST" ]; then usage; fi
+if [ -z "$SUBJECT" ]; then usage; fi
+if [ -z "$TO" ]; then usage; fi
+
+cat > /etc/ssmtp/ssmtp.conf <<EOF
+mailhub=smtp.sendgrid.net:587
+rewriteDomain=$FROM_HOST
+UseTLS=YES
+UseSTARTTLS=YES
+AuthUser=apikey
+AuthPass=$AUTH_PASS
+EOF
+
+cat /dev/stdin > /tmp/${SUBJECT}.txt
+mail -s $SUBJECT -A /tmp/${SUBJECT}.txt $TO

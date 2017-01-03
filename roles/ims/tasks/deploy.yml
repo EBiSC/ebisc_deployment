@@ -8,6 +8,7 @@
     - /var/projects/ebisc/ebisc-ims
     - /var/projects/ebisc/postgres
     - /var/projects/ebisc/duplicity
+    - /var/projects/ebisc/mailer
     - /var/projects/ebisc/scripts
 
 - name: Initialise git repo
@@ -30,6 +31,8 @@
     - duplicity/Dockerfile-duplicity
     - duplicity/run-duplicity-backup
     - duplicity/run-duplicity-restore
+    - mailer/Dockerfile-mailer
+    - mailer/run-mailer
 
 - name: copy scripts
   copy: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }} mode=0755"
@@ -118,6 +121,14 @@
     path: /var/projects/ebisc/duplicity
     dockerfile: Dockerfile-duplicity
     name: ebisc/duplicity
+    state: present
+    force: yes
+
+- name: build mailer
+  docker_image:
+    path: /var/projects/ebisc/mailer
+    dockerfile: Dockerfile-mailer
+    name: ebisc/mailer
     state: present
     force: yes
 

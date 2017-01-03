@@ -8,8 +8,12 @@ After=ims-postgres.service
 After=ims-elasticsearch.service
 
 [Service]
+Environment=HOSTNAME=%H
+Environment=CONTAINER_NAME=%p
 ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker kill mailer-%p
 ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=-/usr/bin/docker rm mailer-%p
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
   -e DB_USER=${POSTGRESQL_USER} \
@@ -34,6 +38,15 @@ ExecStart=/usr/bin/docker run --name %p \
   run-ims-update
 ExecStop=/usr/bin/docker stop %p
 TimeoutStartSec=0
+ExecStopPost=/usr/bin/bash -c "/usr/bin/docker logs ${CONTAINER_NAME} \
+  | /usr/bin/docker run -i \
+    --name mailer-${CONTAINER_NAME} \
+    --cap-drop=all \
+    -e TO=${MAILTO} \
+    -e SUBJECT=${CONTAINER_NAME} \
+    -e FROM_HOST=${HOSTNAME} \
+    -e AUTH_PASS=${SENDGRID_API_KEY} \
+    ebisc/mailer:latest
 
 [Install]
 WantedBy=multi-user.target
