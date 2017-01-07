@@ -94,7 +94,7 @@ http {
     }
 {% endif %}
 
-{% for host in ['catalog.ebisc.org', 'catalogue.ebisc.org', 'cell.ebisc.org', 'cells.ebisc.org', 'www.catalog.ebisc.org', 'www.catalogue.ebisc.org', 'www.cell.ebisc.org', 'www.cells.ebisc.org']  %}
+{% for host in ['catalog.ebisc.org', 'catalogue.ebisc.org', 'cell.ebisc.org', 'www.catalog.ebisc.org', 'www.catalogue.ebisc.org', 'www.cell.ebisc.org', 'www.cells.ebisc.org']  %}
     server {
       listen 8443;
       server_name {{ host }};
