@@ -20,6 +20,3 @@ ExecStart=/usr/bin/docker run --name %p \
   ebisc/postgres:latest \
   run-backup-fetch
 ExecStop=/usr/bin/docker stop %p
-
-[Install]
-WantedBy=multi-user.target

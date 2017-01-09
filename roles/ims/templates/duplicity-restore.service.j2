@@ -18,6 +18,3 @@ ExecStart=/usr/bin/docker run --name %p \
   ebisc/duplicity:latest \
   run-duplicity-restore
 ExecStop=/usr/bin/docker stop %p
-
-[Install]
-WantedBy=multi-user.target
