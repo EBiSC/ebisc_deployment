@@ -5,5 +5,5 @@ Environment="POSTGRESQL_DATABASE={{ postgresql_database }}"
 Environment="DJANGO_SECRET_KEY={{ django_secret_key }}"
 Environment="SENDGRID_API_KEY={{ email_api_key }}"
 {% if ims_role == "production" %}
-Environment="BIOSAMPLE_KEY={{ biosample_key }}"
+Environment="BIOSAMPLES_KEY={{ biosample_key }}"
 {% endif %}
