@@ -39,14 +39,22 @@ http {
             catalogue.ebisc.org
             www.catalogue.ebisc.org
             ebisc.douglasconnect.com;
-      rewrite ^/(.*) https://cells.ebisc.org/$1 permanent;
+      location /.well-known/ { root /usr/share/nginx/html; }
+      
+      location / {
+        rewrite ^/(.*) https://cells.ebisc.org/$1 permanent;
+      }
     }
 
 
     server {
       listen 8080;
       server_name cells-stage.ebisc.org;
-      rewrite ^/(.*) https://cells-stage.ebisc.org/$1 permanent;
+      location /.well-known/ { root /usr/share/nginx/html; }
+
+      location / {
+        rewrite ^/(.*) https://cells-stage.ebisc.org/$1 permanent;
+      }
     }
 
 {% if tracker_ip is defined %}
