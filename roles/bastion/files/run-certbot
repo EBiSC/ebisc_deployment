@@ -1,0 +1,11 @@
+certbot certonly \
+  --webroot \
+  --webroot-path /usr/share/nginx/html \
+  --domain www.catalogue.ebisc.org \
+  --non-interactive \
+  --agree-tos \
+  --email vdc-internal@ebi.ac.uk \
+  --preferred-challenges http-01  \
+  --allow-subset-of-names
+
+

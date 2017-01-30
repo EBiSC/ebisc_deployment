@@ -1,0 +1,13 @@
+FROM debian:jessie
+
+RUN echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list && \
+  apt-get update && \
+  apt-get install -y certbot -t jessie-backports
+
+COPY run-certbot /usr/local/bin/
+RUN mkdir -p /etc/letsencrypt/live /usr/share/nginx/html/.well-known /var/log/letsencrypt /var/lib/letsencrypt && \
+  chmod -R g+w /etc/letsencrypt /usr/share/nginx/html/.well-known /var/log/letsencrypt /var/lib/letsencrypt && \
+  chmod 755 /usr/local/bin/run-certbot
+
+CMD ["run-certbot"]
+USER 1002

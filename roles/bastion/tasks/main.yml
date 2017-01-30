@@ -1,8 +1,11 @@
 - name: "copy unit file "
   become: yes
   copy:
-    dest: "/etc/systemd/system/nginx.service"
-    src: "nginx.service"
+    dest: "/etc/systemd/system/{{item}}"
+    src: "{{item}}"
+  with_items:
+    - nginx.service
+    - letsencrypt.service
 
 - name: Create project directory
   file:
@@ -12,11 +15,21 @@
     owner: core
   become: yes
 
+- name: Create letsencrypt directory
+  file:
+    path: "/var/projects/ebisc/letsencrypt"
+    state: directory
+    mode: "0770"
+    owner: core
+  become: yes
+
 - name: copy files
   copy: "dest=/var/projects/ebisc/ src={{item}}"
   notify: restart nginx
   with_items:
     - Dockerfile-nginx
+    - Dockerfile-letsencrypt
+    - run-certbot
     - tls
 
 - name: Create directory for letsencrypt ACME protocol
@@ -59,6 +72,14 @@
     enabled: yes
     name: "nginx.service"
     state: started
+
+- name: build letsencrypt image
+  docker_image:
+    path: /var/projects/ebisc
+    dockerfile: Dockerfile-letsencrypt
+    name: ebisc/letsencrypt
+    state: present
+    force: yes
 
 - name: build nginx image
   docker_image:
