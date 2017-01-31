@@ -32,13 +32,6 @@
     - nginx-nocerts.conf
     - run-nginx
 
-- name: copy tls private keys
-  template:
-    dest: "/var/projects/ebisc/tls/{{ item.name }}/privKey.pem"
-    src: privKey.pem.j2
-  with_items: "{{tls_keys}}"
-  notify: restart nginx
-
 - set_fact:
     tracker_ip: "{{hostvars[item].openstack.private_v4}}"
   with_items: "{{groups.tracker2}}"
