@@ -1,0 +1,9 @@
+[Unit]
+Description=Update Letsenrypt certificates at 23:00:00 on Mondays
+
+[Timer]
+OnCalendar=Mon *-*-* 23:00:00
+Unit=letsencrypt.service
+
+[Install]
+WantedBy=multi-user.target
