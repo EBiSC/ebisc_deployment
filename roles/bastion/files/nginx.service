@@ -14,9 +14,9 @@ ExecStart=/usr/bin/docker run --name %p \
   --tmpfs /var/log/nginx \
   --cap-drop=all \
   --publish 80:8080 --publish 443:8443 \
-  -v /var/projects/ebisc/tls:/srv/ssl:z \
-  -v /var/projects/ebisc/htpasswd:/etc/nginx/htpasswd:Z \
+  -v /var/projects/ebisc/htpasswd:/etc/nginx/htpasswd:ro,Z \
   -v /var/projects/ebisc/www:/usr/share/nginx/html:ro,z \
+  -v /var/projects/ebisc/letsencrypt:/etc/letsencrypt:ro,z \
   ebisc/nginx:latest
 ExecStop=/usr/bin/docker stop %p
 

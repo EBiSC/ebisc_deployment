@@ -28,17 +28,9 @@
   notify: restart nginx
   with_items:
     - Dockerfile-nginx
-    - Dockerfile-letsencrypt
-    - run-certbot
-    - tls
-
-- name: Create directory for letsencrypt ACME protocol
-  file:
-    path: "/var/projects/ebisc/www/.well-known"
-    state: directory
-    mode: "0770"
-    owner: core
-  become: yes
+    - nginx.conf
+    - nginx-nocerts.conf
+    - run-nginx
 
 - name: copy tls private keys
   template:
@@ -60,9 +52,11 @@
   with_items: "{{groups.ims_staging}}"
 
 - name: copy files
-  template: dest=/var/projects/ebisc/nginx.conf src=nginx.conf.j2
-- name: copy files
-  template: dest=/var/projects/ebisc/htpasswd src=htpasswd.j2
+  template: "dest=/var/projects/ebisc/{{item}} src={{item}}.j2"
+  with_items:
+    - vhosts-http.conf
+    - vhosts-https.conf
+    - htpasswd
   notify: restart nginx
 
 - name: "enable unit"
@@ -72,6 +66,20 @@
     enabled: yes
     name: "nginx.service"
     state: started
+
+- name: copy letsencrypt files
+  copy: "dest=/var/projects/ebisc/ src={{item}}"
+  with_items:
+    - Dockerfile-letsencrypt
+    - run-certbot
+
+- name: Create directory for letsencrypt ACME protocol
+  file:
+    path: "/var/projects/ebisc/www/.well-known"
+    state: directory
+    mode: "0770"
+    owner: core
+  become: yes
 
 - name: build letsencrypt image
   docker_image:

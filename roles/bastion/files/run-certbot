@@ -1,6 +1,5 @@
 certbot certonly \
   --webroot \
-  --staging \
   --webroot-path /usr/share/nginx/html \
   --domain cells.ebisc.org \
   --domain www.cells.ebisc.org \
