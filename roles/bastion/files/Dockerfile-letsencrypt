@@ -10,4 +10,4 @@ RUN mkdir -p /etc/letsencrypt/live /usr/share/nginx/html/.well-known /var/log/le
   chmod 755 /usr/local/bin/run-certbot
 
 CMD ["run-certbot"]
-USER 1002
+USER 1001
