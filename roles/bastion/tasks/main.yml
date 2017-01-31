@@ -25,7 +25,6 @@
 
 - name: copy files
   copy: "dest=/var/projects/ebisc/ src={{item}}"
-  notify: restart nginx
   with_items:
     - Dockerfile-nginx
     - nginx.conf
@@ -50,7 +49,6 @@
     - vhosts-http.conf
     - vhosts-https.conf
     - htpasswd
-  notify: restart nginx
 
 - name: "enable unit"
   become: yes
@@ -89,4 +87,29 @@
     name: ebisc/nginx
     state: present
     force: yes
-  notify: restart nginx
+
+- name: stasrt nginx
+  become: yes
+  systemd: 
+    name: nginx.service
+    state: started
+
+- name: test if the Letsencrypt certificates exist
+  become: yes
+  stat:
+    path: "/var/projects/ebisc/letsencrypt/live/cells.ebisc.org/fullchain.pem"
+  register: fullchain_pem
+
+- name: "Generate Letsencrypt certificates"
+  become: yes
+  systemd:
+    daemon_reload: yes
+    name: "letsencrypt.service"
+    state: started
+
+- name: restart nginx
+  become: yes
+  systemd: 
+    name: nginx.service
+    state: restarted
+  when: fullchain_pem.stat.exists == False
