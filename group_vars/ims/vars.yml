@@ -21,3 +21,4 @@ volume:
     - name: elasticsearch
       owner: 105
 
+release_channel: stable

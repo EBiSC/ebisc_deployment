@@ -20,3 +20,5 @@ volume:
       owner: 1001
     - name: elasticsearch
       owner: 105
+
+release_channel: beta

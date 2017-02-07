@@ -59,3 +59,19 @@
     - postgres-restore.service
     - duplicity.service
     - duplicity-restore.service
+
+- name: "set the release channel"
+  become: yes
+  lineinfile:
+    dest: /etc/coreos/update.conf
+    regexp: "^GROUP="
+    line: "GROUP={{release_channel}}"
+    create: yes
+  register: release_channel
+
+- name: restart update-engine
+  become: yes
+  systemd:
+    name: update-engine
+    state: restarted
+  when: release_channel.changed

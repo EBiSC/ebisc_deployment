@@ -2,7 +2,7 @@
 coreos:
   update:
     reboot-strategy: reboot
-    group: stable
+    group: {{ release_channel }}
   locksmith:
     window_start: 00:00
     window_length: 1h
