@@ -7,6 +7,6 @@ docker run --rm \
   -e PGDATABASE=${PGDATABASE} \
   --cap-drop=all \
   --net=ebisc \
-  -v /tmp/:/tmp/ \
+  -v /tmp/db_dump:/tmp/db_dump:Z \
   ebisc/postgres:latest \
-  sh -c "pg_dump | gzip -c > /tmp/db.backup.gz"
+  sh -c "pg_dump | gzip -c > /tmp/db_dump/ebisc.sql.gz"

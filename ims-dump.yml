@@ -2,6 +2,12 @@
   hosts: ims
   tags: database
   tasks:
+    - name: Create a temp directory
+      file:
+        path: /tmp/db_dump
+        state: directory
+        mode: "0777"
+
     - name: Dump the current database
       environment:
         PGPASSWORD: "{{ postgresql_password }}"
@@ -13,13 +19,13 @@
       fetch:
         dest: "{{ playbook_dir }}"
         fail_on_missing: yes
-        src: /tmp/ebisc.sql.gz
+        src: /tmp/db_dump/ebisc.sql.gz
         flat: yes
 
     - name: delete the remote backup
       become: yes
       file:
-        path: /tmp/ebisc.sql.gz
+        path: /tmp/db_dump
         state: absent
 
 - name: Dump the media files to localhost
