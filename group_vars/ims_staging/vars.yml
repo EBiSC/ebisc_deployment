@@ -1,4 +1,4 @@
-git_branch: "streeter/docker_staging"
+git_branch: staging
 postgresql_user: www
 postgresql_database: ebisc
 aws_access_key: DuiolYQGNGoAxNyYQMun
