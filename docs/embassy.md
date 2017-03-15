@@ -10,7 +10,7 @@ It shows you what resources we have available, and what resources we are using. 
 Our virtual infrastructure
 --------------------------
 
-####Compute
+#### Compute
 
 We have been allocated 8 cores total.  We use it like this:
 
@@ -19,7 +19,7 @@ We have been allocated 8 cores total.  We use it like this:
 * a 2-cpu VM for ims-staging
 * a 1-core VM for the bastion.
 
-####IP addresses
+#### IP addresses
 
 We have been allocated one floating IP (193.62.54.96). This is the public address for all our services (IMS, staging, and tracker).
 Therefore, we deploy a [bastion host](https://en.wikipedia.org/wiki/Bastion_host) with the floating IP, and this is
@@ -27,7 +27,7 @@ the only VM which is directly accessible from the outside world.
 The bastion vm runs a proxy nginx server for connections to IMS, staging IMS etc.
 To access any VM by ssh, you must tunnel through the bastion host.
 
-####Persistent disk
+#### Persistent disk
 
 We have a quota of 80 TB of block storage. See [openstack cinder](https://en.wikipedia.org/wiki/OpenStack#Block_Storage_.28Cinder.29).
 
@@ -36,7 +36,7 @@ It has the added advantage of 7 daily snapshots.
 
 However, *we must not rely on these snapshots* as a backup, because they are not saved externally from the cloud infrastructure. For backups, using the object store.
 
-####S3-compatible object stores
+#### S3-compatible object stores
 
 This is what we use to backup data. Embassy cloud's object store is [Amazon S3](https://en.wikipedia.org/wiki/Amazon_S3) compatible, which means we can use [Amazon client tools](http://docs.aws.amazon.com/cli/latest/reference/s3/) to interact with it.
 The object store is only accessible from within the cloud; not externally visible.
