@@ -152,7 +152,7 @@ This playbook is also used for syncing ims to ims_staging.  You would run this c
 
     ansible-playbook --limit=ims_staging ims-restore.yml
 
-The above command works because IMS regularly backs up to S3 but ims_staging does ever do backups. So doing a restore 
+The above command works because IMS regularly backs up to S3 but ims_staging doesn't ever do backups. So doing a restore 
 on ims_staging will pull backups from IMS production.
 
 This playbook does two things:
