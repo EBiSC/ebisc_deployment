@@ -80,6 +80,8 @@ Look in /etc/systemd/system and you will find these unit files.
 ### 2. Bastion
 
 * **nginx.service** - starts the [nginx](https://nginx.org/en/) webserver. This is enabled so it starts on boot. The webserver directs traffic to the other VMs: ims, ims_staging and tracker.
+* **letsencrypt.service** - this runs [certbot](https://certbot.eff.org/) code from letsencrypt. It checks the expiry date of our TLS certificates. If they expire soon then it regenerates new certificates.
+* **letsencrypt.timer** - this is a timer to run letsencrypt.service once per week.
 
 ### 3. Tracker
 

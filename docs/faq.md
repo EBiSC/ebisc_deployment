@@ -69,3 +69,22 @@ Run the tracker.yml playbook to configure the tracker VM, including building all
 If the tracker is still missing data, then restore it from the S3 object store:
 
     ansible-playbook tracker-restore.yml
+
+#### Why do I see failed sshd units when I ssh into bastion?
+
+It is OK to ignore these failed units. This is what I see when I ssh into the bastion vm:
+
+    $ ssh core@193.62.54.96
+    Last login: Wed Mar 15 11:22:04 UTC 2017 from 193.63.221.99 on ssh
+    Container Linux by CoreOS stable (1298.5.0)
+    Failed Units: 4
+      sshd@88-192.168.0.100:22-111.73.45.208:4349.service
+      sshd@89-192.168.0.100:22-111.73.45.208:2605.service
+      sshd@90-192.168.0.100:22-111.73.45.208:3462.service
+      sshd@91-192.168.0.100:22-111.73.45.208:3081.service
+
+This happens when somebody (possibly us, or possibly a bad person) tried to login via ssh, and the ssh daemon failed.
+We have noticed that somebody (bad person) is continually trying to ssh to bastion every one second.
+It is acceptable for the ssh daemon to have a small number of safe fails given this level of attempted connections.
+
+You could clear them like this: ``sudo systemctl reset-failed``

@@ -2,6 +2,7 @@
   hosts: bastion
   gather_facts: false
   roles:
+    # This page explains why we need the coreos-bootstrap role: https://coreos.com/blog/managing-coreos-with-ansible.html
     - coreos-bootstrap
       
 - name: Set up data tracker
