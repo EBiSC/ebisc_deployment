@@ -3,9 +3,15 @@ FAQ
 
 #### What does this error message mean?
 
-``ERROR! The file inventory/openstack.py is marked as executable, but failed to execute correctly.....``
+If you see either of the following error messages....
 
-You see this error message if your openstack environment variables are not set properly. Try sourcing ``source embassy-openrc.sh``.
+    ERROR! The file inventory/openstack.py is marked as executable, but failed to execute correctly.....
+
+or
+
+    ERROR! Attempted to execute "openstack.py" as inventory script: Inventory script (openstack.py) had an execution error: Error fetching server list on envvars:RegionOne:
+
+...then it means your openstack environment variables are not set properly. Try sourcing ``source embassy-openrc.sh``.  Double check you are typing in the correct username and password.
 
 #### And this one?
 
@@ -13,12 +19,6 @@ You see this error message if your openstack environment variables are not set p
 
 You see this error message if you are running an ansible playbook without passing in the ansible-vault password.  [Read this documentation](http://docs.ansible.com/ansible/playbooks_vault.html#running-a-playbook-with-vault)
 to find out how to pass in the password.
-
-#### And even this one?
-
-``ERROR! Attempted to execute "openstack.py" as inventory script: Inventory script (openstack.py) had an execution error: Error fetching server list on envvars:RegionOne:``
-
-You see this error message if you are running an ansible playbook without setting the correct username and/or password when sourcing ``source embassy-openrc.sh``.
 
 #### How do I deploy a new version of IMS?
 
