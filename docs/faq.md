@@ -88,3 +88,17 @@ We have noticed that somebody (bad person) is continually trying to ssh to basti
 It is acceptable for the ssh daemon to have a small number of safe fails given this level of attempted connections.
 
 You could clear them like this: ``sudo systemctl reset-failed``
+
+#### IMS ansible-playbook fails to authenticate your ssh key for the IMS git repository and perform a git pull
+
+This can be caused by a number of problems.
+
+On a Mac one issue might be that your ssh key is not loaded automatically so cannot be forwarded.
+
+Edit ~/.ssh/config to contain:
+Host *
+    UseKeychain yes
+
+Then add your private ssh key to your keychain: /usr/bin/ssh-add -K /path/to/private_key
+
+Other issues can be explored at https://developer.github.com/guides/using-ssh-agent-forwarding/
