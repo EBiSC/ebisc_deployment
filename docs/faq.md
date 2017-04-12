@@ -107,4 +107,5 @@ You can follow this article to add your public key to github https://help.github
 
 Other issues can be explored at https://developer.github.com/guides/using-ssh-agent-forwarding/
 
- 
+#### How to edit secrets files
+Reference to the [ansible documentation](http://docs.ansible.com/ansible/playbooks_vault.html#editing-encrypted-files)  
