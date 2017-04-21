@@ -1,8 +1,8 @@
 [Unit]
-Description=Run the tracker at 07,13:00:00
+Description=Run the tracker at 07,12,16:00:00
 
 [Timer]
-OnCalendar=*-*-* 07,13:00:00
+OnCalendar=*-*-* 07,12,16:00:00
 Unit=tracker.service
 
 [Install]
