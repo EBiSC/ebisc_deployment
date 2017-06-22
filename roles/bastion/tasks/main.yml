@@ -44,6 +44,10 @@
     ims_staging_ip: "{{hostvars[item].openstack.private_v4}}"
   with_items: "{{groups.ims_staging}}"
 
+- set_fact:
+    bastion_public_ip: "{{hostvars[item].openstack.public_v4}}"
+  with_items: "{{groups.bastion}}"
+
 - name: copy files
   template: "dest=/var/projects/ebisc/{{item}} src={{item}}.j2"
   with_items:

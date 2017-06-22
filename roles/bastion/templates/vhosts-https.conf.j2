@@ -1,7 +1,7 @@
 {% if ims_staging_ip is defined %}
 server {
   listen 8443;
-  server_name cells-stage.ebisc.org 193.62.54.96;
+  server_name cells-stage.ebisc.org {{bastion_public_ip}};
   location / {
     auth_basic "EBiSC";
     auth_basic_user_file /etc/nginx/htpasswd;
