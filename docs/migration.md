@@ -39,6 +39,7 @@ We will use the \*-restore.yml playbooks to pull the **old** objects from the ob
 
 On your local machine (check you understand this command first):
 ```
+ssh core@{{NEW_IP}} sudo rm -r /var/projects/ebisc/letsencrypt
 ssh core@193.62.54.96 sudo tar -cz -C /var/projects/ebisc -f - letsencrypt | ssh core@{{NEW_IP}} sudo tar -xz -C /var/projects/ebisc -f -
 ```
 
