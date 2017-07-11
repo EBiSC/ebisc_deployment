@@ -39,7 +39,7 @@ We will use the \*-restore.yml playbooks to pull the **old** objects from the ob
 
 On your local machine (check you understand this command first):
 ```
-ssh core@193.62.54.96 sudo tar -cz -C /var/projects/ebisc -f - letsencrypt | ssh core@{{NEW_IP}} tar -xz -C /var/projects/ebisc -f -
+ssh core@193.62.54.96 sudo tar -cz -C /var/projects/ebisc -f - letsencrypt | ssh core@{{NEW_IP}} sudo tar -xz -C /var/projects/ebisc -f -
 ```
 
 Then ssh into the new bastion and restart nginx service. Can you work out how to do this using [the ssh docs](./ssh.md) and [the vm configuration docs](./vm_configuration.md)?
