@@ -18,7 +18,6 @@ Make the following changes in the new branch
   * file: `roles/ims/templates/ims-postgres.service.j2`
   * from: `-e WALE_S3_PREFIX=s3://${AWS_BUCKET}/{{ vm }}-postgres/pgsql`
   * to:   `-e WALE_S3_PREFIX=s3://${AWS_BUCKET}/{{ vm }}06-postgres/pgsql`
-    
 5. edit:
   * file: `roles/ims/templates/duplicity.service.j2`
   * from: `-e AWS_PREFIX={{ vm }}-media`
@@ -92,7 +91,12 @@ Do this in your migration branch
   * from: `-e AWS_PREFIX=ims-media`
   * to:   `-e AWS_PREFIX=ims06-media`
 3. edit:
+  * file: `roles/tracker/files/mongodb-restore.service`
+  * from: `AWS_PREFIX=tracker_mongodb`
+  * to:   `AWS_PREFIX=tracker06_mongodb`
+4. edit:
   * All documentation that has our floating IP
 
 Finally merge the migration branch into master
 
+Profit.
