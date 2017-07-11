@@ -45,15 +45,13 @@ Playbooks
 
 You should run all of these commands from your local machine. Ansible is "idempotent" which means it is safe to run the commands over and over again.
 
-1. launch_cloud.yml
--------------------
+## 1. launch_cloud.yml
 
     ansible-playbook launch_cloud.yml
 
 This playbook uses openstack modules to launch our cloud virtual infrastructure, such as the network, security groups, VMs, persistent volumes etc.  If you were starting up the cloud from scratch then you would run this playbook first before running any other playbook.
 
-2. ims.yml
-----------
+## 2. ims.yml
 
     ansible-playbook ims.yml
 
@@ -73,8 +71,7 @@ Here are some of the things that happen when you run this playbook:
 * Builds all docker images
 * Restarts and enables all docker images
 
-3. tracker.yml
---------------
+## 3. tracker.yml
 
     ansible-playbook tracker.yml
 
@@ -90,8 +87,7 @@ Here are some of the things that happen when you run this playbook:
 * Builds all docker images
 * Restarts and enables all docker images
 
-4. bastion.yml
---------------
+## 4. bastion.yml
 
     ansible-playbook bastion.yml
 
@@ -108,8 +104,7 @@ Here are some of the things that happen when you run this playbook:
 * Builds the nginx docker image
 * Restarts and enables nginx
 
-5. tracker-restore.yml
-----------------------
+## 5. tracker-restore.yml
 
     ansible-playbook tracker-restore.yml
 
@@ -119,8 +114,7 @@ database will still be empty.  Luckily the database is backed up in the S3 objec
 
 This playbook pulls the latest backup from the object store and loads it into the database.
 
-6. ims-dump.yml
----------------
+## 6. ims-dump.yml
 
     ansible-playbook ims-dump.yml
 
@@ -136,8 +130,7 @@ To do just one or the other you could use the ``--tags`` option on the command l
 This playbook is to help you in development. Once you have copied the database and media files to your local machine then you
 can run IMS locally.
 
-7. ims-restore.yml
-------------------
+## 7. ims-restore.yml
 
 This command will recover IMS after a failure:
 
