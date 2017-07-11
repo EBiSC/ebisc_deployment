@@ -18,6 +18,25 @@
     wait: yes
   with_items: "{{security_rules.protected}}"
 
+- name: create bastion security group
+  os_security_group:
+    name: bastion
+    description: "Opens ports for world access. Protection for the protected security group."
+    wait: yes
+
+- name: configure bastion security group
+  os_security_group_rule:
+    security_group: bastion
+    state: present
+    ethertype: "{{item.type}}"
+    protocol: "{{item.protocol}}"
+    remote_ip_prefix: "{{item.remote}}"
+    direction: ingress
+    port_range_min: "{{item.port_min | default(omit)}}"
+    port_range_max: "{{item.port_max | default(omit)}}"
+    wait: yes
+  with_items: "{{security_rules.bastion}}"
+
 - name: configure network
   os_network:
     state: present
