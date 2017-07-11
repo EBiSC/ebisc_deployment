@@ -37,7 +37,8 @@ We will use the \*-restore.yml playbooks to pull the **old** objects from the ob
 
 ### Copy certificates from the old bastion to the new bastion
 
-On your local machine (check you understand this command first):
+On your local machine (check you understand these command first):
+**Note** In order to be sure no other certificate is present on the new machine, the first thing we want to do is clear the letsencrypt folder on the new bastion
 ```
 ssh core@{{NEW_IP}} sudo rm -r /var/projects/ebisc/letsencrypt
 ssh core@193.62.54.96 sudo tar -cz -C /var/projects/ebisc -f - letsencrypt | ssh core@{{NEW_IP}} sudo tar -xz -C /var/projects/ebisc -f -
