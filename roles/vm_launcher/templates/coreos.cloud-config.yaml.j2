@@ -2,7 +2,7 @@
 coreos:
   update:
     reboot-strategy: reboot
-    group: {{ release_channel }}
+    group: {{ vm.release_channel }}
   locksmith:
     window_start: 00:00
     window_length: 1h
@@ -29,4 +29,4 @@ ssh_authorized_keys:
 {% for ssh_key in authorized_ssh_keys %}
   - {{ ssh_key }}
 {% endfor %}
-hostname: {{ vm }}
+hostname: {{ vm.name }}

@@ -6,6 +6,7 @@ vm_roles:
     flavor: s1.modest
     auto_ip: false
     security_group: protected
+    release_channel: stable
     volumes:
       - size: 4
         name: tracker_mongodb_data
@@ -14,12 +15,14 @@ vm_roles:
     flavor: s1.tiny
     auto_ip: true
     security_group: bastion
+    release_channel: stable
     volumes: "{{[]}}"
 
   - name: "ims"
     flavor: s1.modest
     auto_ip: false
     security_group: bastion
+    release_channel: stable
     volumes:
       - size: 20
         name: ims_database
@@ -28,6 +31,7 @@ vm_roles:
     flavor: s1.modest
     auto_ip: false
     security_group: bastion
+    release_channel: beta
     volumes:
       - size: 20
         name: ims_staging_database
