@@ -4,7 +4,7 @@
 Make the following changes in the new branch
 
 1. make new embassy-openrc.sh
-  * You can download one from the API access tab of [your cloud dashboard](https://extcloud06.ebi.ac.uk/dashboard/project/api_access/)
+  * You can download rc files from the API access tab of [your cloud dashboard](https://extcloud06.ebi.ac.uk/dashboard/project/api_access/)
   * Which version? Don't know. Previously we used v2.0 because that's all that was available.
 2. edit:
   * file: `roles/tracker/files/mongodb-backups-s3.service`
