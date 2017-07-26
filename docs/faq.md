@@ -99,7 +99,9 @@ Edit ~/.ssh/config to contain:
 Host *
     UseKeychain yes
 
-Then add your private ssh key to your keychain: /usr/bin/ssh-add -K /path/to/private_key
+Then add your private ssh key to your keychain: /usr/bin/ssh-add -K /path/to/private_key (e.g. /usr/bin/ssh-add -K .ssh/id_rsa)
+
+Also ensure that you have stored the Ansible vault password (e.g. ANSIBLE_VAULT_PASSWORD_FILE=~/.ansible_vault_pass.txt)
 
 Another possible issue could be that you forgot to associate your public ssh key with your github account. 
 
