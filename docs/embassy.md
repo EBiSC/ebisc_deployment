@@ -4,7 +4,7 @@ Embassy
 [Embassy](http://www.embassycloud.org/) is an [OpenStack](https://www.openstack.org/)-based private cloud hosted by EMBL-EBI. 
 EBiSC is a tenant of Embassy. This means we have quotas of cloud resources with which we can launch virtual machines to deploy the IMS.
 
-The Embassy cloud workspace is at [https://extcloud03.ebi.ac.uk](https://extcloud03.ebi.ac.uk). You will need a personal user account and password.
+The Embassy cloud workspace is at [https://extcloud06.ebi.ac.uk](https://extcloud06.ebi.ac.uk). You will need a personal user account and password.
 It shows you what resources we have available, and what resources we are using. You could also get this information using [command line clients](http://docs.openstack.org/user-guide/cli.html).
 
 Questions about embassy should go to cloud@ebi.ac.uk e.g. for adding new users.
@@ -23,7 +23,7 @@ We have been allocated 8 cores total.  We use it like this:
 
 #### IP addresses
 
-We have been allocated one floating IP (193.62.54.96). This is the public address for all our services (IMS, staging, and tracker).
+We have been allocated one floating IP (193.62.52.148). This is the public address for all our services (IMS, staging, and tracker).
 Therefore, we deploy a [bastion host](https://en.wikipedia.org/wiki/Bastion_host) with the floating IP, and this is
 the only VM which is directly accessible from the outside world.
 The bastion vm runs a proxy nginx server for connections to IMS, staging IMS etc.

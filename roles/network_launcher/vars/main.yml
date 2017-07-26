@@ -1,6 +1,6 @@
 network: EBiSC_private
 router: router_EBiSC
-external_network: net_external
+external_network: ext-net
 vm_user: core
 
 subnet:

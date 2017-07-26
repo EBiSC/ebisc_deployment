@@ -14,7 +14,7 @@ ExecStart=/usr/bin/docker run --name %p --restart=always \
   -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} \
   -e POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE} \
   -e POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
-  -e WALE_S3_PREFIX=s3://${AWS_BUCKET}/{{ vm }}-postgres/pgsql \
+  -e WALE_S3_PREFIX=s3://${AWS_BUCKET}/{{ vm }}06-postgres/pgsql \
   -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
   -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e WALE_S3_ENDPOINT=https+path://${S3_HOST} \

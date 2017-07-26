@@ -74,7 +74,7 @@ If the tracker is still missing data, then restore it from the S3 object store:
 
 It is OK to ignore these failed units. This is what I see when I ssh into the bastion vm:
 
-    $ ssh core@193.62.54.96
+    $ ssh core@193.62.52.148
     Last login: Wed Mar 15 11:22:04 UTC 2017 from 193.63.221.99 on ssh
     Container Linux by CoreOS stable (1298.5.0)
     Failed Units: 4
@@ -99,7 +99,9 @@ Edit ~/.ssh/config to contain:
 Host *
     UseKeychain yes
 
-Then add your private ssh key to your keychain: /usr/bin/ssh-add -K /path/to/private_key
+Then add your private ssh key to your keychain: /usr/bin/ssh-add -K /path/to/private_key (e.g. /usr/bin/ssh-add -K .ssh/id_rsa)
+
+Also ensure that you have stored the Ansible vault password (e.g. ANSIBLE_VAULT_PASSWORD_FILE=~/.ansible_vault_pass.txt)
 
 Another possible issue could be that you forgot to associate your public ssh key with your github account. 
 
