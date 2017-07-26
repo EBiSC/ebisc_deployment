@@ -16,11 +16,11 @@ Other VMs
 ---------
 
 To ssh into any other vm you must tunnel through the bastion.
-First go to [the embassy dashboard](https://extcloud03.ebi.ac.uk) and note
-down the private ip of the vm you are aiming for. If the private ip address is 192.168.0.10 then
+First go to [the embassy dashboard](https://extcloud06.ebi.ac.uk) and note
+down the private ip of the vm you are aiming for. If the private ip address is 192.168.0.08 then
 then the ssh command you need is this:
 
-    ssh -o ForwardAgent=yes -o ProxyCommand="ssh -W %h:%p -q core@193.62.52.148" core@192.168.0.10
+    ssh -o ForwardAgent=yes -o ProxyCommand="ssh -W %h:%p -q core@193.62.52.148" core@192.168.0.08
 
 SSH keys
 --------

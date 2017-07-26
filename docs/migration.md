@@ -1,6 +1,8 @@
 
 ### Create a new branch of ebisc_deployment
 
+This documentation covers the July 2017 Embassy migration from extcloud03.ebi.ac.uk to extcloud06.ebi.ac.uk.  If the migration process ever needs to be repeated then this documentation will need to be adapted to the new extcloud details from the Embassy cloud team.
+
 Make the following changes in the new branch
 
 1. make new embassy-openrc.sh
@@ -41,7 +43,7 @@ On your local machine (check you understand these command first):
 **Note** In order to be sure no other certificate is present on the new machine, the first thing we want to do is clear the letsencrypt folder on the new bastion
 ```
 ssh core@{{NEW_IP}} sudo rm -r /var/projects/ebisc/letsencrypt
-ssh core@193.62.52.148 sudo tar -cz -C /var/projects/ebisc -f - letsencrypt | ssh core@{{NEW_IP}} sudo tar -xz -C /var/projects/ebisc -f -
+ssh core@193.62.54.96 sudo tar -cz -C /var/projects/ebisc -f - letsencrypt | ssh core@{{NEW_IP}} sudo tar -xz -C /var/projects/ebisc -f -
 ```
 
 Then ssh into the new bastion and restart nginx service. Can you work out how to do this using [the ssh docs](./ssh.md) and [the vm configuration docs](./vm_configuration.md)?
@@ -62,11 +64,11 @@ docker logs nginx
 
 We told Rachel and Gregory we would do this week starting 24th July.
 
-1. ask Roslin to stop editing on website
+1. ask Roslin (current core facility) to stop editing on website
 2. run the restore playbooks again
 3. possibly copy the certificates again, as above
-4. ask Gregory to update DNS.
-5. wait 3600 seconds (test - how do I know this?)
+4. ask Gregory (Contact at ARTICC) to update DNS.
+5. wait 3600 seconds
 6. Roslin can start editing website again.
 
 
