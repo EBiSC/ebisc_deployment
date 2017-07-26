@@ -48,9 +48,15 @@ Then ssh into the new bastion and restart nginx service. Can you work out how to
 
 ### Is everything working OK?
 
-Do you know how to look at the **new** versions of cells.ebisc.org, cells-staging.ebisc.org and www.funwithipsc.top in your browser?
+Check the **new** versions of cells.ebisc.org, cells-staging.ebisc.org and www.funwithipsc.top in your browser by redirecting.
 
-Clue: you have to edit `/etc/hosts` on your local computer.
+Edit the `/etc/hosts` on your local computer and add the following lines:
+193.62.52.148 cells.ebisc.org
+193.62.52.148 cells-stage.ebisc.org
+
+Log into the bastion and check the logs to see that this has worked:
+ssh core@193.62.52.148
+docker logs nginx
 
 ### When we're ready to migrate...
 
