@@ -74,7 +74,7 @@ If the tracker is still missing data, then restore it from the S3 object store:
 
 It is OK to ignore these failed units. This is what I see when I ssh into the bastion vm:
 
-    $ ssh core@193.62.54.96
+    $ ssh core@193.62.52.148
     Last login: Wed Mar 15 11:22:04 UTC 2017 from 193.63.221.99 on ssh
     Container Linux by CoreOS stable (1298.5.0)
     Failed Units: 4

@@ -23,7 +23,7 @@ We have been allocated 8 cores total.  We use it like this:
 
 #### IP addresses
 
-We have been allocated one floating IP (193.62.54.96). This is the public address for all our services (IMS, staging, and tracker).
+We have been allocated one floating IP (193.62.52.148). This is the public address for all our services (IMS, staging, and tracker).
 Therefore, we deploy a [bastion host](https://en.wikipedia.org/wiki/Bastion_host) with the floating IP, and this is
 the only VM which is directly accessible from the outside world.
 The bastion vm runs a proxy nginx server for connections to IMS, staging IMS etc.
