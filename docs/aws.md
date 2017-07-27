@@ -32,7 +32,7 @@ We would set up a DB instance and then configure the Django app to use the new i
 
 We would also set up an instance of the AWS [Elasticsearch service](https://aws.amazon.com/elasticsearch-service/) and configure the Django app to use this instance.
 
-You could still use Ansible to set up our resources, e.g. this module to create the database: http://docs.ansible.com/ansible/latest/rds_module.html
+As a possibility, we could still use Ansible to set up our resources, e.g. [this module](http://docs.ansible.com/ansible/latest/rds_module.html) to create the database.
 
 ## Pricing approximate estimates on AWS
 
@@ -40,7 +40,7 @@ Lambda: Free, assuming <1million requests per month.  Plus $0.00001667 per GB-se
 
 API gateway: $3.50 per million API calls + $0.09/GB data transfer. This cost is essentially nothing.
 
-Postgres: $12.41 monthly for a reserved 1 year db.t2.micro + data transfer (negligible)
+PostgreSQL: $12.41 monthly for a reserved 1 year db.t2.micro + negligle price for data transfer
 
 Elasticsearch: 0.021 per hour = $15.21 monthly
 
