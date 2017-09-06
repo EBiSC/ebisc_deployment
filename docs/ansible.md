@@ -26,7 +26,7 @@ Install the ansible modules listed in ansible-requirements.yml. These are some t
 Download the openstack.py inventory file and put it in your inventory directory. This inventory file tells ansible how to find information about VMs on openstack.
 
     curl -L https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/openstack.py > inventory/openstack.py
-    chmod +x openstack.py
+    chmod +x inventory/openstack.py
 
 Check your private key is in group_vars/all.yml. These keys are copied onto the VMs, so only these users can ssh in.
 
