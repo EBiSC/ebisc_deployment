@@ -111,3 +111,10 @@ Other issues can be explored at https://developer.github.com/guides/using-ssh-ag
 
 #### How to edit secrets files
 Reference to the [ansible documentation](http://docs.ansible.com/ansible/playbooks_vault.html#editing-encrypted-files)  
+
+#### How can I read logs from postgres
+Postgres store its log in a specific folder that is mounted into the ims-postgres docker container. This folder is called `pg_log` and should be available through this path `/mnt/cinder1/postgres_data/userdata/pg_log`. The problem though is that to access this folder you need to use `sudo`.
+
+You can use sudo commands to do every command inside that folder (e.g. `sudo ls /mnt/cinder1/postgres_data/userdata/pg_log/`
+to check the log files) or you can start an interactive sudo terminal instance using `sudo -i`.
+
