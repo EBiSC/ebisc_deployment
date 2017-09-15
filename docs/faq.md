@@ -118,3 +118,9 @@ Postgres store its log in a specific folder that is mounted into the ims-postgre
 You can use sudo commands to do every command inside that folder (e.g. `sudo ls /mnt/cinder1/postgres_data/userdata/pg_log/`
 to check the log files) or you can start an interactive sudo terminal instance using `sudo -i`.
 
+#### When I'm trying to get the details of a cellline, the executive dashboard return an error and pg_log shows a query error
+If the postgres schema was updated recently with new table and/or fields and pushed to production, the `ims.yml`playbook fetches the updated schema and populate the database on the ims with that. 
+Then, the `ims-restore.yml` playbook restore the database content by going and fetching the last available database backup from S3. This backup though was potentially was made using the *old* database schema, so restoring it makes the database not up to date anymore and this is causing the executive dashboard error.
+
+After a regular backup from the ims everything should be back to normal.
+
