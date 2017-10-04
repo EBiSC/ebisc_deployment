@@ -20,6 +20,7 @@ ExecStart=/usr/bin/docker run --name %p \
   -e ES_HOST=ims-elasticsearch \
   -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
   -e SECRET_KEY=${DJANGO_SECRET_KEY} \
+  -e HPSCREG_USER=${HPSCREG_USER} \
   -e BIOSAMPLES_KEY=${BIOSAMPLES_KEY} \
   --publish 9191:9191 \
   --read-only \
