@@ -15,7 +15,7 @@ ENV ENABLED_COLLECTIONS="rh-postgresql95 rh-python34"
 
 RUN \
   source scl_source enable rh-python34 && \
-  pip install gevent==1.1 && \
+  pip install gevent==1.2.1 && \
   pip install boto==2.43.0 && \
   pip install https://github.com/wal-e/wal-e/archive/v1.0.1.zip
 
