@@ -13,7 +13,7 @@ Setup to use this repo
 
 You must have python and pip installed on your local machine. Next, install the following dependencies on your local machine:
 
-    pip install ansible shade
+    pip install ansible openstacksdk
 
 Source your environment variables from embassy-openrc.sh. This enables you to interact with Embassy from your local machine over the openstack API. To do this you must have a admin username and password for the EBiSC project in Embassy.
 
@@ -23,10 +23,10 @@ Install the ansible modules listed in ansible-requirements.yml. These are some t
 
     ansible-galaxy install -r ansible-requirements.yml -p vendor/
 
-Download the openstack.py inventory file and put it in your inventory directory. This inventory file tells ansible how to find information about VMs on openstack.
+Download the openstack_inventory.py file and put it in your inventory directory. This inventory file tells ansible how to find information about VMs on openstack.
 
-    curl -L https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/openstack.py > inventory/openstack.py
-    chmod +x inventory/openstack.py
+    curl -L https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/openstack_inventory.py > inventory/openstack_inventory.py
+    chmod +x inventory/openstack_inventory.py
 
 Check your private key is in group_vars/all.yml. These keys are copied onto the VMs, so only these users can ssh in.
 

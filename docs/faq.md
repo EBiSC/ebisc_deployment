@@ -5,11 +5,11 @@ FAQ
 
 If you see either of the following error messages....
 
-    ERROR! The file inventory/openstack.py is marked as executable, but failed to execute correctly.....
+    ERROR! The file inventory/openstack_inventory.py is marked as executable, but failed to execute correctly.....
 
 or
 
-    ERROR! Attempted to execute "openstack.py" as inventory script: Inventory script (openstack.py) had an execution error: Error fetching server list on envvars:RegionOne:
+    ERROR! Attempted to execute "openstack_inventory.py" as inventory script: Inventory script (openstack_inventory.py) had an execution error: Error fetching server list on envvars:RegionOne:
 
 ...then it means your openstack environment variables are not set properly. Try sourcing ``source embassy-openrc.sh``.  Double check you are typing in the correct username and password.
 
