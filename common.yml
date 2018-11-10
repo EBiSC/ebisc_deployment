@@ -1,4 +1,8 @@
 - name: Set up keys and docker
-  hosts: all
+  hosts:
+    - bastion
+    - ims
+    - ims_staging
+    - tracker2
   roles:
     - common
