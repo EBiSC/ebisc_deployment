@@ -1,0 +1,4 @@
+- name: Set up keys and docker
+  hosts: all
+  roles:
+    - common
