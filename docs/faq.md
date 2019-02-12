@@ -3,18 +3,6 @@ FAQ
 
 #### What does this error message mean?
 
-If you see either of the following error messages....
-
-    ERROR! The file inventory/openstack_inventory.py is marked as executable, but failed to execute correctly.....
-
-or
-
-    ERROR! Attempted to execute "openstack_inventory.py" as inventory script: Inventory script (openstack_inventory.py) had an execution error: Error fetching server list on envvars:RegionOne:
-
-...then it means your openstack environment variables are not set properly. Try sourcing ``source embassy-openrc.sh``.  Double check you are typing in the correct username and password.
-
-#### And this one?
-
 ``ERROR! Decryption failed``
 
 You see this error message if you are running an ansible playbook without passing in the ansible-vault password.  [Read this documentation](http://docs.ansible.com/ansible/playbooks_vault.html#running-a-playbook-with-vault)
@@ -113,9 +101,9 @@ Other issues can be explored at https://developer.github.com/guides/using-ssh-ag
 Reference to the [ansible documentation](http://docs.ansible.com/ansible/playbooks_vault.html#editing-encrypted-files)  
 
 #### How can I read logs from postgres
-Postgres store its log in a specific folder that is mounted into the ims-postgres docker container. This folder is called `pg_log` and should be available through this path `/mnt/cinder1/postgres_data/userdata/pg_log`. The problem though is that to access this folder you need to use `sudo`.
+Postgres store its log in a specific folder that is mounted into the ims-postgres docker container. This folder is called `pg_log` and should be available through this path `/data01/postgres_data/userdata/pg_log`. The problem though is that to access this folder you need to use `sudo`.
 
-You can use sudo commands to do every command inside that folder (e.g. `sudo ls /mnt/cinder1/postgres_data/userdata/pg_log/`
+You can use sudo commands to do every command inside that folder (e.g. `sudo ls /data01/postgres_data/userdata/pg_log/`
 to check the log files) or you can start an interactive sudo terminal instance using `sudo -i`.
 
 #### When I'm trying to get the details of a cellline, the executive dashboard return an error and pg_log shows a query error

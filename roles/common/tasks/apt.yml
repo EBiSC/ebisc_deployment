@@ -1,0 +1,7 @@
+  # this needs
+  # environment: "{{ proxy_env }}" in playbook
+- name: apt-get update
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600  # 3600 seconds = 1 hour
+  become: yes

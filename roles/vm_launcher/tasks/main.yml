@@ -1,7 +1,0 @@
-
-- include: launch.yml
-  with_items: "{{vm_roles}}"
-  loop_control:
-    loop_var: vm
-
-- meta: refresh_inventory

@@ -1,0 +1,11 @@
+- name: restart timesyncd
+  service:
+    name: systemd-timesyncd
+    state: restarted
+  become: yes
+
+- name: restart nrpe
+  service:
+    name: "{{ nrpe_service }}"
+    state: restarted
+  become: yes

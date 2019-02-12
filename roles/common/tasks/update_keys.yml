@@ -1,0 +1,75 @@
+- name: prepare ansible key file
+  shell: echo '# created by ansible, changes will be overwritten' > authorized_keys/ansible
+  delegate_to: localhost
+  run_once: true
+  check_mode: no
+  changed_when: false
+
+- name: create ansible key file
+  shell: |
+      echo '# {{ item.name }}' >> authorized_keys/ansible
+      cat authorized_keys/{{ item.user }} >> authorized_keys/ansible
+  delegate_to: localhost
+  run_once: true
+  check_mode: no
+  changed_when: false
+  with_list: "{{ server_admins }}"
+
+# This just adds the users, without adding permissions/groups/password
+# sudo permissions only for server_admins further below
+- name: create users
+  user:
+    name: "{{ item | basename }}"
+    shell: /bin/bash
+  with_fileglob:
+    - "authorized_keys/*"
+  become: yes
+
+- name: create server_admins group
+  group:
+    name: server_admins
+  become: yes
+
+- name: add server_admins to the group
+  user:
+    name: "{{ item.user }}"
+    comment: "{{ item.name }}"
+    groups: server_admins
+  become: yes
+  with_list: "{{ server_admins }}"
+
+- name: create .ssh/ folders
+  file:
+    path: "/home/{{ item | basename }}/.ssh"
+    state: directory
+    owner: "{{ item | basename }}"
+    mode: 0700
+  with_fileglob:
+    - "authorized_keys/*"
+  become: yes
+
+# we are not using the authorized_key module here, as it loses comments
+- name: update authorized keys
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ item | basename }}/.ssh/authorized_keys"
+    owner: "{{ item | basename }}"
+    mode: 0600
+    backup: yes
+  with_fileglob:
+    - "authorized_keys/*"
+  become: yes
+  diff: yes
+
+- name: add sudo permissions
+  copy:
+    src: "sudoers_{{ item }}"
+    dest: "/etc/sudoers.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0440
+    validate: visudo -cf %s
+  become: yes
+  with_list:
+    - ansible
+    - server_admins

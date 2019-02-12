@@ -1,9 +1,0 @@
----
-# Partial list of required roles
-# Install with: ansible-galaxy install -r ansible-requirements.yml -p vendor/
-
-# Coreos bootstrap
-# This page explains why we need the coreos-bootstrap role: https://coreos.com/blog/managing-coreos-with-ansible.html
-- src: defunctzombie.coreos-bootstrap
-  version: master
-  name: coreos-bootstrap

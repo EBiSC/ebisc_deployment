@@ -1,0 +1,13 @@
+- name: install docker
+  package:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  with_list: "{{ docker_packages }}"
+
+- name: enable docker
+  service:
+    name: "{{ docker_service }}"
+    enabled: yes
+    state: started
+  become: yes

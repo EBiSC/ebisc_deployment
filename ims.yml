@@ -1,13 +1,8 @@
-- name: Bootstrap coreos VMs ready to use ansible
-  hosts: ims,ims_staging
-  gather_facts: false
-  roles:
-    # This page explains why we need the coreos-bootstrap role: https://coreos.com/blog/managing-coreos-with-ansible.html
-    - coreos-bootstrap
-      
 - name: Set up IMS
-  hosts: ims,ims_staging
+  hosts:
+    - ims
+    - ims_staging
   roles:
     - common
-    - mnt_cinder
+    - volumes
     - ims

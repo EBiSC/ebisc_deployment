@@ -1,0 +1,53 @@
+- name: generic proxy setup
+  block:
+    - name: set proxy ENV
+      template:
+        src: proxy.sh.j2
+        dest: /etc/profile.d/proxy.sh
+        owner: root
+        mode: 0644
+      when: use_proxy|bool
+
+    - name: remove proxy ENV
+      file:
+        dest: /etc/profile.d/proxy.sh
+        state: absent
+      when: not use_proxy|bool
+  become: yes
+
+- name: proxy setup for sudo
+  block:
+    - name: keep proxy with sudo
+      copy:
+        src: sudoers_proxy
+        dest: /etc/sudoers.d/proxy
+        owner: root
+        group: root
+        mode: 0440
+        validate: visudo -cf %s
+      when: use_proxy|bool
+
+    - name: don't keep proxy in env
+      file:
+        dest: /etc/sudoers.d/proxy
+        state: absent
+      when: not use_proxy|bool
+  become: yes
+
+- name: proxy setup for apt cron # unattended-updates (cron) doesn't use ENV yet, rest of apt does
+  block:
+    - name: configure proxy for apt cron
+      template:
+        src: 80proxy.j2
+        dest: /etc/apt/apt.conf.d/80proxy
+        owner: root
+        group: root
+        mode: 0644
+      when: use_proxy|bool
+
+    - name: remove proxy config for apt
+      file:
+        path: /etc/apt/apt.conf.d/80proxy
+        state: absent
+      when: not use_proxy|bool
+  become: yes

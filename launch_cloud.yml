@@ -1,7 +1,0 @@
-- name: Set up openstack and launch VMs
-  hosts: localhost
-  connection: local
-  roles:
-    - network_launcher
-    - vm_launcher
-      

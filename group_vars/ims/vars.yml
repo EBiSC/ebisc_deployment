@@ -1,16 +1,11 @@
 git_branch: master
 postgresql_user: www
 postgresql_database: ebisc
-aws_access_key: DuiolYQGNGoAxNyYQMun
-aws_bucket: ebisc
-s3_host: s3.embassy.ebi.ac.uk
 
-vm: ims
 ims_role: production
 
 volume:
-  name: ims_database
-  mount: /mnt/cinder1
+  mount: /data01
   sub_directories:
     - name: postgres_data
       owner: 26
@@ -20,5 +15,3 @@ volume:
       owner: 1001
     - name: elasticsearch
       owner: 105
-
-release_channel: stable

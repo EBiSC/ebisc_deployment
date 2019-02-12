@@ -1,0 +1,14 @@
+  - name: make directory
+    become: yes
+    file:
+      path: "{{ volume.mount }}"
+      state: directory
+
+  - name: make sub-directories
+    become: yes
+    file:
+      path: "{{volume.mount}}/{{item.name}}"
+      state: directory
+      mode: "0770"
+      owner: "{{item.owner | default('root')}}"
+    with_items: "{{volume.sub_directories}}"

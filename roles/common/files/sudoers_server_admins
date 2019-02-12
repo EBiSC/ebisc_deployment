@@ -1,0 +1,1 @@
+%server_admins ALL=(ALL) NOPASSWD: ALL

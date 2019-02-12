@@ -1,0 +1,11 @@
+command[check_root_partition]={{ nrpe_plugin_dir }}/check_disk -w 15% -c 10% -p /
+command[check_data_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /data01
+command[check_var_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /var
+command[check_home_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /home
+command[check_log_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /var/log
+command[check_boot_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /boot
+
+command[check_os]=cat /etc/os-release | grep PRETTY_NAME | sed -e 's/.*="\(.*\)"/\1/g'
+
+command[check_updates]={{ nrpe_plugin_dir }}/check_apt -l
+command[check_reboot]=if [ -e /var/run/reboot-required ]; then stat -c %y /var/run/reboot-required; exit 2; else echo OK; exit 0; fi
