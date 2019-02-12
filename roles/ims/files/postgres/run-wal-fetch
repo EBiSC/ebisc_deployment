@@ -1,8 +1,0 @@
-#!/bin/bash
-
-set -e
-
-export WALE_LOG_DESTINATION=stdout,stderr
-
-echo "fetching $1 $2"
-wal-e wal-fetch "$1" "$2"

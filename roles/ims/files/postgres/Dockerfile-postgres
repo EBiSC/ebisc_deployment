@@ -13,20 +13,6 @@ RUN \
 
 ENV ENABLED_COLLECTIONS="rh-postgresql95 rh-python34"
 
-RUN \
-  source scl_source enable rh-python34 && \
-  pip install gevent==1.2.1 && \
-  pip install boto==2.43.0 && \
-  pip install https://github.com/wal-e/wal-e/archive/v1.0.1.zip
-
-RUN \
-     echo "wal_level = archive"   >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_mode = on"     >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_command = 'run-wal-push %p'" >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_timeout = 60"  >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template
-
-COPY run-backup-push run-wal-push run-backup-fetch run-wal-fetch /usr/bin/
-RUN chmod 755 /usr/bin/run-backup-push /usr/bin/run-wal-push /usr/bin/run-backup-fetch /usr/bin/run-wal-fetch
 RUN localedef -c -i en_US -f UTF-8 en_US.UTF-8
 
 USER 26

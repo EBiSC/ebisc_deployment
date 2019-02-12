@@ -9,7 +9,6 @@
     dest: "/etc/systemd/system/{{item}}"
     src: "{{item}}"
   with_items:
-    - postgres-backups.timer
     - duplicity-backups.timer
     - ims-updates.timer
 
@@ -24,8 +23,6 @@
     - ims-nginx.service
     - ims-updates.service
     - ims-deploy.service
-    - postgres-backups.service
-    - postgres-restore.service
     - duplicity.service
     - duplicity-restore.service
     - ims-elasticsearch.service
@@ -40,8 +37,6 @@
     - ims-updates.service
     - ims-deploy.service
     - ims-uwsgi.service
-    - postgres-backups.service
-    - postgres-restore.service
     - duplicity.service
     - duplicity-restore.service
 
@@ -55,8 +50,6 @@
     - ims-updates.service
     - ims-deploy.service
     - ims-uwsgi.service
-    - postgres-backups.service
-    - postgres-restore.service
     - duplicity.service
     - duplicity-restore.service
 
