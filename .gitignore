@@ -5,6 +5,10 @@ ansible.log
 inventory/local
 authorized_keys/ansible
 
+create_local-dev.sh
+packer/packer_cache
+packer/output-virtualbox-iso
+
 # vim swap
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]

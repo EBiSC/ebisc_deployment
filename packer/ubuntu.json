@@ -1,0 +1,67 @@
+{
+  "variables": {
+    "hostname": "local-dev",
+    "vm_name": "local-dev",
+    "max_disk_size": "25600",
+    "memory": "2048",
+    "cpus": "2"
+  },
+  "description": "install Ubuntu LTS on a VM for use with Ansible",
+  "builders": [{
+    "type": "virtualbox-iso",
+    "output_directory": "virtualbox_{{ user `vm_name` }}",
+    "guest_os_type": "Ubuntu_64",
+    "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.2-server-amd64.iso",
+    "iso_checksum": "a2cb36dc010d98ad9253ea5ad5a07fd6b409e3412c48f1860536970b073c98f5",
+    "iso_checksum_type": "sha256",
+    "disk_size": "{{ user `max_disk_size` }}",
+    "memory": "{{ user `memory` }}",
+    "cpus": "{{ user `cpus` }}",
+    "vm_name": "{{ user `vm_name` }}",
+    "headless": false,
+    "guest_additions_mode": "disable",
+    "http_directory": ".",
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--rtcuseutc", "on"],
+      ["modifyvm", "{{.Name}}", "--vram", "16"],
+      ["modifyvm", "{{.Name}}", "--vrde", "off"]
+    ],
+    "boot_command": [
+      "<esc><wait>",
+      "<esc><wait>",
+      "<enter><wait>",
+      "/install/vmlinuz",
+      " noapic",
+      " initrd=/install/initrd.gz",
+      " auto-install/enable=true",
+      " netcfg/get_domain=localdomain",
+      " netcfg/get_hostname={{ user `hostname` }}",
+      " keyboard-configuration/layoutcode=de",
+      " keyboard-configuration/variantcode=nodeadkeys",
+      " keyboard-configuration/modelcode=pc105",
+      " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu.preseed",
+      " -- <wait>",
+      "<enter><wait>"
+    ],
+    "ssh_wait_timeout": "3600s",
+    "ssh_username": "ansible",
+    "ssh_password": "ansible",
+    "keep_registered": true,
+    "skip_export": true,
+    "shutdown_command": "echo 'ansible' | sudo -S shutdown -P now"
+  }],
+  "provisioners": [{
+    "type": "file",
+    "source": "ansible_sudoers",
+    "destination": "/tmp/"
+  },
+  {
+    "type": "shell",
+	"execute_command": "echo 'ansible' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+    "inline": [
+      "chown root:root /tmp/ansible_sudoers",
+      "chmod 644 /tmp/ansible_sudoers",
+      "mv /tmp/ansible_sudoers /etc/sudoers.d/ansible"
+    ]
+  }]
+}

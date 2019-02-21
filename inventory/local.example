@@ -1,1 +1,9 @@
-local-dev      ansible_host=192.168.10.101 ansible_port=22 ansible_user=ansible
+# direct access (like for VirtualBox host-only of bridged network)
+#local-dev      ansible_host=192.168.56.111
+
+# via port forwarding (for example for a VirtualBox VM)
+#local-dev      ansible_host=127.0.0.1 ansible_port=3518
+
+# access to a machine where no ansible user is available and no SSH keys
+# (ansible_ssh_pass can also be stored in vaults in host_vars/)
+#local-dev      ansible_host=203.0.113.1 ansible_user=core ansible_ssh_pass
