@@ -32,19 +32,11 @@
   hosts: ims
   tags: media
   tasks:
-    - name: Tar the media files
+    - name: synchronize media files
       become: yes
-      command: "tar -czf /tmp/media.tar.gz -C {{ volume.mount }} media"
-
-    - name: fetch the backup
-      fetch:
+      synchronize:
+        src: "{{ volume.mount }}/media"
         dest: "{{ playbook_dir }}/"
-        fail_on_missing: yes
-        src: /tmp/media.tar.gz
-        flat: yes
-
-    - name: delete the remote backup
-      become: yes
-      file:
-        path: /tmp/media.tar.gz
-        state: absent
+        delete: yes
+        use_ssh_args: yes
+        mode: pull
