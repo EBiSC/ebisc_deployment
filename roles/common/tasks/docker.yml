@@ -11,3 +11,21 @@
     enabled: yes
     state: started
   become: yes
+
+- name: add ansible user to docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  become: yes
+
+- name: reset ssh connection (enable groups)
+  meta: reset_connection
+
+- name: add server admins to docker group
+  user:
+    name: "{{ item.user }}"
+    groups: docker
+    append: yes
+  become: yes
+  with_list: "{{ server_admins }}"

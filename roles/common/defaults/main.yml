@@ -13,3 +13,4 @@ nrpe_plugin_dir: /usr/lib/nagios/plugins
 docker_service: docker
 docker_packages:
   - docker.io
+  - python3-docker

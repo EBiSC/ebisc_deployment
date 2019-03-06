@@ -35,6 +35,7 @@
     name: "{{ item.user }}"
     comment: "{{ item.name }}"
     groups: server_admins
+    append: yes
   become: yes
   with_list: "{{ server_admins }}"
 
