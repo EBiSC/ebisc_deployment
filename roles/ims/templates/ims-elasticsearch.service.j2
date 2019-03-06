@@ -10,8 +10,8 @@ ExecStartPre=-/usr/bin/docker pull elasticsearch:1.6.2
 ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
   --net=ebisc \
-  --user=elasticsearch \
-  -v {{ volume.mount }}/elasticsearch:/usr/share/elasticsearch/data:Z \
+  --user=$(id -u {{ elasticsearch_user }}) \
+  -v {{ data_dir }}/elasticsearch:/usr/share/elasticsearch/data:Z \
   elasticsearch:1.6.2
 ExecStop=/usr/bin/docker stop %p
 TimeoutStartSec=0

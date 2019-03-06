@@ -16,6 +16,7 @@ ExecStartPre=-/usr/bin/docker rm %p
 ExecStartPre=-/usr/bin/docker rm mailer-%p
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
+  --user=$(id -u {{ ims_user }}) \
   -e DB_USER=${POSTGRESQL_USER} \
   -e DB_PASS=${POSTGRESQL_PASSWORD} \
   -e DB_HOST=ims-postgres \
@@ -32,8 +33,8 @@ ExecStart=/usr/bin/docker run --name %p \
   --read-only \
   --tmpfs /tmp \
   --net=ebisc \
-  -v {{ volume.mount }}/media:/app/var/media:z \
-  -v {{ volume.mount }}/static:/app/var/static:z \
+  -v {{ data_dir }}/media:/app/var/media:z \
+  -v {{ data_dir }}/static:/app/var/static:z \
   ebisc/ims-uwsgi:latest \
   run-ims-update
 ExecStop=/usr/bin/docker stop %p

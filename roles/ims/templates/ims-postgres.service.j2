@@ -9,12 +9,13 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
+  --user=$(id -u {{ postgres_user }}) \
   --net=ebisc \
   -e POSTGRESQL_USER=${POSTGRESQL_USER} \
   -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} \
   -e POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE} \
   -e POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
-  -v {{ volume.mount }}/postgres_data:/var/lib/pgsql/data:z \
+  -v {{ data_dir }}/postgres:/var/lib/pgsql/data:z \
   ebisc/postgres:latest
 ExecStop=/usr/bin/docker stop %p
 

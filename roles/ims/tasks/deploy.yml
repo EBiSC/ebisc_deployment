@@ -1,8 +1,37 @@
+- name: create users
+  user:
+    name: "{{ item }}"
+    system: yes
+    create_home: no
+  become: yes
+  with_items:
+    - "{{ ims_user }}"
+    - "{{ postgres_user }}"
+    - "{{ elasticsearch_user }}"
+
+- name: setup data directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    mode: u=rwX,g=rwX,o=
+    recurse: yes
+  become: yes
+  with_items:
+    - path: "{{ data_dir }}/postgres"
+      owner: "{{ postgres_user }}"
+    - path: "{{ data_dir }}/media"
+      owner: "{{ ims_user }}"
+    - path: "{{ data_dir }}/static"
+      owner: "{{ ims_user }}"
+    - path: "{{ data_dir }}/elasticsearch"
+      owner: "{{ elasticsearch_user }}"
+
 - name: Create project directories
   file:
     path: "{{item}}"
     state: directory
-    owner: core
+    owner: "{{ ansible_user }}"
   become: yes
   with_items:
     - /var/projects/ebisc/ebisc-ims

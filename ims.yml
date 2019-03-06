@@ -2,7 +2,9 @@
   hosts:
     - ims
     - ims_staging
+    - local-dev
   roles:
     - common
-    - volumes
     - ims
+  vars:
+    data_dir: /data01

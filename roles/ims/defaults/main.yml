@@ -1,0 +1,4 @@
+ims_user: ims
+postgres_user: postgres
+elasticsearch_user: elasticsearch
+data_dir: /data01

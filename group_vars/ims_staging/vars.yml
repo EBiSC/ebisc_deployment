@@ -3,15 +3,3 @@ postgresql_user: www
 postgresql_database: ebisc
 
 ims_role: staging
-
-volume:
-  mount: /data01
-  sub_directories:
-    - name: postgres_data
-      owner: 26
-    - name: media
-      owner: 1001
-    - name: static
-      owner: 1001
-    - name: elasticsearch
-      owner: 105

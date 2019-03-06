@@ -9,12 +9,13 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
+  --user=$(id -u {{ ims_user }}) \
   -e AWS_PREFIX=ims06-media \
   -e AWS_BUCKET=${AWS_BUCKET} \
   -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
   -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e AWS_ENDPOINT_URL=s3://${S3_HOST} \
-  -v {{ volume.mount }}/media/:/var/media/:z \
+  -v {{ data_dir }}/media/:/var/media/:z \
   ebisc/duplicity:latest \
   run-duplicity-restore
 ExecStop=/usr/bin/docker stop %p
