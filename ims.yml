@@ -6,6 +6,7 @@
   roles:
     - common
     - ims
+  environment: "{{ proxy_env }}"
   vars:
     data_dir: /data01
     postgresql_database: ims

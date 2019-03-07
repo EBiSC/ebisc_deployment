@@ -29,3 +29,5 @@
     append: yes
   become: yes
   with_list: "{{ server_admins }}"
+
+- meta: flush_handlers  # make sure we restart docker (proxy might have changed)
