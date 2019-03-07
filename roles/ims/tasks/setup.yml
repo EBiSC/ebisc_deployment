@@ -9,7 +9,6 @@
     dest: "/etc/systemd/system/{{item}}"
     src: "{{item}}"
   with_items:
-    - duplicity-backups.timer
     - ims-updates.timer
 
 - name: "copy unit template file"
@@ -23,8 +22,6 @@
     - ims-nginx.service
     - ims-updates.service
     - ims-deploy.service
-    - duplicity.service
-    - duplicity-restore.service
     - ims-elasticsearch.service
 
 - name: make directories for service config
@@ -37,8 +34,6 @@
     - ims-updates.service
     - ims-deploy.service
     - ims-uwsgi.service
-    - duplicity.service
-    - duplicity-restore.service
 
 - name: "copy unit configuration"
   become: yes
@@ -50,5 +45,3 @@
     - ims-updates.service
     - ims-deploy.service
     - ims-uwsgi.service
-    - duplicity.service
-    - duplicity-restore.service

@@ -36,7 +36,6 @@
   with_items:
     - /var/projects/ebisc/ebisc-ims
     - /var/projects/ebisc/postgres
-    - /var/projects/ebisc/duplicity
     - /var/projects/ebisc/mailer
     - /var/projects/ebisc/scripts
 
@@ -53,9 +52,6 @@
   copy: "dest=/var/projects/ebisc/{{ item }} src={{ item }}"
   with_items:
     - postgres/Dockerfile-postgres
-    - duplicity/Dockerfile-duplicity
-    - duplicity/run-duplicity-backup
-    - duplicity/run-duplicity-restore
     - mailer/Dockerfile-mailer
     - mailer/run-mailer
 
@@ -141,14 +137,6 @@
     state: restarted
   when: nginx_build.changed
 
-- name: build duplicity
-  docker_image:
-    path: /var/projects/ebisc/duplicity
-    dockerfile: Dockerfile-duplicity
-    name: ebisc/duplicity
-    state: present
-    force: yes
-
 - name: build mailer
   docker_image:
     path: /var/projects/ebisc/mailer
@@ -179,5 +167,4 @@
     state: started
   with_items:
     - ims-updates.timer
-    - duplicity-backups.timer
   when: ims_role == "production"
