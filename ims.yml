@@ -8,3 +8,19 @@
     - ims
   vars:
     data_dir: /data01
+    postgresql_database: ims
+    postgresql_user: ims
+    postgresql_password: "{{ vault_postgresql_password }}"
+    postgresql_admin_password: "{{ vault_postgresql_admin_password }}"
+    django_secret_key: "{{ vault_django_secret_key }}"
+    hpscreg_user: ebiscims
+    hpscreg_password: "{{ vault_hpscreg_password }}"
+    lims_user: ebiscims
+    lims_password: "{{ vault_lims_password }}"
+    biosample_key: "{{ vault_biosample_key }}"
+    email_password: "{{ vault_email_password }}"
+    email_api_key: "{{ vault_email_api_key }}"
+
+  pre_tasks:
+    - name: include vault vars
+      include_vars: ims_vault.yml

@@ -3,6 +3,7 @@ ansible.log
 *.retry
 
 inventory/local
+host_vars/local-dev/vars.yml
 authorized_keys/ansible
 
 create_local-dev.sh
