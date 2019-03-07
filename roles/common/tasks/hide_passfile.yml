@@ -1,7 +1,7 @@
 - name: hide ansible passfile
   local_action:
      module: file
-     dest: ansible_vault_pass.txt
+     dest: ansible_vault_pass
      mode: 0600
   register: chmod
   run_once: yes

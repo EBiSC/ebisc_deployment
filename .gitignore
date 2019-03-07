@@ -1,4 +1,4 @@
-ansible_vault_pass.txt
+ansible_vault_pass*
 ansible.log
 *.retry
 
