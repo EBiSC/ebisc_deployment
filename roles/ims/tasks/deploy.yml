@@ -62,14 +62,17 @@
     - import_db.bash
 
 - name: build ims uwsgi
-  docker_image:
-    path: /var/projects/ebisc/ebisc-ims
-    dockerfile: Dockerfile-uwsgi
-    name: ebisc/ims-uwsgi
-    state: present
-    buildargs:
-      ROLE: "{{ ims_role }}"
-    tag: "{{git.after}}"
+  command: >
+    docker build
+    --file=Dockerfile-uwsgi
+    "--build-arg=ROLE={{ ims_role }}"
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    "--tag=ebisc/ims-uwsgi:{{ git.after }}"
+    .
+  args:
+    chdir: /var/projects/ebisc/ebisc-ims
   register: uwsgi_build
 
 - name: retag image

@@ -22,8 +22,11 @@ ExecStart=/usr/bin/docker run --name %p \
   -e LIMS_USER=${LIMS_USER} \
   -e ES_HOST=ims-elasticsearch \
   -e SECRET_KEY=${DJANGO_SECRET_KEY} \
+  -e http_proxy=${http_proxy} \
+  -e https_proxy=${https_proxy} \
   --read-only \
   --net=ebisc \
+  --add-host={{ proxy_host }} \
   -v {{ data_dir }}/media:/app/var/media:z \
   -v {{ data_dir }}/static:/app/var/static:z \
   ebisc/ims-uwsgi:latest \

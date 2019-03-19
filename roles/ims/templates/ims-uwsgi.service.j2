@@ -23,10 +23,13 @@ ExecStart=/usr/bin/docker run --name %p \
   -e SECRET_KEY=${DJANGO_SECRET_KEY} \
   -e HPSCREG_USER=${HPSCREG_USER} \
   -e BIOSAMPLES_KEY=${BIOSAMPLES_KEY} \
+  -e http_proxy=${http_proxy} \
+  -e https_proxy=${https_proxy} \
   --publish 9191:9191 \
   --read-only \
   --tmpfs /tmp \
   --net=ebisc \
+  --add-host={{ proxy_host }} \
   -v {{ data_dir }}/media:/app/var/media:z \
   -v {{ data_dir }}/static:/app/var/static:z \
   ebisc/ims-uwsgi:latest
