@@ -79,12 +79,16 @@
   command: "docker tag ebisc/ims-uwsgi:{{git.after}} ebisc/ims-uwsgi:latest"
 
 - name: build postgres image
-  docker_image:
-    path: /var/projects/ebisc/postgres
-    dockerfile: Dockerfile-postgres
-    name: ebisc/postgres
-    state: present
-    force: yes
+  command: >
+    docker build
+    --file=Dockerfile-postgres
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    --tag=ebisc/postgres
+    .
+  args:
+    chdir: /var/projects/ebisc/postgres
   register: postgres_build
 
 - name: restart postgres
