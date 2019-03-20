@@ -7,9 +7,10 @@ After=docker.service
 KillMode=none
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment POSTGRES_USER_ID=$(id -u {{ postgres_user }})"
 ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
-  --user=$(id -u {{ postgres_user }}) \
+  --user=${POSTGRES_USER_ID} \
   --net=ebisc \
   --add-host={{ proxy_host }} \
   -e http_proxy=${http_proxy} \

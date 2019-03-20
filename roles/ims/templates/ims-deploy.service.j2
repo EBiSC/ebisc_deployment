@@ -9,9 +9,10 @@ After=ims-postgres.service
 Type=oneshot
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ ims_user }})"
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
-  --user=$(id -u {{ ims_user }}) \
+  --user=${IMS_USER_ID} \
   -e DB_USER=${POSTGRESQL_USER} \
   -e DB_PASS=${POSTGRESQL_PASSWORD} \
   -e DB_HOST=ims-postgres \
