@@ -28,6 +28,7 @@ ExecStart=/usr/bin/docker run --name %p \
   --read-only \
   --net=ebisc \
   --add-host={{ proxy_host }} \
+  --tmpfs /tmp \
   -v {{ data_dir }}/media:/app/var/media:z \
   -v {{ data_dir }}/static:/app/var/static:z \
   ebisc/ims-uwsgi:latest \
