@@ -98,16 +98,16 @@
     state: restarted
   when: postgres_build.changed
 
-- name: Wait for postgres to start
-  pause:
-    seconds: 10
-  when: postgres_build.changed
-
 - name: start elasticsearch
   become: yes
   systemd:
     name: ims-elasticsearch.service
     state: started
+
+- name: Wait for postgres to start
+  pause:
+    seconds: 10
+  when: postgres_build.changed
 
 - name: "collectstatic, migrate django, and import toelastic"
   become: yes
