@@ -59,7 +59,7 @@
         path: /tmp/db_dump
         state: absent
 
-    - name: migrate django and import toelastic"
+    - name: migrate django and import toelastic
       become: yes
       service:
         name: ims-deploy
