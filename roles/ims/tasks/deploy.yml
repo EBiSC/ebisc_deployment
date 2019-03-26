@@ -81,6 +81,7 @@
 - name: build postgres image
   command: >
     docker build
+    --pull
     --file=Dockerfile-postgres
     --build-arg=http_proxy=$http_proxy
     --build-arg=https_proxy=$https_proxy
@@ -145,12 +146,17 @@
   when: nginx_build.changed
 
 - name: build mailer
-  docker_image:
-    path: /var/projects/ebisc/mailer
-    dockerfile: Dockerfile-mailer
-    name: ebisc/mailer
-    state: present
-    force: yes
+  command: >
+    docker build
+    --pull
+    --file=Dockerfile-mailer
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    --tag=ebisc/mailer
+    .
+  args:
+    chdir: /var/projects/ebisc/mailer
 
 - name: "enable unit"
   become: yes

@@ -1,5 +1,9 @@
 FROM debian:jessie
 
+ARG http_proxy
+ARG https_proxy
+ENV http_proxy="$http_proxy" https_proxy="$https_proxy"
+
 RUN apt-get update && \
     apt-get install -y ssmtp mailutils
 
