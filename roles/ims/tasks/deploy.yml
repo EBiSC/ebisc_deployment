@@ -26,6 +26,10 @@
       owner: "{{ ims_user }}"
     - path: "{{ data_dir }}/elasticsearch"
       owner: "{{ elasticsearch_user }}"
+    - path: "{{ data_dir }}/backup"
+      owner: "{{ ims_user }}"
+    - path: "{{ data_dir }}/backup/postgres"
+      owner: "{{ ims_user }}"
 
 - name: Create project directories
   file:

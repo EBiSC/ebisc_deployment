@@ -10,6 +10,7 @@
     src: "{{item}}"
   with_items:
     - ims-updates.timer
+    - ims-backup-postgres.timer
 
 - name: "copy unit template file"
   become: yes
@@ -23,6 +24,7 @@
     - ims-updates.service
     - ims-deploy.service
     - ims-elasticsearch.service
+    - ims-backup-postgres.service
 
 - name: make directories for service config
   become: yes
@@ -34,6 +36,7 @@
     - ims-updates.service
     - ims-deploy.service
     - ims-uwsgi.service
+    - ims-backup-postgres.service
 
 - name: "copy unit configuration"
   become: yes
@@ -45,3 +48,4 @@
     - ims-updates.service
     - ims-deploy.service
     - ims-uwsgi.service
+    - ims-backup-postgres.service
