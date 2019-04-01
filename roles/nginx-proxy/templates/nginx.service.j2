@@ -1,29 +1,25 @@
 [Unit]
 Description=Run nginx
 Requires=docker.service
-Requires=ims-uwsgi.service
 After=docker.service
-After=ims-uwsgi.service
-BindsTo=ims-uwsgi.service
 
 [Service]
-KillMode=none
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
-ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ ims_user }})"
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment NGINX_USER_ID=$(id -u {{ nginx_user }})"
 ExecStart=/usr/bin/docker run --name %p \
   --read-only \
-  --cap-drop=all \
-  --user=${IMS_USER_ID} \
   --restart=always \
   --tmpfs /var/cache/nginx \
-  --tmpfs /var/log/nginx \
   --tmpfs /run \
+  --tmpfs /var/log/nginx \
   --cap-drop=all \
+  --user=${NGINX_USER_ID} \
   --net=ebisc \
-  -v {{ data_dir }}/media:/var/media:z \
-  -v {{ data_dir }}/static:/var/static:z \
-  ebisc/ims-nginx:latest
+  --publish 80:8080 --publish 443:8443 \
+  -v /var/projects/ebisc/www:/usr/share/nginx/html:ro,z \
+  -v /var/projects/ebisc/letsencrypt:/etc/letsencrypt:ro,z \
+  ebisc/nginx:latest
 ExecStop=/usr/bin/docker stop %p
 
 [Install]

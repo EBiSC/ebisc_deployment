@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -f /etc/letsencrypt/live/{{ main_ims_domain }}/fullchain.pem -a -f /etc/letsencrypt/live/{{ main_ims_domain }}/privkey.pem ]; then
+  CONF=/etc/nginx/nginx.conf
+else
+  CONF=/etc/nginx/nginx-nocerts.conf
+fi
+
+cat /etc/resolv.conf
+resolveip ims-nginx
+
+exec nginx -c $CONF -g "daemon off;"

@@ -1,0 +1,146 @@
+- name: create user
+  user:
+    name: "{{ item }}"
+    system: yes
+    create_home: no
+  become: yes
+  with_items:
+    - "{{ nginx_user }}"
+
+- name: copy unit file
+  become: yes
+  template:
+    dest: "/etc/systemd/system/{{item}}"
+    src: "{{item}}.j2"
+  with_items:
+    - nginx.service
+    - letsencrypt.service
+
+- name: copy timers
+  become: yes
+  copy:
+    dest: "/etc/systemd/system/{{item}}"
+    src: "{{item}}"
+  with_items:
+    - letsencrypt.timer
+
+- name: make directories for unit configs
+  become: yes
+  file:
+    path: "/etc/systemd/system/{{ item }}.d"
+    state: directory
+  with_items:
+    - nginx.service
+    - letsencrypt.service
+
+- name: copy unit configuration
+  become: yes
+  template:
+    dest: "/etc/systemd/system/{{item}}.d/50-ansible.conf"
+    src: "{{item}}.conf.j2"
+  with_items:
+    - letsencrypt.service
+
+- name: Create project directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+  become: yes
+  with_items:
+    - /var/projects/ebisc/nginx
+    - /var/projects/ebisc/letsencrypt
+
+  # for letsencrypt ACME protocol and certificates
+- name: Create certbot directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ nginx_user }}"
+  become: yes
+  with_items:
+    - /var/projects/ebisc/www
+    - /var/projects/ebisc/certbot
+    - /var/projects/ebisc/certbot-lib
+    - /var/projects/ebisc/certbot-log
+
+- name: copy project files
+  copy: "dest=/var/projects/ebisc/{{item}} src={{item}}"
+  with_items:
+    - nginx/Dockerfile-nginx
+    - nginx/nginx.conf
+    - nginx/nginx-nocerts.conf
+    - letsencrypt/Dockerfile-letsencrypt
+
+- name: copy project templates
+  template:
+    dest: "/var/projects/ebisc/{{ item }}"
+    src: "{{ item }}.j2"
+  with_items:
+    - nginx/vhosts-http.conf
+    - nginx/vhosts-https.conf
+    - nginx/run-nginx
+    - letsencrypt/run-certbot
+
+- name: enable nginx
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: nginx
+    state: started
+
+- name: build letsencrypt image
+  command: >
+    docker build
+    --pull
+    --file=Dockerfile-letsencrypt
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    --tag=ebisc/letsencrypt
+    .
+  args:
+    chdir: /var/projects/ebisc/letsencrypt
+
+- name: build nginx image
+  docker_image:
+    path: /var/projects/ebisc/nginx
+    dockerfile: Dockerfile-nginx
+    name: ebisc/nginx
+    state: present
+    force: yes
+
+- name: start nginx
+  become: yes
+  service:
+    name: nginx
+    state: started
+
+- name: test if the Letsencrypt certificates exist
+  become: yes
+  stat:
+    path: "/var/projects/ebisc/letsencrypt/live/{{ main_ims_domain }}/fullchain.pem"
+  register: fullchain_pem
+
+- name: "Generate Letsencrypt certificates"
+  become: yes
+  systemd:
+    daemon_reload: yes
+    name: letsencrypt.service
+    state: started
+
+- name: restart nginx
+  become: yes
+  systemd:
+    name: nginx.service
+    state: restarted
+  when: fullchain_pem.stat.exists == False
+
+- name: enable letsencrypt timer
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: letsencrypt.timer
+    state: started
