@@ -18,21 +18,7 @@ ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ i
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
   --user=${IMS_USER_ID} \
-  -e DB_USER=${POSTGRESQL_USER} \
-  -e DB_PASS=${POSTGRESQL_PASSWORD} \
-  -e DB_HOST=ims-postgres \
-  -e DB_NAME=${POSTGRESQL_DATABASE} \
-  -e ES_HOST=ims-elasticsearch \
-  -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
-  -e SECRET_KEY=${DJANGO_SECRET_KEY} \
-  -e HPSCREG_PASSWORD=${HPSCREG_PASSWORD} \
-  -e HPSCREG_USER=${HPSCREG_USER} \
-  -e LIMS_PASSWORD=${LIMS_PASSWORD} \
-  -e LIMS_USER=${LIMS_USER} \
-  -e BIOSAMPLE_KEY=${BIOSAMPLE_KEY} \
-  -e SECRET_KEY=${DJANGO_SECRET_KEY} \
-  -e http_proxy=${http_proxy} \
-  -e https_proxy=${https_proxy} \
+  --env-file /var/projects/ebisc/ebisc-ims/%p.service.env \
   --read-only \
   --tmpfs /tmp \
   --net=ebisc \
@@ -47,10 +33,9 @@ ExecStopPost=/usr/bin/bash -c "/usr/bin/docker logs ${CONTAINER_NAME} 2>&1 \
   | /usr/bin/docker run -i \
     --name mailer-${CONTAINER_NAME} \
     --cap-drop=all \
-    -e TO=${MAILTO} \
+    --env-file /var/projects/ebisc/ebisc-ims/%p-mailer.service.env \
     -e SUBJECT=${CONTAINER_NAME} \
     -e FROM_HOST=${HOSTNAME} \
-    -e AUTH_PASS=${SENDGRID_API_KEY} \
     ebisc/mailer:latest"
 
 [Install]

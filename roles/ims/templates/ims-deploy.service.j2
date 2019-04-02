@@ -13,18 +13,7 @@ ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ i
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
   --user=${IMS_USER_ID} \
-  -e DB_USER=${POSTGRESQL_USER} \
-  -e DB_PASS=${POSTGRESQL_PASSWORD} \
-  -e DB_HOST=ims-postgres \
-  -e DB_NAME=${POSTGRESQL_DATABASE} \
-  -e HPSCREG_PASSWORD=${HPSCREG_PASSWORD} \
-  -e HPSCREG_USER=${HPSCREG_USER} \
-  -e LIMS_PASSWORD=${LIMS_PASSWORD} \
-  -e LIMS_USER=${LIMS_USER} \
-  -e ES_HOST=ims-elasticsearch \
-  -e SECRET_KEY=${DJANGO_SECRET_KEY} \
-  -e http_proxy=${http_proxy} \
-  -e https_proxy=${https_proxy} \
+  --env-file /var/projects/ebisc/ebisc-ims/%p.service.env \
   --read-only \
   --net=ebisc \
   --add-host={{ proxy_host }} \

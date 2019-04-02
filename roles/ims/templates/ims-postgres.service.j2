@@ -13,12 +13,7 @@ ExecStart=/usr/bin/docker run --name %p --restart=always \
   --user=${POSTGRES_USER_ID} \
   --net=ebisc \
   --add-host={{ proxy_host }} \
-  -e http_proxy=${http_proxy} \
-  -e https_proxy=${https_proxy} \
-  -e POSTGRESQL_USER=${POSTGRESQL_USER} \
-  -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} \
-  -e POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE} \
-  -e POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
+  --env-file /var/projects/ebisc/postgres/%p.service.env \
   -v {{ data_dir }}/postgres:/var/lib/pgsql/data:z \
   ebisc/postgres:latest
 ExecStop=/usr/bin/docker stop %p

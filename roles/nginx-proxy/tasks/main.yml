@@ -24,23 +24,6 @@
   with_items:
     - letsencrypt.timer
 
-- name: make directories for unit configs
-  become: yes
-  file:
-    path: "/etc/systemd/system/{{ item }}.d"
-    state: directory
-  with_items:
-    - nginx.service
-    - letsencrypt.service
-
-- name: copy unit configuration
-  become: yes
-  template:
-    dest: "/etc/systemd/system/{{item}}.d/50-ansible.conf"
-    src: "{{item}}.conf.j2"
-  with_items:
-    - letsencrypt.service
-
 - name: Create project directories
   file:
     path: "{{ item }}"

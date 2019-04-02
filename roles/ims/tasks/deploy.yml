@@ -61,6 +61,16 @@
     - mailer/Dockerfile-mailer
     - mailer/run-mailer
 
+- name: copy environment files
+  template: "dest=/var/projects/ebisc/{{ item }} src={{ item }}.j2 mode=0660"
+  with_items:
+    - postgres/ims-postgres.service.env
+    - postgres/ims-backup-postgres.service.env
+    - ebisc-ims/ims-uwsgi.service.env
+    - ebisc-ims/ims-deploy.service.env
+    - ebisc-ims/ims-updates.service.env
+    - ebisc-ims/ims-updates-mailer.service.env
+
 - name: copy scripts
   copy: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }} mode=0755"
   with_items:
@@ -118,7 +128,7 @@
 
 - name: Wait for postgres to start
   pause:
-    seconds: 10
+    seconds: 15
   when: postgres_build.changed
 
 - name: "collectstatic, migrate django, and import toelastic"

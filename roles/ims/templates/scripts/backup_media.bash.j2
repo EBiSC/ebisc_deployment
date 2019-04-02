@@ -15,7 +15,7 @@ find "$root_dir" -name '*_Sun_*' -mtime +120 -delete
 hardlinks=
 # gather hardlinks
 # so every file is only saved once (when unchanged)
-for dir in `find "$root_dir"/* -maxdepth 0 -mtime -2`; do
+for dir in `find "$root_dir"/* -type d -maxdepth 0 -mtime -2`; do
 	hardlinks+=" --link-dest=$dir"
 done
 

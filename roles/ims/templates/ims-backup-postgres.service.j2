@@ -11,10 +11,7 @@ ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ i
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
   --user=${IMS_USER_ID} \
-  -e PGUSER=${POSTGRESQL_USER} \
-  -e PGPASSWORD=${POSTGRESQL_PASSWORD} \
-  -e PGHOST=ims-postgres \
-  -e PGDATABASE=${POSTGRESQL_DATABASE} \
+  --env-file /var/projects/ebisc/postgres/%p.service.env \
   --rm \
   --net=ebisc \
   -v {{ data_dir }}/backup/postgres:/data01/backup/postgres:Z \

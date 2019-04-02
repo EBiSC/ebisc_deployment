@@ -16,17 +16,7 @@ ExecStart=/usr/bin/docker run --name %p \
   --restart=always \
   --cap-drop=all \
   --user=${IMS_USER_ID} \
-  -e DB_USER=${POSTGRESQL_USER} \
-  -e DB_PASS=${POSTGRESQL_PASSWORD} \
-  -e DB_NAME=${POSTGRESQL_DATABASE} \
-  -e DB_HOST=ims-postgres \
-  -e ES_HOST=ims-elasticsearch \
-  -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
-  -e SECRET_KEY=${DJANGO_SECRET_KEY} \
-  -e HPSCREG_USER=${HPSCREG_USER} \
-  -e BIOSAMPLES_KEY=${BIOSAMPLES_KEY} \
-  -e http_proxy=${http_proxy} \
-  -e https_proxy=${https_proxy} \
+  --env-file /var/projects/ebisc/ebisc-ims/%p.service.env \
   --publish 9191:9191 \
   --read-only \
   --tmpfs /tmp \

@@ -16,8 +16,8 @@ ExecStart=/usr/bin/docker run --name %p \
   --tmpfs /var/log/letsencrypt \
   --cap-drop=all \
   --user=${NGINX_USER_ID} \
-  -e http_proxy=${http_proxy} \
-  -e https_proxy=${https_proxy} \
+  -e http_proxy={{ proxy_env.http_proxy }} \
+  -e https_proxy={{ proxy_env.https_proxy }} \
   --add-host={{ proxy_host }} \
   -v /var/projects/ebisc/www:/usr/share/nginx/html:rw,z \
   -v /var/projects/ebisc/certbot:/etc/letsencrypt:rw,z \
