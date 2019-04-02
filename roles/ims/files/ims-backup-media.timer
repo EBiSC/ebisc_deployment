@@ -1,0 +1,9 @@
+[Unit]
+Description=IMS media backup at 02:00:00
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Unit=ims-backup-media.service
+
+[Install]
+WantedBy=multi-user.target

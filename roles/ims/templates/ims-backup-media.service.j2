@@ -1,0 +1,9 @@
+[Unit]
+Description=IMS daily media backup
+
+[Service]
+ExecStart=/var/projects/ebisc/scripts/backup_media.bash
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
