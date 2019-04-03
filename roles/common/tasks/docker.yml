@@ -31,3 +31,6 @@
   with_list: "{{ server_admins }}"
 
 - meta: flush_handlers  # make sure we restart docker (proxy might have changed)
+
+- name: prune docker
+  command: docker system prune --volumes --force

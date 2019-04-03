@@ -29,6 +29,3 @@
   pre_tasks:
     - name: include vault vars
       include_vars: ims_vault.yml
-
-    - name: prune docker
-      command: docker system prune --volumes --force
