@@ -1,0 +1,47 @@
+- name: Inject working space code into local IMS
+  hosts:
+    - local-dev
+  environment: "{{ proxy_env }}"
+
+  pre_tasks:
+    - name: include vault vars
+      include_vars: ims_vault.yml
+
+  tasks:
+    - name: Create alternative project directory
+      file:
+        path: /var/projects/ebisc/ebisc-ims-inject
+        state: directory
+        owner: "{{ ansible_user }}"
+      become: yes
+
+    - name: inject source code
+      synchronize:
+        src: "{{ ims_inject_dir }}/"
+        dest: /var/projects/ebisc/ebisc-ims-inject
+        delete: yes
+        mode: push
+        rsync_opts:
+            - "--exclude=.git"
+            - "--exclude=media"
+            - "--exclude=var/media"
+
+    - name: build injected ims (uwsgi)
+      command: >
+        docker build
+        --file=Dockerfile-uwsgi
+        "--build-arg=ROLE={{ ims_role }}"
+        --build-arg=http_proxy=$http_proxy
+        --build-arg=https_proxy=$https_proxy
+        "--add-host={{ proxy_host }}"
+        --tag=ebisc/ims-uwsgi:latest
+        .
+      args:
+        chdir: /var/projects/ebisc/ebisc-ims-inject
+
+    - name: restart uwsgi
+      become: yes
+      systemd:
+        daemon_reload: yes
+        name: ims-uwsgi.service
+        state: restarted
