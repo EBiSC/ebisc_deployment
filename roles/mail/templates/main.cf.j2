@@ -1,0 +1,18 @@
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 51200000
+recipient_delimiter = +
+inet_interfaces = loopback-only
+inet_protocols = all
+
+relayhost = exchange-smtp.charite.de:587
+smtp_tls_security_level = may
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+
+# at least for the dev machines no empty MAIL FROM is allowed
+# (at least Ubuntu keeps the sender in the envelope empty, set up as "satelite")
+# TODO: On the actual production server we might be allowed to use the server FQDN
+sender_canonical_maps = regexp:/etc/postfix/sender_canonical

@@ -20,3 +20,19 @@ proxy_host: "proxy.charite.de:141.42.5.215"
 time_zone: Europe/Berlin
 ntp_server: time.charite.de
 nagios_server_ip: 10.32.39.75
+
+mail_accounts:
+  mb_ebiscinfo:
+    user: mb-ebiscinfo
+    pass: "{{ vault_mail_mb_ebiscinfo_pass }}"
+    mail: ebisc-info@charite.de
+  mb_ebisccontact:
+    user: mb-ebisccontact
+    pass: "{{ vault_mail_mb_ebisccontact_pass }}"
+    mail: ebisc-contact@charite.de
+
+users:
+  - name: dewendej
+    mail: johannes.dewender@charite.de
+  - name: bultjern
+    mail: nils.bultjer@charite.de

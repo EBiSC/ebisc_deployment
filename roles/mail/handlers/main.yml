@@ -1,0 +1,17 @@
+- name: read new aliases
+  command: newaliases
+  become: yes
+
+- name: create databases
+  command: postmap /etc/postfix/{{ item }}
+  become: yes
+  with_list:
+    - sasl_passwd
+    - sender_canonical
+
+- name: restart postfix
+  service:
+    name: postfix
+    state: restarted
+  become: yes
+
