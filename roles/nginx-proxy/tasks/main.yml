@@ -92,6 +92,7 @@
     dockerfile: Dockerfile-nginx
     name: ebisc/nginx
     state: present
+    pull: yes   # force update of base image
     force: yes
 
 - name: start nginx

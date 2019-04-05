@@ -85,6 +85,7 @@
 - name: build ims uwsgi
   command: >
     docker build
+    --pull
     --file=Dockerfile-uwsgi
     "--build-arg=ROLE={{ ims_role }}"
     --build-arg=http_proxy=$http_proxy
@@ -153,6 +154,8 @@
     dockerfile: Dockerfile-nginx
     name: ebisc/ims-nginx
     state: present
+    pull: yes   # always get updated base image
+    force: yes  # update/build even when an image exists
     tag: "{{git.after}}"
   register: nginx_build
 
