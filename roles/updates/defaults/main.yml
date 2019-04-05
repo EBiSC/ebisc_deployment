@@ -1,0 +1,4 @@
+updates_packages:
+  - unattended-upgrades
+  - mailutils       # to send notification email
+  - update-notifier-common  # notify when reboot is needed (automatic dep now?)

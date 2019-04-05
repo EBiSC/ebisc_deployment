@@ -6,6 +6,7 @@
   roles:
     - common
     - mail
+    - updates
     - ims
     - nginx-proxy
   environment: "{{ proxy_env }}"
