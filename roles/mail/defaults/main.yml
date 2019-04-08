@@ -1,3 +1,4 @@
 mail_packages:
   - postfix
 smtp_relay_account: "{{ mail_accounts.mb_ebiscinfo }}"
+smtp_server: exchange-smtp.charite.de

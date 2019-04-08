@@ -42,7 +42,6 @@
   with_items:
     - /var/projects/ebisc/ebisc-ims
     - /var/projects/ebisc/postgres
-    - /var/projects/ebisc/mailer
     - /var/projects/ebisc/scripts
 
 - name: Initialise git repo
@@ -58,8 +57,6 @@
   copy: "dest=/var/projects/ebisc/{{ item }} src={{ item }}"
   with_items:
     - postgres/Dockerfile-postgres
-    - mailer/Dockerfile-mailer
-    - mailer/run-mailer
 
 - name: copy environment files
   template: "dest=/var/projects/ebisc/{{ item }} src={{ item }}.j2 mode=0660"
@@ -69,7 +66,6 @@
     - ebisc-ims/ims-uwsgi.service.env
     - ebisc-ims/ims-deploy.service.env
     - ebisc-ims/ims-updates.service.env
-    - ebisc-ims/ims-updates-mailer.service.env
 
 - name: copy scripts
   copy: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }} mode=0755"
@@ -168,19 +164,6 @@
     name: ims-nginx.service
     state: restarted
   when: nginx_build.changed
-
-- name: build mailer
-  command: >
-    docker build
-    --pull
-    --file=Dockerfile-mailer
-    --build-arg=http_proxy=$http_proxy
-    --build-arg=https_proxy=$https_proxy
-    "--add-host={{ proxy_host }}"
-    --tag=ebisc/mailer
-    .
-  args:
-    chdir: /var/projects/ebisc/mailer
 
 - name: "enable unit"
   become: yes

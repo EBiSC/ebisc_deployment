@@ -30,6 +30,7 @@ mail_accounts:
     user: mb-ebisccontact
     pass: "{{ vault_mail_mb_ebisccontact_pass }}"
     mail: ebisc-contact@charite.de
+smtp_server: exchange-smtp.charite.de
 
 users:
   - name: dewendej
