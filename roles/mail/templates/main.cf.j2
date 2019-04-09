@@ -6,7 +6,7 @@ recipient_delimiter = +
 inet_interfaces = loopback-only
 inet_protocols = all
 
-relayhost = exchange-smtp.charite.de:587
+relayhost = {{ smtp_server }}:{{ smtp_port }}
 smtp_tls_security_level = may
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous

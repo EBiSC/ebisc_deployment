@@ -31,6 +31,8 @@ mail_accounts:
     pass: "{{ vault_mail_mb_ebisccontact_pass }}"
     mail: ebisc-contact@charite.de
 smtp_server: exchange-smtp.charite.de
+smtp_port: 587
+smtp_host: "exchange-smtp.charite.de:10.32.37.106"
 
 users:
   - name: dewendej

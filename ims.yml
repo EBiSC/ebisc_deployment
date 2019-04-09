@@ -22,8 +22,6 @@
     lims_user: ebiscims
     lims_password: "{{ vault_lims_password }}"
     biosample_key: "{{ vault_biosample_key }}"
-    email_password: "{{ vault_email_password }}"
-    email_api_key: "{{ vault_email_api_key }}"
     ims_host: ims-nginx # in docker network
     ims_port: 8080
     main_ims_domain: cells.ebisc.org
