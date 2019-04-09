@@ -1,7 +1,6 @@
 - name: Set up IMS
   hosts:
-    - ims
-    - ims_staging
+    - ebisc-ims
     - local-dev
   roles:
     - common
