@@ -54,6 +54,7 @@
     - nginx/nginx.conf
     - nginx/nginx-nocerts.conf
     - letsencrypt/Dockerfile-letsencrypt
+  notify: restart nginx
 
 - name: copy project templates
   template:
@@ -64,6 +65,7 @@
     - nginx/vhosts-https.conf
     - nginx/run-nginx
     - letsencrypt/run-certbot
+  notify: restart nginx
 
 - name: enable nginx
   become: yes
@@ -116,8 +118,8 @@
 
 - name: restart nginx
   become: yes
-  systemd:
-    name: nginx.service
+  service:
+    name: nginx
     state: restarted
   when: fullchain_pem.stat.exists == False
 
