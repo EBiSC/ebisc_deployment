@@ -23,7 +23,6 @@
     biosample_key: "{{ vault_biosample_key }}"
     ims_host: ims-nginx # in docker network
     ims_port: 8080
-    main_ims_domain: cells.ebisc.org
     smtp_relay_account: "{{ mail_accounts.mb_ebiscinfo }}"
 
   pre_tasks:

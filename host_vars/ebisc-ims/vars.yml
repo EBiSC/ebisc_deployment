@@ -2,6 +2,9 @@ git_branch: develop
 ims_role: staging
 log_mail_to: "johannes.dewender@charite.de,nils.bultjer@charite.de"
 
+main_ims_domain: ebisc-ims.cell-type.org
 ims_domains:
+  - name: ebisc-ims.cell-type.org
+    public: yes
   - name: ebisc-ims.charite.de
     public: no
