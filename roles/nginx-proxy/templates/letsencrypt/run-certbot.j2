@@ -1,8 +1,5 @@
 #!/bin/sh
 
-ls -ldh /var/lib/letsencrypt
-ls -lh /var/lib/letsencrypt
-
 certbot certonly \
   --webroot \
   --webroot-path /usr/share/nginx/html \
@@ -17,6 +14,4 @@ certbot certonly \
   --preferred-challenges http-01  \
   --allow-subset-of-names \
   --expand \
-  --test-cert \
-  --dry-run \
   --keep-until-expiring

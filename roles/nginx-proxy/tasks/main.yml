@@ -45,7 +45,6 @@
     - /var/projects/ebisc/www
     - /var/projects/ebisc/certbot
     - /var/projects/ebisc/certbot-lib
-    - /var/projects/ebisc/certbot-log
 
 - name: copy project files
   copy: "dest=/var/projects/ebisc/{{item}} src={{item}}"
@@ -106,15 +105,17 @@
 - name: test if the Letsencrypt certificates exist
   become: yes
   stat:
-    path: "/var/projects/ebisc/letsencrypt/live/{{ main_ims_domain }}/fullchain.pem"
+    path: "/var/projects/ebisc/certbot/live/{{ main_ims_domain }}/fullchain.pem"
   register: fullchain_pem
 
-- name: "Generate Letsencrypt certificates"
+  # (re)-generate only when we don't have the main certificate
+- name: Generate Letsencrypt certificates
   become: yes
   systemd:
     daemon_reload: yes
     name: letsencrypt.service
     state: started
+  when: fullchain_pem.stat.exists == False
 
 - name: restart nginx
   become: yes
