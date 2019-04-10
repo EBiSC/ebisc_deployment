@@ -20,6 +20,7 @@ proxy_host: "proxy.charite.de:141.42.5.215"
 time_zone: Europe/Berlin
 ntp_server: time.charite.de
 nagios_server_ip: 10.32.39.75
+nrpe_config_dir: /etc/nagios/nrpe.d
 
 mail_accounts:
   mb_ebiscinfo:

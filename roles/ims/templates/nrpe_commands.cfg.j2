@@ -1,0 +1,3 @@
+command[check_postgres]=/usr/lib/nagios/plugins/check_procs -c 1: -w 7: -C postgres
+command[check_nginx]=/usr/lib/nagios/plugins/check_procs -c 2: -w 4: -C nginx
+command[check_java]=/usr/lib/nagios/plugins/check_procs -c 1: -C java

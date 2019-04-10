@@ -93,7 +93,7 @@
     chdir: /var/projects/ebisc/ebisc-ims
   register: uwsgi_build
 
-- name: retag image
+- name: retag uwsgi image
   command: "docker tag ebisc/ims-uwsgi:{{git.after}} ebisc/ims-uwsgi:latest"
 
 - name: build postgres image
@@ -155,7 +155,7 @@
     tag: "{{git.after}}"
   register: nginx_build
 
-- name: retag image
+- name: retag nginx image
   command: "docker tag ebisc/ims-nginx:{{git.after}} ebisc/ims-nginx:latest"
 
 - name: restart nginx
@@ -165,7 +165,7 @@
     state: restarted
   when: nginx_build.changed
 
-- name: "enable unit"
+- name: enable services
   become: yes
   systemd:
     daemon_reload: yes
@@ -178,7 +178,7 @@
     - ims-nginx.service
     - ims-elasticsearch.service
 
-- name: "enable unit"
+- name: enable updates
   become: yes
   systemd:
     daemon_reload: yes
@@ -188,3 +188,10 @@
   with_items:
     - ims-updates.timer
   when: ims_role == "production"
+
+- name: install additional nrpe commands
+  template:
+    src: nrpe_commands.cfg.j2
+    dest: "{{ nrpe_config_dir }}/commands.cfg"
+  notify: restart nrpe
+  become: yes
