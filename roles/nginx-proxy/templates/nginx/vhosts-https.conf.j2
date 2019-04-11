@@ -14,8 +14,8 @@ server {
 {% endif %}
   }
   ssl on;
-  ssl_certificate     /etc/letsencrypt/live/{{ main_ims_domain }}/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/{{ main_ims_domain }}/privkey.pem;
+  ssl_certificate     /etc/letsencrypt/live/{{ main_certificate }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ main_certificate }}/privkey.pem;
 }
 {% endif %}
 {% endfor %}

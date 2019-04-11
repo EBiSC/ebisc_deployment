@@ -105,7 +105,7 @@
 - name: test if the Letsencrypt certificates exist
   become: yes
   stat:
-    path: "/var/projects/ebisc/certbot/live/{{ main_ims_domain }}/fullchain.pem"
+    path: "/var/projects/ebisc/certbot/live/{{ main_certificate }}/fullchain.pem"
   register: fullchain_pem
 
 - name: restart nginx
