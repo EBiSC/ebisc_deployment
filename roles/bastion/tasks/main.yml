@@ -84,6 +84,7 @@
     name: ebisc/letsencrypt
     state: present
     force: yes
+  when: false # skip because the image can't be built anymore (distribution not supported anymore)
 
 - name: build nginx image
   docker_image:
