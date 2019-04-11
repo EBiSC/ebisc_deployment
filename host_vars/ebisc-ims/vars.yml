@@ -7,4 +7,4 @@ ims_domains:
   - name: ebisc-ims.cell-type.org
     public: yes
   - name: ebisc-ims.charite.de
-    public: no
+    public: yes
