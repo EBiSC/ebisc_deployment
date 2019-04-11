@@ -1,3 +1,5 @@
+command[check_http]=/usr/lib/nagios/plugins/check_http -c 10 -w 5 -H {{ main_certificate }}
+command[check_https]=/usr/lib/nagios/plugins/check_http -C 23,15 -H {{ main_certificate }}
 command[check_postgres]=/usr/lib/nagios/plugins/check_procs -c 1: -w 7: -C postgres
 command[check_nginx]=/usr/lib/nagios/plugins/check_procs -c 2: -w 4: -C nginx
 command[check_java]=/usr/lib/nagios/plugins/check_procs -c 1: -C java
