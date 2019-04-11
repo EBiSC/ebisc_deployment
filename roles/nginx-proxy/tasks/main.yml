@@ -53,7 +53,7 @@
     - nginx/nginx.conf
     - nginx/nginx-nocerts.conf
     - letsencrypt/Dockerfile-letsencrypt
-  notify: restart nginx
+  register: files
 
 - name: copy project templates
   template:
@@ -64,7 +64,7 @@
     - nginx/vhosts-https.conf
     - nginx/run-nginx
     - letsencrypt/run-certbot
-  notify: restart nginx
+  register: templates
 
 - name: enable nginx
   become: yes
@@ -107,6 +107,13 @@
   stat:
     path: "/var/projects/ebisc/certbot/live/{{ main_ims_domain }}/fullchain.pem"
   register: fullchain_pem
+
+- name: restart nginx
+  become: yes
+  service:
+    name: nginx
+    state: restarted
+  when: templates.changed or files.changed
 
   # (re)-generate only when we don't have the main certificate
 - name: Generate Letsencrypt certificates
