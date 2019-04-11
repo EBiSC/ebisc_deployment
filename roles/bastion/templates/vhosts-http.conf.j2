@@ -9,7 +9,12 @@ server {
         www.catalog.ebisc.org
         catalogue.ebisc.org
         www.catalogue.ebisc.org;
-  location /.well-known/ { root /usr/share/nginx/html; }
+  location /.well-known/ {
+    #root /usr/share/nginx/html;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass http://ebisc-ims.cell-type.org;
+  }
   #location / {
   #  proxy_set_header Host $host;
   #  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

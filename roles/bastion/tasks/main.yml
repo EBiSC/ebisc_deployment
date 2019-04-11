@@ -120,10 +120,11 @@
     state: restarted
   when: fullchain_pem.stat.exists == False
 
-- name: "enable letsencrypt timer"
+  # disabled for migration
+- name: disable letsencrypt timer
   become: yes
   systemd:
     daemon_reload: yes
-    enabled: yes
-    name: "letsencrypt.timer"
-    state: started
+    enabled: no
+    name: letsencrypt.timer
+    state: stopped
