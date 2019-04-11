@@ -5,22 +5,22 @@ log_mail_to: "johannes.dewender@charite.de,nils.bultjer@charite.de"
 main_ims_domain: cells.ebisc.org
 ims_domains:
   - name: cells.ebisc.org
-    public: yes
+    letsencrypt: yes
   - name: www.cells.ebisc.org
-    public: yes
+    letsencrypt: yes
   - name: cell.ebisc.org
-    public: yes
+    letsencrypt: yes
   - name: www.cell.ebisc.org
-    public: yes
+    letsencrypt: yes
   - name: catalog.ebisc.org
-    public: yes
+    letsencrypt: yes
   - name: www.catalog.ebisc.org
-    public: yes
+    letsencrypt: yes
   - name: catalogue.ebisc.org
-    public: yes
+    letsencrypt: yes
   - name: www.catalogue.ebisc.org
-    public: yes
-  - name: ebisc-ims.charite.de
-    public: yes
+    letsencrypt: yes
   - name: ebisc-ims.cell-type.org
-    public: yes
+    letsencrypt: yes
+  - name: ebisc-ims.charite.de
+    letsencrypt: no

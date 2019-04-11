@@ -1,5 +1,5 @@
 {% for domain in ims_domains %}
-{% if domain.public %}
+{% if domain.letsencrypt %}
 server {
   listen 8443;
   server_name {{ domain.name }};

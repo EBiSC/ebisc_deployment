@@ -4,7 +4,7 @@ certbot certonly \
   --webroot \
   --webroot-path /usr/share/nginx/html \
 {% for domain in ims_domains %}
-{% if domain.public %}
+{% if domain.letsencrypt %}
   --domain {{ domain.name }} \
 {% endif %}
 {% endfor %}
