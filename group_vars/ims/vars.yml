@@ -1,7 +1,0 @@
-git_branch: production
-# This is the user to connect to postgres at
-# Not to be confused with postgres_user, which the postgres docker container runs as
-postgresql_user: www
-postgresql_database: ebisc
-
-ims_role: production

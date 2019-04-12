@@ -1,5 +1,0 @@
-git_branch: staging
-postgresql_user: www
-postgresql_database: ebisc
-
-ims_role: staging
