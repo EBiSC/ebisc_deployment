@@ -11,6 +11,7 @@
   environment: "{{ proxy_env }}"
   vars:
     data_dir: /data01
+    # for the IMS
     postgresql_database: ims
     postgresql_user: ims
     postgresql_password: "{{ vault_postgresql_password }}"
@@ -24,6 +25,17 @@
     ims_host: ims-nginx # in docker network
     ims_port: 8080
     smtp_relay_account: "{{ mail_accounts.mb_ebiscinfo }}"
+    # for the tracker
+    mongodb_database: ebisc
+    mongodb_user: ebisc_user
+    mongodb_password: "{{ vault_mongodb_password }}"
+    mongodb_admin_password: "{{ vault_mongodb_admin_password }}"
+    hpscreg_user_tracker: ebisctracker
+    hpscreg_pass_tracker: "{{ vault_hpscreg_pass_tracker }}"
+    ims_user_tracker: ebi
+    ims_pass_tracker: "{{ vault_ims_pass_tracker }}"
+    tracker_host: tracker-webserver
+    tracker_port: 8000
 
   pre_tasks:
     - name: include vault vars

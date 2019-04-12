@@ -1,8 +1,24 @@
+- name: create mongo user
+  user:
+    name: "{{ mongo_user }}"
+    system: yes
+    create_home: no
+  become: yes
+
+- name: setup data directory
+  file:
+    path: "{{ data_dir }}/mongodb"
+    state: directory
+    owner: "{{ mongo_user }}"
+    mode: u=rwX,g=rwX,o=
+    recurse: yes
+  become: yes
+
 - name: Create repo directory
   file:
     path: /var/projects/tracker
     state: directory
-    owner: core
+    owner: "{{ ansible_user }}"
   become: yes
 
 - name: Initialise git repo

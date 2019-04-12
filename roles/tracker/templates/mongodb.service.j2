@@ -8,14 +8,16 @@ KillMode=none
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStartPre=-/usr/bin/docker pull centos/mongodb-32-centos7:latest
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment MONGO_USER_ID=$(id -u {{ mongo_user }})"
 ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
+  --user=${MONGO_USER_ID} \
   --net=tracker \
   -e MONGODB_USER=${MONGODB_USER} \
   -e MONGODB_PASSWORD=${MONGODB_PASSWORD} \
   -e MONGODB_DATABASE=${MONGODB_DATABASE} \
   -e MONGODB_ADMIN_PASSWORD=${MONGODB_ADMIN_PASSWORD} \
-  -v {{ volume.mount }}/mongodb_data:/var/lib/mongodb/data:Z \
+  -v {{ data_dir }}/mongodb:/var/lib/mongodb/data:Z \
   centos/mongodb-32-centos7
 ExecStop=/usr/bin/docker stop %p
 TimeoutStartSec=0
