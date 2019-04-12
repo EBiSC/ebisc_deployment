@@ -7,6 +7,7 @@
     - mail
     - updates
     - ims
+    - tracker
     - nginx-proxy
   environment: "{{ proxy_env }}"
   vars:

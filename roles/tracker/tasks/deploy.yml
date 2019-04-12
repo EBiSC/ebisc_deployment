@@ -31,12 +31,17 @@
   register: git
 
 - name: build tracker webserver
-  docker_image:
-    path: /var/projects/tracker
-    dockerfile: Dockerfile-webserver
-    name: ebisc/tracker-webserver
-    state: present
-    tag: "{{git.after}}"
+  command: >
+    docker build
+    --pull
+    --file=Dockerfile-webserver
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    "--tag=ebisc/tracker-webserver:{{ git.after }}"
+    .
+  args:
+    chdir: /var/projects/tracker
   register: docker_build
 
 - name: retag tracker webserver image
@@ -50,12 +55,17 @@
   when: docker_build.changed
 
 - name: build tracker
-  docker_image:
-    path: /var/projects/tracker
-    dockerfile: Dockerfile-tracker
-    name: ebisc/tracker
-    state: present
-    tag: "{{git.after}}"
+  command: >
+    docker build
+    --pull
+    --file=Dockerfile-tracker
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    "--tag=ebisc/tracker:{{ git.after }}"
+    .
+  args:
+    chdir: /var/projects/tracker
   register: docker_build
 
 - name: retag tracker image
