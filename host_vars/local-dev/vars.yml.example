@@ -2,4 +2,10 @@ git_branch: develop
 ims_role: develop
 log_mail_to: "johannes.dewender@charite.de"
 
+main_ims_domain: cells.ebisc.org
+main_certificate: cells.ebisc.org
+ims_domains:
+  - name: cellfinder-u1.charite.de
+    letsencrypt: no
+
 ims_inject_dir: "{{ playbook_dir }}/../ebisc"
