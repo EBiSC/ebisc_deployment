@@ -12,7 +12,7 @@ ExecStartPre=/bin/sh -c "/bin/systemctl set-environment MONGO_USER_ID=$(id -u {{
 ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
   --user=${MONGO_USER_ID} \
-  --net=tracker \
+  --net=ebisc \
   -e MONGODB_USER=${MONGODB_USER} \
   -e MONGODB_PASSWORD=${MONGODB_PASSWORD} \
   -e MONGODB_DATABASE=${MONGODB_DATABASE} \

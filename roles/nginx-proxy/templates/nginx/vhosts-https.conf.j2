@@ -19,3 +19,19 @@ server {
 }
 {% endif %}
 {% endfor %}
+
+{% if tracker_domain is defined %}
+server {
+  listen 8443;
+  server_name {{ tracker_domain }};
+
+  location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass http://{{ tracker_host }}:{{ tracker_port }};
+  }
+  ssl on;
+  ssl_certificate     /etc/letsencrypt/live/{{ main_certificate }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ main_certificate }}/privkey.pem;
+}
+{% endif %}

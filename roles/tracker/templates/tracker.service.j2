@@ -12,7 +12,7 @@ ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --name %p \
   --read-only \
   --cap-drop=all \
-  --net=tracker \
+  --net=ebisc \
   --add-host={{ proxy_host }} \
   -e http_proxy={{ proxy_env.http_proxy }} \
   -e https_proxy={{ proxy_env.https_proxy }} \
