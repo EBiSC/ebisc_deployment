@@ -23,7 +23,7 @@
     tag: "{{git.after}}"
   register: docker_build
 
-- name: retag image
+- name: retag tracker webserver image
   command: "docker tag ebisc/tracker-webserver:{{git.after}} ebisc/tracker-webserver:latest"
 
 - name: restart webserver
@@ -42,17 +42,5 @@
     tag: "{{git.after}}"
   register: docker_build
 
-- name: retag image
+- name: retag tracker image
   command: "docker tag ebisc/tracker:{{git.after}} ebisc/tracker:latest"
-
-- name: build db-backups-s3
-  docker_image:
-    path: /var/projects/tracker
-    dockerfile: Dockerfile-db-backups-s3
-    name: ebisc/mongodb-backups-s3
-    state: present
-    tag: "{{git.after}}"
-  register: docker_build
-
-- name: retag image
-  command: "docker tag ebisc/mongodb-backups-s3:{{git.after}} ebisc/mongodb-backups-s3:latest"
