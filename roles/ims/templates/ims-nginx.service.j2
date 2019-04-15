@@ -21,6 +21,7 @@ ExecStart=/usr/bin/docker run --name %p \
   --tmpfs /run \
   --cap-drop=all \
   --net=ebisc \
+  -e TZ={{ time_zone }} \
   -v {{ data_dir }}/media:/var/media:z \
   -v {{ data_dir }}/static:/var/static:z \
   ebisc/ims-nginx:latest

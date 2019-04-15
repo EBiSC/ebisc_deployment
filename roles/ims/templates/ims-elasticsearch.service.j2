@@ -12,6 +12,7 @@ ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
   --net=ebisc \
   --user=${ELASTICSEARCH_USER_ID} \
+  -e TZ={{ time_zone }} \
   -v {{ data_dir }}/elasticsearch:/usr/share/elasticsearch/data:Z \
   elasticsearch:1.6.2
 ExecStop=/usr/bin/docker stop %p

@@ -17,6 +17,7 @@ ExecStart=/usr/bin/docker run --name %p \
   --user=${NGINX_USER_ID} \
   --net=ebisc \
   --publish 80:8080 --publish 443:8443 \
+  -e TZ={{ time_zone }} \
   -v /var/projects/ebisc/www:/usr/share/nginx/html:ro,z \
   -v /var/projects/ebisc/certbot:/etc/letsencrypt:ro,z \
   ebisc/nginx:latest

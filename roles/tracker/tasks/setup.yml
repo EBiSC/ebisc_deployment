@@ -4,7 +4,6 @@
     dest: "/etc/systemd/system/{{item}}"
     src: "{{item}}"
   with_items:
-    - tracker-webserver.service
     - tracker.timer
 
 - name: "copy unit template file"
@@ -14,6 +13,7 @@
     src: "{{item}}.j2"
   with_items:
     - mongodb.service
+    - tracker-webserver.service
     - tracker.service
 
 - name: make directories for mongodb config
