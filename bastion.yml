@@ -1,5 +1,0 @@
-- name: Set up data tracker
-  hosts: bastion
-  roles:
-    - common
-    - bastion
