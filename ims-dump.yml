@@ -1,6 +1,8 @@
 - name: Dump the database to localhost
   hosts: ims
   tags: database
+  vars:
+    data_dir: /data01
   tasks:
     - name: Create a temp directory
       file:
@@ -35,7 +37,7 @@
     - name: synchronize media files
       become: yes
       synchronize:
-        src: "{{ volume.mount }}/media"
+        src: "{{ data_dir }}/media"
         dest: "{{ playbook_dir }}/"
         delete: yes
         use_ssh_args: yes

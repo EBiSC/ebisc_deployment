@@ -7,19 +7,14 @@ After=docker.service
 KillMode=none
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment POSTGRES_USER_ID=$(id -u {{ postgres_user }})"
 ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
+  --user=${POSTGRES_USER_ID} \
   --net=ebisc \
-  -e POSTGRESQL_USER=${POSTGRESQL_USER} \
-  -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} \
-  -e POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE} \
-  -e POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD} \
-  -e WALE_S3_PREFIX=s3://${AWS_BUCKET}/{{ vm }}06-postgres/pgsql \
-  -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-  -e WALE_S3_ENDPOINT=https+path://${S3_HOST} \
-  -e ENABLE_BACKUPS=${ENABLE_BACKUPS} \
-  -v {{ volume.mount }}/postgres_data:/var/lib/pgsql/data:z \
+  --add-host={{ proxy_host }} \
+  --env-file /var/projects/ebisc/postgres/%p.service.env \
+  -v {{ data_dir }}/postgres:/var/lib/pgsql/data:z \
   ebisc/postgres:latest
 ExecStop=/usr/bin/docker stop %p
 

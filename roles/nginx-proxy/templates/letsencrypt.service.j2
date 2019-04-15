@@ -1,0 +1,28 @@
+[Unit]
+Description=Generate letsencrypt certificates
+Requires=docker.service
+Requires=nginx.service
+After=docker.service
+After=nginx.service
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment NGINX_USER_ID=$(id -u {{ nginx_user }})"
+ExecStart=/usr/bin/docker run --name %p \
+  --read-only \
+  --tmpfs /tmp \
+  --tmpfs /var/log/letsencrypt \
+  --cap-drop=all \
+  --user=${NGINX_USER_ID} \
+  -e TZ={{ time_zone }} \
+  -e http_proxy={{ proxy_env.http_proxy }} \
+  -e https_proxy={{ proxy_env.https_proxy }} \
+  --add-host={{ proxy_host }} \
+  -v /var/projects/ebisc/www:/usr/share/nginx/html:rw,z \
+  -v /var/projects/ebisc/certbot:/etc/letsencrypt:rw,z \
+  -v /var/projects/ebisc/certbot-lib:/var/lib/letsencrypt:rw,Z \
+  ebisc/letsencrypt:latest
+ExecStop=/usr/bin/docker stop %p
+ExecStopPost=/usr/bin/docker kill -s HUP nginx

@@ -1,27 +1,93 @@
-      
-- name: Restore IMS database from latest backup in S3 object store
-  hosts: ims,ims_staging
+- name: restore the database to the IMS server
+  hosts:
+    - ebisc-ims
+    - local-dev
   tags: database
-  roles:
-    - postgres_restore
-
-- name: Restore IMS media files from latest backup in S3 object store
-  tags: media
-  hosts: ims,ims_staging
+  vars:
+    data_dir: /data01
+    postgresql_database: ims
+    postgresql_user: ims
+    postgresql_password: "{{ vault_postgresql_password }}"
+    postgresql_admin_password: "{{ vault_postgresql_admin_password }}"
+  pre_tasks:
+    - name: include vault vars
+      include_vars: ims_vault.yml
   tasks:
-    - name: "Start the duplicity restore service"
+    - name: Create a temp directory
+      file:
+        path: /tmp/db_dump
+        state: directory
+        mode: "0777"
+
+    - name: upload the backup
+      copy:
+        src: "{{ playbook_dir }}/ebisc.sql.gz"
+        dest: /tmp/db_dump
+
+    - name: stop postgres
       become: yes
-      systemd:
-        daemon_reload: yes
-        enabled: yes
-        name: "duplicity-restore.service"
+      service:
+        name: ims-postgres
+        state: stopped
+
+    - name: clear exiting database
+      become: yes
+      file:
+        path: "{{ data_dir }}/postgres/userdata"
+        state: absent
+
+    - name: start postgres
+      become: yes
+      service:
+        name: ims-postgres
         state: started
-    - name: "restart nginx and uwsgi"
+
+    - name: wait for postgres to come up
+      pause:
+        seconds: 5
+
+    - name: restore the database
+      environment:
+        PGPASSWORD: "{{ postgresql_password }}"
+        PGUSER: "{{ postgresql_user }}"
+        PGDATABASE: "{{ postgresql_database }}"
+      command: /var/projects/ebisc/scripts/import_db.bash
+      register: restore
+
+    - name: delete the temp directory
       become: yes
-      systemd:
-        enabled: yes
-        name: "{{item}}"
+      file:
+        path: /tmp/db_dump
+        state: absent
+
+    - name: migrate django and import toelastic
+      become: yes
+      service:
+        name: ims-deploy
         state: restarted
-      with_items:
-        - ims-nginx.service
-        - ims-uwsgi.service
+
+- name: upload the media files to localhost
+  hosts:
+    - ebisc-ims
+    - local-dev
+  tags: media
+  vars:
+    data_dir: /data01
+    ims_user: ims
+  tasks:
+    - name: synchronize media files
+      become: yes
+      synchronize:
+        src: "{{ playbook_dir }}/media"
+        dest: "{{ data_dir }}/"
+        delete: yes
+        mode: push
+
+    - name: fix permissions
+      file:
+        path: "{{ data_dir }}/media"
+        state: directory
+        owner: "{{ ims_user }}"
+        mode: u=rwX,g=rwX,o=
+        recurse: yes
+      become: yes

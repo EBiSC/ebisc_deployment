@@ -1,20 +1,53 @@
+- name: create users
+  user:
+    name: "{{ item }}"
+    system: yes
+    create_home: no
+  become: yes
+  with_items:
+    - "{{ ims_user }}"
+    - "{{ postgres_user }}"
+    - "{{ elasticsearch_user }}"
+
+- name: setup data directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    mode: u=rwX,g=rwX,o=
+    recurse: yes
+  become: yes
+  with_items:
+    - path: "{{ data_dir }}/postgres"
+      owner: "{{ postgres_user }}"
+    - path: "{{ data_dir }}/media"
+      owner: "{{ ims_user }}"
+    - path: "{{ data_dir }}/static"
+      owner: "{{ ims_user }}"
+    - path: "{{ data_dir }}/elasticsearch"
+      owner: "{{ elasticsearch_user }}"
+    - path: "{{ data_dir }}/backup"
+      owner: "{{ ims_user }}"
+    - path: "{{ data_dir }}/backup/postgres"
+      owner: "{{ ims_user }}"
+    - path: "{{ data_dir }}/backup/media"
+      owner: "{{ ims_user }}"
+
 - name: Create project directories
   file:
     path: "{{item}}"
     state: directory
-    owner: core
+    owner: "{{ ansible_user }}"
   become: yes
   with_items:
     - /var/projects/ebisc/ebisc-ims
     - /var/projects/ebisc/postgres
-    - /var/projects/ebisc/duplicity
-    - /var/projects/ebisc/mailer
     - /var/projects/ebisc/scripts
 
 - name: Initialise git repo
   git:
     dest: /var/projects/ebisc/ebisc-ims
-    repo: git@github.com:DouglasConnect/ebisc.git
+    repo: https://github.com/EBiSC/ebisc.git
     accept_hostkey: yes
     update: yes
     version: "{{ git_branch }}"
@@ -24,15 +57,15 @@
   copy: "dest=/var/projects/ebisc/{{ item }} src={{ item }}"
   with_items:
     - postgres/Dockerfile-postgres
-    - postgres/run-backup-push
-    - postgres/run-backup-fetch
-    - postgres/run-wal-push
-    - postgres/run-wal-fetch
-    - duplicity/Dockerfile-duplicity
-    - duplicity/run-duplicity-backup
-    - duplicity/run-duplicity-restore
-    - mailer/Dockerfile-mailer
-    - mailer/run-mailer
+
+- name: copy environment files
+  template: "dest=/var/projects/ebisc/{{ item }} src={{ item }}.j2 mode=0660"
+  with_items:
+    - postgres/ims-postgres.service.env
+    - postgres/ims-backup-postgres.service.env
+    - ebisc-ims/ims-uwsgi.service.env
+    - ebisc-ims/ims-deploy.service.env
+    - ebisc-ims/ims-updates.service.env
 
 - name: copy scripts
   copy: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }} mode=0755"
@@ -40,27 +73,41 @@
     - dump_db.bash
     - import_db.bash
 
+- name: copy script templates
+  template: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }}.j2 mode=0755"
+  with_items:
+    - backup_media.bash
+
 - name: build ims uwsgi
-  docker_image:
-    path: /var/projects/ebisc/ebisc-ims
-    dockerfile: Dockerfile-uwsgi
-    name: ebisc/ims-uwsgi
-    state: present
-    buildargs:
-      ROLE: "{{ ims_role }}"
-    tag: "{{git.after}}"
+  command: >
+    docker build
+    --pull
+    --file=Dockerfile-uwsgi
+    "--build-arg=ROLE={{ ims_role }}"
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    "--tag=ebisc/ims-uwsgi:{{ git.after }}"
+    .
+  args:
+    chdir: /var/projects/ebisc/ebisc-ims
   register: uwsgi_build
 
-- name: retag image
+- name: retag uwsgi image
   command: "docker tag ebisc/ims-uwsgi:{{git.after}} ebisc/ims-uwsgi:latest"
 
 - name: build postgres image
-  docker_image:
-    path: /var/projects/ebisc/postgres
-    dockerfile: Dockerfile-postgres
-    name: ebisc/postgres
-    state: present
-    force: yes
+  command: >
+    docker build
+    --pull
+    --file=Dockerfile-postgres
+    --build-arg=http_proxy=$http_proxy
+    --build-arg=https_proxy=$https_proxy
+    "--add-host={{ proxy_host }}"
+    --tag=ebisc/postgres
+    .
+  args:
+    chdir: /var/projects/ebisc/postgres
   register: postgres_build
 
 - name: restart postgres
@@ -70,16 +117,16 @@
     state: restarted
   when: postgres_build.changed
 
-- name: Wait for postgres to start
-  pause:
-    seconds: 10
-  when: postgres_build.changed
-
 - name: start elasticsearch
   become: yes
   systemd:
     name: ims-elasticsearch.service
     state: started
+
+- name: Wait for postgres to start
+  pause:
+    seconds: 15
+  when: postgres_build.changed
 
 - name: "collectstatic, migrate django, and import toelastic"
   become: yes
@@ -103,10 +150,12 @@
     dockerfile: Dockerfile-nginx
     name: ebisc/ims-nginx
     state: present
+    pull: yes   # always get updated base image
+    force: yes  # update/build even when an image exists
     tag: "{{git.after}}"
   register: nginx_build
 
-- name: retag image
+- name: retag nginx image
   command: "docker tag ebisc/ims-nginx:{{git.after}} ebisc/ims-nginx:latest"
 
 - name: restart nginx
@@ -116,23 +165,7 @@
     state: restarted
   when: nginx_build.changed
 
-- name: build duplicity
-  docker_image:
-    path: /var/projects/ebisc/duplicity
-    dockerfile: Dockerfile-duplicity
-    name: ebisc/duplicity
-    state: present
-    force: yes
-
-- name: build mailer
-  docker_image:
-    path: /var/projects/ebisc/mailer
-    dockerfile: Dockerfile-mailer
-    name: ebisc/mailer
-    state: present
-    force: yes
-
-- name: "enable unit"
+- name: enable services
   become: yes
   systemd:
     daemon_reload: yes
@@ -145,7 +178,7 @@
     - ims-nginx.service
     - ims-elasticsearch.service
 
-- name: "enable unit"
+- name: enable updates
   become: yes
   systemd:
     daemon_reload: yes
@@ -154,6 +187,11 @@
     state: started
   with_items:
     - ims-updates.timer
-    - postgres-backups.timer
-    - duplicity-backups.timer
   when: ims_role == "production"
+
+- name: install additional nrpe commands
+  template:
+    src: nrpe_commands.cfg.j2
+    dest: "{{ nrpe_config_dir }}/commands.cfg"
+  notify: restart nrpe
+  become: yes

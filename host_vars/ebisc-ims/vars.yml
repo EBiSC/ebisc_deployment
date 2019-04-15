@@ -1,0 +1,29 @@
+git_branch: develop
+ims_role: staging
+log_mail_to: "johannes.dewender@charite.de,nils.bultjer@charite.de"
+
+main_ims_domain: cells.ebisc.org
+main_certificate: ebisc-ims.cell-type.org # the one created first
+ims_domains:
+  - name: cells.ebisc.org
+    letsencrypt: yes
+  - name: www.cells.ebisc.org
+    letsencrypt: yes
+  - name: cell.ebisc.org
+    letsencrypt: yes
+  - name: www.cell.ebisc.org
+    letsencrypt: yes
+  - name: catalog.ebisc.org
+    letsencrypt: yes
+  - name: www.catalog.ebisc.org
+    letsencrypt: yes
+  - name: catalogue.ebisc.org
+    letsencrypt: yes
+  - name: www.catalogue.ebisc.org
+    letsencrypt: yes
+  - name: ebisc-ims.cell-type.org
+    letsencrypt: yes
+  - name: ebisc-ims.charite.de
+    letsencrypt: no     # not in DNS because of CAA record for charite.de
+
+tracker_domain: tracker-test.cell-type.org

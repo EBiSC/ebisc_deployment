@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -f /etc/letsencrypt/live/{{ main_certificate }}/fullchain.pem -a -f /etc/letsencrypt/live/{{ main_certificate }}/privkey.pem ]; then
+  CONF=/etc/nginx/nginx.conf
+else
+  CONF=/etc/nginx/nginx-nocerts.conf
+fi
+
+exec nginx -c $CONF -g "daemon off;"

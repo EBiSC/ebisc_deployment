@@ -9,9 +9,9 @@
     dest: "/etc/systemd/system/{{item}}"
     src: "{{item}}"
   with_items:
-    - postgres-backups.timer
-    - duplicity-backups.timer
     - ims-updates.timer
+    - ims-backup-postgres.timer
+    - ims-backup-media.timer
 
 - name: "copy unit template file"
   become: yes
@@ -24,54 +24,6 @@
     - ims-nginx.service
     - ims-updates.service
     - ims-deploy.service
-    - postgres-backups.service
-    - postgres-restore.service
-    - duplicity.service
-    - duplicity-restore.service
     - ims-elasticsearch.service
-
-- name: make directories for service config
-  become: yes
-  file:
-    path: "/etc/systemd/system/{{ item }}.d"
-    state: directory
-  with_items:
-    - ims-postgres.service
-    - ims-updates.service
-    - ims-deploy.service
-    - ims-uwsgi.service
-    - postgres-backups.service
-    - postgres-restore.service
-    - duplicity.service
-    - duplicity-restore.service
-
-- name: "copy unit configuration"
-  become: yes
-  template:
-    dest: "/etc/systemd/system/{{item}}.d/50-ansible.conf"
-    src: "{{item}}.conf.j2"
-  with_items:
-    - ims-postgres.service
-    - ims-updates.service
-    - ims-deploy.service
-    - ims-uwsgi.service
-    - postgres-backups.service
-    - postgres-restore.service
-    - duplicity.service
-    - duplicity-restore.service
-
-- name: "set the release channel"
-  become: yes
-  lineinfile:
-    dest: /etc/coreos/update.conf
-    regexp: "^GROUP="
-    line: "GROUP={{release_channel}}"
-    create: yes
-  register: release_channel
-
-- name: restart update-engine
-  become: yes
-  systemd:
-    name: update-engine
-    state: restarted
-  when: release_channel.changed
+    - ims-backup-postgres.service
+    - ims-backup-media.service

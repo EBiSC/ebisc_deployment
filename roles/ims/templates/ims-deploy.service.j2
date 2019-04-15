@@ -9,22 +9,17 @@ After=ims-postgres.service
 Type=oneshot
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ ims_user }})"
 ExecStart=/usr/bin/docker run --name %p \
   --cap-drop=all \
-  -e DB_USER=${POSTGRESQL_USER} \
-  -e DB_PASS=${POSTGRESQL_PASSWORD} \
-  -e DB_HOST=ims-postgres \
-  -e DB_NAME=${POSTGRESQL_DATABASE} \
-  -e HPSCREG_PASSWORD=${HPSCREG_PASSWORD} \
-  -e HPSCREG_USER=${HPSCREG_USER} \
-  -e LIMS_PASSWORD=${LIMS_PASSWORD} \
-  -e LIMS_USER=${LIMS_USER} \
-  -e ES_HOST=ims-elasticsearch \
-  -e SECRET_KEY=${DJANGO_SECRET_KEY} \
+  --user=${IMS_USER_ID} \
+  --env-file /var/projects/ebisc/ebisc-ims/%p.service.env \
   --read-only \
   --net=ebisc \
-  -v {{ volume.mount }}/media:/app/var/media:z \
-  -v {{ volume.mount }}/static:/app/var/static:z \
+  --add-host={{ proxy_host }} \
+  --tmpfs /tmp \
+  -v {{ data_dir }}/media:/app/var/media:z \
+  -v {{ data_dir }}/static:/app/var/static:z \
   ebisc/ims-uwsgi:latest \
   run-deploy
 ExecStop=/usr/bin/docker stop %p

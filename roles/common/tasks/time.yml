@@ -1,0 +1,29 @@
+- name: set timezone
+  timezone:
+    name: "{{ time_zone }}"
+  become: yes
+
+- name: remove other ntp services
+  package:
+    name: "{{ item }}"
+    state: absent
+  become: yes
+  with_list:
+    - chrony
+    - ntp
+
+- name: configure timesyncd
+  template:
+    src: timesyncd.conf.j2
+    dest: /etc/systemd/timesyncd.conf
+    owner: root
+    mode: 0644
+  become: yes
+  notify: restart timesyncd
+
+- name: enable timesyncd
+  service:
+    name: systemd-timesyncd
+    state: started
+    enabled: yes
+  become: yes

@@ -1,0 +1,9 @@
+[Unit]
+Description=IMS postgres backup at 02:00:00
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Unit=ims-backup-postgres.service
+
+[Install]
+WantedBy=multi-user.target

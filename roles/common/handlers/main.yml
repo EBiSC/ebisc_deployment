@@ -1,0 +1,18 @@
+- name: restart timesyncd
+  service:
+    name: systemd-timesyncd
+    state: restarted
+  become: yes
+
+- name: restart nrpe
+  service:
+    name: "{{ nrpe_service }}"
+    state: restarted
+  become: yes
+
+- name: restart docker
+  systemd:
+    name: "{{ docker_service }}"
+    state: restarted
+    daemon_reload: yes  # this is why we can't use plain service module
+  become: yes

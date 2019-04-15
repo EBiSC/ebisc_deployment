@@ -1,0 +1,37 @@
+- name: install mail transfer agent
+  package:
+    name: "{{ item }}"
+  become: yes
+  with_list: "{{ mail_packages }}"
+
+- name: configure postfix
+  template:
+    src: "{{ item.name }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+    owner: root
+    group: root
+  no_log: "{{ item.no_log | default('no') }}"
+  become: yes
+  notify:
+    - read new aliases
+    - create databases
+    - restart postfix
+  with_items:
+    - name: main.cf.j2
+      dest: /etc/postfix/main.cf
+    - name: sasl_passwd.j2
+      dest: /etc/postfix/sasl_passwd
+      mode: "0600"
+      no_log: yes
+    - name: sender_canonical.j2
+      dest: /etc/postfix/sender_canonical
+    - name: aliases.j2
+      dest: /etc/aliases
+
+- name: enable postfix
+  service:
+    name: postfix
+    enabled: yes
+    state: started
+  become: yes

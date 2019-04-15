@@ -1,0 +1,24 @@
+[Unit]
+Description=Go webserver for the data tracker
+Requires=docker.service
+Wants=mongodb.service
+After=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --restart=always \
+  --read-only \
+  --cap-drop=all \
+  --net=ebisc \
+  -e TZ={{ time_zone }} \
+  -e MONGODB_USER=${MONGODB_USER} \
+  -e MONGODB_PASSWORD=${MONGODB_PASSWORD} \
+  -e MONGODB_DATABASE=${MONGODB_DATABASE} \
+  -e MONGODB_HOST=mongodb \
+  ebisc/tracker-webserver:latest
+ExecStop=/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target

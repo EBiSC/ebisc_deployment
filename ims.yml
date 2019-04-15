@@ -1,13 +1,43 @@
-- name: Bootstrap coreos VMs ready to use ansible
-  hosts: ims,ims_staging
-  gather_facts: false
-  roles:
-    # This page explains why we need the coreos-bootstrap role: https://coreos.com/blog/managing-coreos-with-ansible.html
-    - coreos-bootstrap
-      
 - name: Set up IMS
-  hosts: ims,ims_staging
+  hosts:
+    - ebisc-ims
+    - local-dev
   roles:
     - common
-    - mnt_cinder
+    - mail
+    - updates
     - ims
+    - tracker
+    - nginx-proxy
+  environment: "{{ proxy_env }}"
+  vars:
+    data_dir: /data01
+    # for the IMS
+    postgresql_database: ims
+    postgresql_user: ims
+    postgresql_password: "{{ vault_postgresql_password }}"
+    postgresql_admin_password: "{{ vault_postgresql_admin_password }}"
+    django_secret_key: "{{ vault_django_secret_key }}"
+    hpscreg_user: ebiscims
+    hpscreg_password: "{{ vault_hpscreg_password }}"
+    lims_user: ebiscims
+    lims_password: "{{ vault_lims_password }}"
+    biosample_key: "{{ vault_biosample_key }}"
+    ims_host: ims-nginx # in docker network
+    ims_port: 8080
+    smtp_relay_account: "{{ mail_accounts.mb_ebiscinfo }}"
+    # for the tracker
+    mongodb_database: ebisc
+    mongodb_user: ebisc_user
+    mongodb_password: "{{ vault_mongodb_password }}"
+    mongodb_admin_password: "{{ vault_mongodb_admin_password }}"
+    hpscreg_user_tracker: ebisctracker
+    hpscreg_pass_tracker: "{{ vault_hpscreg_pass_tracker }}"
+    ims_user_tracker: ebi
+    ims_pass_tracker: "{{ vault_ims_pass_tracker }}"
+    tracker_host: tracker-webserver
+    tracker_port: 8000
+
+  pre_tasks:
+    - name: include vault vars
+      include_vars: ims_vault.yml

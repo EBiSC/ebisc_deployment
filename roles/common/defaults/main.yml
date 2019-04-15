@@ -1,0 +1,16 @@
+use_proxy: True
+common_packages:
+  - vim
+
+nrpe_packages:
+  - nagios-nrpe-server
+  - nagios-plugins-contrib
+nrpe_service: nagios-nrpe-server
+nrpe_config_dir: /etc/nagios/nrpe.d
+nrpe_config: /etc/nagios/nrpe.cfg
+nrpe_plugin_dir: /usr/lib/nagios/plugins
+
+docker_service: docker
+docker_packages:
+  - docker.io
+  - python3-docker

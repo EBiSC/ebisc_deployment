@@ -1,0 +1,29 @@
+[Unit]
+Description=Run the tracker
+Requires=docker.service
+Requires=mongodb.service
+After=docker.service
+After=mongodb.service
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --name %p \
+  --read-only \
+  --cap-drop=all \
+  --net=ebisc \
+  --add-host={{ proxy_host }} \
+  -e http_proxy={{ proxy_env.http_proxy }} \
+  -e https_proxy={{ proxy_env.https_proxy }} \
+  -e TZ={{ time_zone }} \
+  -e MONGODB_USER=${MONGODB_USER} \
+  -e MONGODB_PASS=${MONGODB_PASS} \
+  -e MONGODB_DATABASE=${MONGODB_DATABASE} \
+  -e MONGODB_HOST=mongodb \
+  -e HPSCREG_USER=${HPSCREG_USER} \
+  -e HPSCREG_PASS=${HPSCREG_PASS} \
+  -e IMS_USER=${IMS_USER} \
+  -e IMS_PASS=${IMS_PASS} \
+  ebisc/tracker:latest
+ExecStop=/usr/bin/docker stop %p

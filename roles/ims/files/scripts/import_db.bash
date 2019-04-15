@@ -7,6 +7,6 @@ docker run --rm \
   -e PGDATABASE=${PGDATABASE} \
   --cap-drop=all \
   --net=ebisc \
-  -v /tmp/ebisc.sql.gz:/tmp/ebisc.sql.gz:Z \
+  -v /tmp/db_dump/ebisc.sql.gz:/tmp/db_dump/ebisc.sql.gz:Z \
   ebisc/postgres:latest \
-  sh -c "gunzip -c /tmp/ebisc.sql.gz | psql -f -"
+  sh -c "gunzip -c /tmp/db_dump/ebisc.sql.gz | psql -f -"

@@ -1,0 +1,24 @@
+[Unit]
+Description=IMS daily postgres backup
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=-/bin/sh -c "/usr/bin/find /data01/backup/postgres/* -mtime +120 -delete"
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ ims_user }})"
+ExecStart=/usr/bin/docker run --name %p \
+  --cap-drop=all \
+  --user=${IMS_USER_ID} \
+  --env-file /var/projects/ebisc/postgres/%p.service.env \
+  --rm \
+  --net=ebisc \
+  -v {{ data_dir }}/backup/postgres:/data01/backup/postgres:Z \
+  ebisc/postgres:latest \
+  sh -c "pg_dump | gzip -c > /data01/backup/postgres/ims_$$(date +%%Y-%%m-%%d).sql.gz"
+ExecStop=-/usr/bin/docker stop %p
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

@@ -2,31 +2,21 @@ FROM centos/postgresql-95-centos7
 
 USER 0
 
+ARG http_proxy
+ARG https_proxy
 ENV PYTHON_VERSION=3.4 \
-  PATH=$HOME/.local/bin/:$PATH
+  PATH=$HOME/.local/bin/:$PATH \
+  http_proxy="$http_proxy" \
+  https_proxy="$https_proxy"
 
 RUN \
-  yum install -y epel-release && \
+  yum install -y --disableplugin=fastestmirror epel-release && \
   INSTALL_PKGS="rh-python34 rh-python34-python-devel rh-python34-python-setuptools rh-python34-python-pip gcc lzop pv" && \
-  yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus $INSTALL_PKGS && \
+  yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus --disableplugin=fastestmirror $INSTALL_PKGS && \
   rpm -V $INSTALL_PKGS
 
 ENV ENABLED_COLLECTIONS="rh-postgresql95 rh-python34"
 
-RUN \
-  source scl_source enable rh-python34 && \
-  pip install gevent==1.2.1 && \
-  pip install boto==2.43.0 && \
-  pip install https://github.com/wal-e/wal-e/archive/v1.0.1.zip
-
-RUN \
-     echo "wal_level = archive"   >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_mode = on"     >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_command = 'run-wal-push %p'" >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template \
-  && echo "archive_timeout = 60"  >> /usr/share/container-scripts/postgresql/openshift-custom-postgresql.conf.template
-
-COPY run-backup-push run-wal-push run-backup-fetch run-wal-fetch /usr/bin/
-RUN chmod 755 /usr/bin/run-backup-push /usr/bin/run-wal-push /usr/bin/run-backup-fetch /usr/bin/run-wal-fetch
 RUN localedef -c -i en_US -f UTF-8 en_US.UTF-8
 
 USER 26

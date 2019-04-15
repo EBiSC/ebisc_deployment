@@ -10,18 +10,20 @@ BindsTo=ims-uwsgi.service
 KillMode=none
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=/bin/sh -c "/bin/systemctl set-environment IMS_USER_ID=$(id -u {{ ims_user }})"
 ExecStart=/usr/bin/docker run --name %p \
   --read-only \
   --cap-drop=all \
+  --user=${IMS_USER_ID} \
   --restart=always \
   --tmpfs /var/cache/nginx \
   --tmpfs /var/log/nginx \
   --tmpfs /run \
   --cap-drop=all \
-  --publish 80:8080 \
   --net=ebisc \
-  -v {{ volume.mount }}/media:/var/media:z \
-  -v {{ volume.mount }}/static:/var/static:z \
+  -e TZ={{ time_zone }} \
+  -v {{ data_dir }}/media:/var/media:z \
+  -v {{ data_dir }}/static:/var/static:z \
   ebisc/ims-nginx:latest
 ExecStop=/usr/bin/docker stop %p
 

@@ -1,19 +1,9 @@
-- name: create docker network
-  docker_network:
-    name: tracker
-    state: present
-
 - name: "copy unit file"
   become: yes
   copy:
     dest: "/etc/systemd/system/{{item}}"
     src: "{{item}}"
   with_items:
-    - mongodb-backups.timer
-    - mongodb-backups-s3.service
-    - mongodb-restore.service
-    - tracker-webserver.service
-    - tracker.service
     - tracker.timer
 
 - name: "copy unit template file"
@@ -23,6 +13,8 @@
     src: "{{item}}.j2"
   with_items:
     - mongodb.service
+    - tracker-webserver.service
+    - tracker.service
 
 - name: make directories for mongodb config
   become: yes
@@ -31,8 +23,6 @@
     state: directory
   with_items:
     - mongodb.service
-    - mongodb-backups-s3.service
-    - mongodb-restore.service
     - tracker-webserver.service
     - tracker.service
 
@@ -43,8 +33,6 @@
     src: "{{item}}.conf.j2"
   with_items:
     - mongodb.service
-    - mongodb-backups-s3.service
-    - mongodb-restore.service
     - tracker-webserver.service
     - tracker.service
 
@@ -58,5 +46,4 @@
   with_items:
     - mongodb.service
     - tracker-webserver.service
-    - mongodb-backups.timer
     - tracker.timer

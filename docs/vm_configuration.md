@@ -67,14 +67,8 @@ Look in /etc/systemd/system and you will find these unit files.
 * **ims-uwsgi.service** - starts the [uwsgi](https://uwsgi-docs.readthedocs.io/en/latest/) application server to serve the Django app. Enabled so it starts up on boot.
 * **ims-postgres.service** - starts the [postgres](https://www.postgresql.org/) database. Enabled so it starts up on boot.
 * **ims-elasticsearch.service** - starts [elasticsearch](https://www.elastic.co/). Enabled so it starts up on boot.
-* **duplicity.service** - this runs [duplicity](http://duplicity.nongnu.org/duplicity.1.html) to backup our media files to our S3 object store. This is a "oneshot" systemd service, so it is not enabled.
-* **duplicity-backups.timer** - this is a timer to run duplicity.service overnight.
-* **duplicity-restore.service** - this runs [duplicity](http://duplicity.nongnu.org/duplicity.1.html) to restore the media directory from our S3 object store. It is not enabled. Run it only when you need to.
 * **ims-updates.service** - this runs the Django "import all" command. This service must be run nightly, so that it imports from hPSCreg and biosamples and pseudoLIMS.  This is a "oneshot" systemd service, not enabled.
 * **ims-updates.timer** - this is a timer to run ims-updates.service overnight.
-* **postgres-backups.service** - this runs [wal-e](https://github.com/wal-e/wal-e) to backup our database to our S3 object store. This is a "oneshot" systemd service, so it is not enabled.
-* **postgres-backups.timer** - this is a timer to run postgres-backups.service overnight.
-* **postgres-restore.service**  - this runs [wal-e](https://github.com/wal-e/wal-e) to restore our database from the latest backup in our S3 object store. This is a "oneshot" systemd service, so it is not enabled. Run it only when you need to.
 * **ims-deploy.service** - this runs the Djano "migrate" and "collectstatic" commands to update ims to the latest version. It is a "oneshot" systemd service, not enabled. It is run by the ims.yml playbook whenever IMS is updated to the latest version.
 
 ### 2. Bastion

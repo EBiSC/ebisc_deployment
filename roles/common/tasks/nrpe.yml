@@ -1,0 +1,29 @@
+# nagios monitoring
+- name: install nrpe
+  package:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  with_items: "{{ nrpe_packages }}"
+
+- name: install common commands
+  template:
+    src: nrpe_commands.cfg.j2
+    dest: "{{ nrpe_config_dir }}/common_commands.cfg"
+  become: yes
+  notify: restart nrpe
+
+- name: set allowed host
+  replace:
+    path: "{{ nrpe_config }}"
+    regexp: "^allowed_hosts=.*$"
+    replace: "allowed_hosts=127.0.0.1,{{ nagios_server_ip }}"
+  become: yes
+  notify: restart nrpe
+
+- name: enable nrpe service
+  service:
+    name: "{{ nrpe_service }}"
+    enabled: yes
+    state: started
+  become: yes

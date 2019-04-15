@@ -1,23 +1,18 @@
-- name: ssh key
-  template:
-    dest: /home/core/.ssh/authorized_keys.d/ansible
-    src: authorized_keys.j2
-  register: registered_keys
+- include: hide_passfile.yml
+- include: update_keys.yml
+- include: proxy_setup.yml
 
-- name: update ssh keys
-  command: /usr/bin/update-ssh-keys
-  when: registered_keys.changed
+- include: apt.yml
 
-- name: install docker-py
-  pip:
-    executable: /home/core/bin/pip
-    name: docker-py
+- include: time.yml
+- include: nrpe.yml
+
+- name: install common tools
+  package:
+    name: "{{ item }}"
     state: present
-  tags: ['deploy', 'setup']
+  become: yes
+  with_items: "{{ common_packages }}"
 
-- name: install docker-py
-  pip:
-    executable: /home/core/bin/pip
-    name: docker-py
-    state: present
+- include: docker.yml
 

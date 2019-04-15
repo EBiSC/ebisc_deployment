@@ -1,8 +1,5 @@
 - name: Set up keys and docker
   hosts:
-    - bastion
-    - ims
-    - ims_staging
-    - tracker2
+    - ebisc-ims
   roles:
     - common

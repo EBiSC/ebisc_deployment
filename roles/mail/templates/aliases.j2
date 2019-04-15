@@ -1,0 +1,8 @@
+# See man 5 aliases for format
+postmaster:    root
+{{ ansible_user }}: root
+root: {% for admin in server_admins %}{{ admin.mail }}{{ "," if not loop.last else "" }}{% endfor %}
+
+{% for user in users %}
+{{ user.name }}: {{ user.mail }}
+{% endfor %}

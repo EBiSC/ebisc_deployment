@@ -1,0 +1,29 @@
+#!/bin/bash
+
+root_dir="{{ data_dir }}/backup/media"
+date=`date +%F_%a_%T`
+
+# remove outdated dumps
+find "$root_dir" -name '*_Mon_*' -mtime +32 -delete
+find "$root_dir" -name '*_Tue_*' -mtime +32 -delete
+find "$root_dir" -name '*_Wed_*' -mtime +32 -delete
+find "$root_dir" -name '*_Thu_*' -mtime +32 -delete
+find "$root_dir" -name '*_Fri_*' -mtime +32 -delete
+find "$root_dir" -name '*_Sat_*' -mtime +32 -delete
+find "$root_dir" -name '*_Sun_*' -mtime +120 -delete
+
+hardlinks=
+# gather hardlinks
+# so every file is only saved once (when unchanged)
+for dir in `find "$root_dir"/* -type d -maxdepth 0 -mtime -2`; do
+	hardlinks+=" --link-dest=$dir"
+done
+
+echo "all backups are hardlinked, use 'cp -p', rather than 'cp -a' when restoring" > "$root_dir/HARDLINK_README"
+cat "$root_dir/HARDLINK_README" > "$root_dir/0_HARDLINK_README"
+
+rsync --archive $hardlinks "{{ data_dir }}/media" "$root_dir/$date"
+# make sure we find/remove it again by date
+chown ims:root "$root_dir/$date"
+chmod 0770 "$root_dir/$date"
+touch "$root_dir/$date"

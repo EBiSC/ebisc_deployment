@@ -1,9 +1,16 @@
-inventory/openstack.py
+ansible_vault_pass*
+ansible.log
 *.retry
-vendor
+
+inventory/local
+host_vars/local-dev/vars.yml
+authorized_keys/ansible
+
+create_local-dev.sh
+packer/packer_cache
+packer/output-virtualbox-iso
 
 # vim swap
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
 .DS_Store
-*ansible_vault_pass.txt

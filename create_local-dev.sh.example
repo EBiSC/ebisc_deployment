@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# local-dev is used for ansible
+hostname=local-dev
+
+# this can be anything, having separate VMs for different projects is fine
+# only one of these machines can be online at the same time though
+vm_name=local-dev-packer
+
+# disk space in MB
+# we use a virtual drive, so the actual usage is lower
+max_disk_size=25600
+
+# set this higher for a more powerful VM, when you need more for the host
+memory=2048
+cpus=2
+
+cd packer/
+
+# build
+packer build \
+	--var "hostname=$hostname" \
+	--var "vm_name=$vm_name" \
+	--var "max_disk_size=$max_disk_size" \
+	--var "memory=$memory" \
+	--var "cpus=$cpus" \
+	ubuntu.json
