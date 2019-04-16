@@ -1,5 +1,5 @@
 - name: Dump the database to localhost
-  hosts: ims
+  hosts: ebisc-ims
   tags: database
   vars:
     data_dir: /data01
@@ -31,7 +31,7 @@
         state: absent
 
 - name: Dump the media files to localhost
-  hosts: ims
+  hosts: ebisc-ims
   tags: media
   tasks:
     - name: synchronize media files
