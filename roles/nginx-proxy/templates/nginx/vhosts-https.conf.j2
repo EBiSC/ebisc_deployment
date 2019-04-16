@@ -16,6 +16,9 @@ server {
   ssl on;
   ssl_certificate     /etc/letsencrypt/live/{{ main_certificate }}/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/{{ main_certificate }}/privkey.pem;
+{% for ssl_setting in ssl_settings %}
+  {{ ssl_setting }}
+{% endfor %}
 }
 {% endif %}
 {% endfor %}
@@ -33,5 +36,8 @@ server {
   ssl on;
   ssl_certificate     /etc/letsencrypt/live/{{ main_certificate }}/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/{{ main_certificate }}/privkey.pem;
+{% for ssl_setting in ssl_settings %}
+  {{ ssl_setting }}
+{% endfor %}
 }
 {% endif %}
