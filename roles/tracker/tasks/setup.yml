@@ -60,3 +60,11 @@
     - tracker-webserver.service
     - mongodb-backups.timer
     - tracker.timer
+
+- name: disable tracker timer
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: no
+    name: tracker.timer
+    state: stopped

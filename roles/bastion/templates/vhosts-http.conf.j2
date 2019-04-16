@@ -49,7 +49,8 @@ server {
   location / {
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass http://{{ tracker_ip }}:80;
+    #proxy_pass http://{{ tracker_ip }}:80;
+    proxy_pass http://ebisc-ims.cell-type.org:80;
   }
 }
 {% endif %}
