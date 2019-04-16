@@ -23,8 +23,8 @@ server {
   location / {
     proxy_set_header Host cells.ebisc.org;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass http://{{ ims_ip }}:80;
-    #proxy_pass https://ebisc-ims.cell-type.org;
+    #proxy_pass http://{{ ims_ip }}:80;
+    proxy_pass https://ebisc-ims.cell-type.org;
   }
   ssl on;
   ssl_certificate     /etc/letsencrypt/live/cells.ebisc.org/fullchain.pem;
