@@ -6,7 +6,7 @@ aws_bucket: ebisc
 s3_host: s3.embassy.ebi.ac.uk
 
 vm: ims
-ims_role: production
+ims_role: staging
 
 volume:
   name: ims_database
