@@ -1,4 +1,4 @@
-git_branch: master
+git_branch: maintenance
 postgresql_user: www
 postgresql_database: ebisc
 aws_access_key: DuiolYQGNGoAxNyYQMun
