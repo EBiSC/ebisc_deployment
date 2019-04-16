@@ -8,6 +8,7 @@ certbot certonly \
   --domain {{ domain.name }} \
 {% endif %}
 {% endfor %}
+  --domain {{ tracker_domain }} \
   --non-interactive \
   --agree-tos \
   --email {{ log_mail_to }} \

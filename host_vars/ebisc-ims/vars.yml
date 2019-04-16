@@ -26,4 +26,4 @@ ims_domains:
   - name: ebisc-ims.charite.de
     letsencrypt: no     # not in DNS because of CAA record for charite.de
 
-tracker_domain: tracker-test.cell-type.org
+tracker_domain: tracker.cell-type.org
