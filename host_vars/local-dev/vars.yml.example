@@ -1,4 +1,4 @@
-git_branch: develop
+git_branch: master
 ims_role: develop
 log_mail_to: "johannes.dewender@charite.de"
 
