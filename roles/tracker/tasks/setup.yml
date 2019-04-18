@@ -36,7 +36,7 @@
     - tracker-webserver.service
     - tracker.service
 
-- name: "enable unit"
+- name: enable services
   become: yes
   systemd:
     daemon_reload: yes
@@ -46,4 +46,12 @@
   with_items:
     - mongodb.service
     - tracker-webserver.service
-    - tracker.timer
+
+- name: enable timer
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: tracker.timer
+    state: started
+  when: ims_role == "production"
