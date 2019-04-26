@@ -122,7 +122,7 @@
     daemon_reload: yes
     name: letsencrypt.service
     state: started
-  when: fullchain_pem.stat.exists == False
+  when: fullchain_pem.stat.exists == False and (ims_role == "production" or ims_role == "staging")
 
 - name: restart nginx
   become: yes

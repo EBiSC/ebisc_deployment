@@ -8,7 +8,9 @@ certbot certonly \
   --domain {{ domain.name }} \
 {% endif %}
 {% endfor %}
+{% if ims_role == "production" %}
   --domain {{ tracker_domain }} \
+{% endif %}
   --non-interactive \
   --agree-tos \
   --email {{ log_mail_to }} \
