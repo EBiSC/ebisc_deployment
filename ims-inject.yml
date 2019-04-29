@@ -45,3 +45,17 @@
         daemon_reload: yes
         name: ims-uwsgi.service
         state: restarted
+
+    - name: restart ims-nginx
+      become: yes
+      systemd:
+        daemon_reload: yes
+        name: ims-nginx.service
+        state: restarted
+
+    - name: restart nginx
+      become: yes
+      systemd:
+        daemon_reload: yes
+        name: nginx.service
+        state: restarted
