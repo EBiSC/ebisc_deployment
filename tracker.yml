@@ -1,6 +1,0 @@
-- name: Set up data tracker
-  hosts: tracker2
-  roles:
-    - common
-    - volumes
-    - tracker
