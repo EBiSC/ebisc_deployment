@@ -41,3 +41,24 @@ server {
 {% endfor %}
 }
 {% endif %}
+
+{% if main_ebisc_domain is defined %}
+server {
+  listen 8443;
+  server_name
+{% for domain in ims_domains %}
+		{{ domain.name }}
+{% endfor %}
+		;
+
+  location / {
+    rewrite ^/(.*) https://{{ main_ebisc_domain }}/$1 permanent;
+  }
+  ssl on;
+  ssl_certificate     /etc/letsencrypt/live/{{ main_certificate }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ main_certificate }}/privkey.pem;
+{% for ssl_setting in ssl_settings %}
+  {{ ssl_setting }}
+{% endfor %}
+}
+{% endif %}

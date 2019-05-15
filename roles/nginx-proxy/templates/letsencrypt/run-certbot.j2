@@ -11,6 +11,13 @@ certbot certonly \
 {% if ims_role == "production" %}
   --domain {{ tracker_domain }} \
 {% endif %}
+{% if main_ebisc_domain is defined %}
+{% for domain in ebisc_domains %}
+{% if domain.letsencrypt %}
+  --domain {{ domain.name }} \
+{% endif %}
+{% endfor %}
+{% endif %}
   --non-interactive \
   --agree-tos \
   --email {{ log_mail_to }} \
