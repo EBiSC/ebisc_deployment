@@ -31,8 +31,8 @@ tracker_domain: tracker.cell-type.org
 main_ebisc_domain: ebisc.org
 ebisc_domains:
   - name: ebisc2.org
-    letsencrypt: no
+    letsencrypt: yes
   - name: ebisc2.eu
-    letsencrypt: no
+    letsencrypt: yes
   - name: ebisc2.com
-    letsencrypt: no
+    letsencrypt: yes

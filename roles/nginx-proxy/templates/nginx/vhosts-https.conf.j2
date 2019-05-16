@@ -46,7 +46,7 @@ server {
 server {
   listen 8443;
   server_name
-{% for domain in ims_domains %}
+{% for domain in ebisc_domains %}
 		{{ domain.name }}
 {% endfor %}
 		;
