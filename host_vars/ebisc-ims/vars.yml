@@ -32,7 +32,13 @@ main_ebisc_domain: ebisc.org
 ebisc_domains:
   - name: ebisc2.org
     letsencrypt: yes
+  - name: www.ebisc2.org
+    letsencrypt: yes
   - name: ebisc2.eu
     letsencrypt: yes
+  - name: www.ebisc2.eu
+    letsencrypt: yes
   - name: ebisc2.com
+    letsencrypt: yes
+  - name: www.ebisc2.com
     letsencrypt: yes
