@@ -1,3 +1,13 @@
+{% if ims_role == 'production' %}
+server {
+  listen 8080 default_server;
+  server_name _;
+  # Django can only handle known/allowed names
+  # so we keep away unknown server/host names
+  return 444;
+}
+{% endif %}
+
 server {
   listen 8080;
 {% if 'dev' not in group_names %}
