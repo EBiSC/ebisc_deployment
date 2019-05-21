@@ -124,12 +124,14 @@
     state: started
   when: fullchain_pem.stat.exists == False and (ims_role == "production" or ims_role == "staging")
 
+  # updates of the some docker images seem to change the IPs
+  # so we need to restart nginx also
+  # (always, as it doesn't hurt much and the check for ims changes is not trivial)
 - name: restart nginx
   become: yes
   service:
     name: nginx
     state: restarted
-  when: fullchain_pem.stat.exists == False
 
 - name: enable letsencrypt timer
   become: yes
