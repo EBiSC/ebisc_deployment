@@ -1,3 +1,17 @@
+{% if ims_role == 'production' %}
+server {
+  listen 8443 default_server;
+  server_name _;
+  # Django can only handle known/allowed names
+  # so we keep away unknown server/host names
+  return 444;
+
+  # necessary anyways, although the connection should be close (nginx complains)
+  ssl_certificate     /etc/letsencrypt/live/{{ main_certificate }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ main_certificate }}/privkey.pem;
+}
+{% endif %}
+
 {% for domain in ims_domains %}
 {% if domain.letsencrypt %}
 server {
