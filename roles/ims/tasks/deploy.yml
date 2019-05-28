@@ -178,7 +178,7 @@
     - ims-nginx.service
     - ims-elasticsearch.service
 
-- name: enable updates
+- name: enable timers
   become: yes
   systemd:
     daemon_reload: yes
@@ -187,6 +187,8 @@
     state: started
   with_items:
     - ims-updates.timer
+    - ims-backup-postgres.timer
+    - ims-backup-media.timer
   when: ims_role == "production"
 
 - name: install additional nrpe commands
