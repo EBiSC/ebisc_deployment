@@ -46,6 +46,16 @@
         name: ims-uwsgi.service
         state: restarted
 
+    - name: build ims nginx
+      docker_image:
+        path: /var/projects/ebisc/ebisc-ims-inject
+        dockerfile: Dockerfile-nginx
+        name: ebisc/ims-nginx
+        state: present
+        pull: yes   # always get updated base image
+        force: yes  # update/build even when an image exists
+        tag: latest
+
     - name: restart ims-nginx
       become: yes
       systemd:
