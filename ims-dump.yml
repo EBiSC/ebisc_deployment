@@ -2,7 +2,14 @@
   hosts: ebisc-ims
   tags: database
   vars:
-    data_dir: /data01
+    postgresql_database: ims
+    postgresql_user: ims
+    postgresql_password: "{{ vault_postgresql_password }}"
+
+  pre_tasks:
+    - name: include vault vars
+      include_vars: ims_vault.yml
+
   tasks:
     - name: Create a temp directory
       file:
@@ -33,6 +40,8 @@
 - name: Dump the media files to localhost
   hosts: ebisc-ims
   tags: media
+  vars:
+    data_dir: /data01
   tasks:
     - name: synchronize media files
       become: yes
