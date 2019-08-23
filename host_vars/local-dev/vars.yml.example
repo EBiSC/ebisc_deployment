@@ -1,6 +1,7 @@
 git_branch: master
 ims_role: develop
 log_mail_to: "johannes.dewender@charite.de"
+#use_proxy: False
 
 main_ims_domain: cells.ebisc.org
 main_certificate: cells.ebisc.org
