@@ -26,6 +26,14 @@
       owner: "{{ ims_user }}"
     - path: "{{ data_dir }}/elasticsearch"
       owner: "{{ elasticsearch_user }}"
+
+- name: setup backup directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+  become: yes
+  with_items:
     - path: "{{ data_dir }}/backup"
       owner: "{{ ims_user }}"
     - path: "{{ data_dir }}/backup/postgres"
