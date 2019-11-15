@@ -3,7 +3,7 @@ ims_role: production
 log_mail_to: "johannes.dewender@charite.de,nils.bultjer@charite.de"
 
 main_ims_domain: cells.ebisc.org
-main_certificate: ebisc-ims.cell-type.org # the one created first
+main_certificate: cells.ebisc.org
 ims_domains:
   - name: cells.ebisc.org
     letsencrypt: yes
@@ -20,8 +20,6 @@ ims_domains:
   - name: catalogue.ebisc.org
     letsencrypt: yes
   - name: www.catalogue.ebisc.org
-    letsencrypt: yes
-  - name: ebisc-ims.cell-type.org
     letsencrypt: yes
   - name: ebisc-ims.charite.de
     letsencrypt: no     # not with letsencrypt because of CAA record for charite.de in DNS
