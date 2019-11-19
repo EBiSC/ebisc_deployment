@@ -3,7 +3,7 @@ command[check_data_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -W 20% -c 
 command[check_var_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /var
 command[check_home_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /home
 command[check_log_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /var/log
-command[check_docker_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -W 20% -c 10% -K 10 % -p /var/lib/docker
+command[check_docker_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -W 20% -c 10% -K 10% -p /var/lib/docker
 command[check_boot_partition]={{ nrpe_plugin_dir }}/check_disk -w 20% -c 10% -p /boot
 
 command[check_os]=cat /etc/os-release | grep PRETTY_NAME | sed -e 's/.*="\(.*\)"/\1/g'
