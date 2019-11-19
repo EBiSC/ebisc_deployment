@@ -1,16 +1,19 @@
 #!/bin/bash
 
+set -e
+set -u
+
 root_dir="{{ data_dir }}/backup/media"
 date=`date +%F_%a_%T`
 
 # remove outdated dumps
-find "$root_dir" -name '*_Mon_*' -mtime +32 -delete
-find "$root_dir" -name '*_Tue_*' -mtime +32 -delete
-find "$root_dir" -name '*_Wed_*' -mtime +32 -delete
-find "$root_dir" -name '*_Thu_*' -mtime +32 -delete
-find "$root_dir" -name '*_Fri_*' -mtime +32 -delete
-find "$root_dir" -name '*_Sat_*' -mtime +32 -delete
-find "$root_dir" -name '*_Sun_*' -mtime +120 -delete
+find "$root_dir" -maxdepth 1 -type d -name '*_Mon_*' -mtime +32 | xargs -r rm -r
+find "$root_dir" -maxdepth 1 -type d -name '*_Tue_*' -mtime +32 | xargs -r rm -r
+find "$root_dir" -maxdepth 1 -type d -name '*_Wed_*' -mtime +32 | xargs -r rm -r
+find "$root_dir" -maxdepth 1 -type d -name '*_Thu_*' -mtime +32 | xargs -r rm -r
+find "$root_dir" -maxdepth 1 -type d -name '*_Fri_*' -mtime +32 | xargs -r rm -r
+find "$root_dir" -maxdepth 1 -type d -name '*_Sat_*' -mtime +32 | xargs -r rm -r
+find "$root_dir" -maxdepth 1 -type d -name '*_Sun_*' -mtime +120 | xargs -r rm -r
 
 hardlinks=
 # gather hardlinks
