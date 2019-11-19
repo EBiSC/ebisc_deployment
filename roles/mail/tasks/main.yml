@@ -35,3 +35,16 @@
     enabled: yes
     state: started
   become: yes
+
+- name: install systemd status mail service
+  template:
+    src: status-mail@.service.j2
+    dest: "/etc/systemd/system/status-mail@.service"
+  become: yes
+
+- name: reload systemd files
+  systemd:
+    daemon_reload: yes
+  become: yes
+
+- meta: flush_handlers

@@ -1,5 +1,6 @@
 [Unit]
 Description=IMS daily imports
+OnFailure=status-mail@%n.service
 Requires=docker.service
 Requires=ims-postgres.service
 Requires=ims-elasticsearch.service

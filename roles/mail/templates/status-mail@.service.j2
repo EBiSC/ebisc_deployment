@@ -1,0 +1,10 @@
+[Unit]
+Description=status/error email to admins
+Requires=postfix.service
+After=postfix.service
+
+[Service]
+Type=oneshot
+User=nobody
+Group=systemd-journal
+ExecStart=/bin/sh -c "/bin/systemctl status --full -o short -n 100 \"%i\" | mail --content-type 'text/plain; charset=utf-8' -s \"%H: %i error\" \"{% for admin in server_admins %}{{ admin.mail }}{{ "," if not loop.last else "" }}{% endfor %}\""

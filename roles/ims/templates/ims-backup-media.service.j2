@@ -1,5 +1,6 @@
 [Unit]
 Description=IMS daily media backup
+OnFailure=status-mail@%n.service
 
 [Service]
 ExecStart=/var/projects/ebisc/scripts/backup_media.bash

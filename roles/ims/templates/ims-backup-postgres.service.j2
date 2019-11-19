@@ -1,5 +1,6 @@
 [Unit]
 Description=IMS daily postgres backup
+OnFailure=status-mail@%n.service
 Requires=docker.service
 After=docker.service
 
