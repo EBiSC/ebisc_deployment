@@ -49,21 +49,3 @@ server {
   }
 }
 {% endif %}
-
-{% if main_ebisc_domain is defined %}
-server {
-  listen 8080;
-  server_name
-{% for domain in ebisc_domains %}
-		{{ domain.name }}
-{% endfor %}
-		;
-  location /.well-known/ {
-    root /usr/share/nginx/html;
-  }
-
-  location / {
-    rewrite ^/(.*) https://{{ main_ebisc_domain }}/$1 permanent;
-  }
-}
-{% endif %}

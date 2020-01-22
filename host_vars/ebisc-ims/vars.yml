@@ -25,18 +25,3 @@ ims_domains:
     letsencrypt: no     # not with letsencrypt because of CAA record for charite.de in DNS
 
 tracker_domain: tracker.cell-type.org
-
-main_ebisc_domain: ebisc.org
-ebisc_domains:
-  - name: ebisc2.org
-    letsencrypt: no
-  - name: www.ebisc2.org
-    letsencrypt: no
-  - name: ebisc2.eu
-    letsencrypt: no
-  - name: www.ebisc2.eu
-    letsencrypt: no
-  - name: ebisc2.com
-    letsencrypt: no
-  - name: www.ebisc2.com
-    letsencrypt: no
