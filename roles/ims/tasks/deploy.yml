@@ -74,6 +74,7 @@
     - ebisc-ims/ims-uwsgi.service.env
     - ebisc-ims/ims-deploy.service.env
     - ebisc-ims/ims-updates.service.env
+  no_log: yes
 
 - name: copy scripts
   copy: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }} mode=0755"
