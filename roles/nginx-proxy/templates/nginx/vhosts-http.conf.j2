@@ -21,6 +21,10 @@ server {
     root /usr/share/nginx/html;
   }
 
+  if ($host != 'ebisc.org') {
+    rewrite ^/contact https://ebisc.org/contact permanent;
+  }
+
   location / {
 {% if ims_role != 'production' %}
     proxy_set_header Host $host;

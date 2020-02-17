@@ -18,6 +18,10 @@ server {
   listen 8443 ssl;
   server_name {{ domain.name }};
 
+  if ($host != 'ebisc.org') {
+    rewrite ^/contact https://ebisc.org/contact permanent;
+  }
+
   location / {
 {% if domain.name == main_ims_domain or ims_role != 'production' %}
     proxy_set_header Host $host;
