@@ -26,7 +26,7 @@ mail_accounts:
   mb_ebiscinfo:
     user: mb-ebiscinfo
     pass: "{{ vault_mail_mb_ebiscinfo_pass }}"
-    mail: ebisc-info@charite.de
+    mail: info@ebisc.org
   mb_ebisccontact:
     user: mb-ebisccontact
     pass: "{{ vault_mail_mb_ebisccontact_pass }}"
