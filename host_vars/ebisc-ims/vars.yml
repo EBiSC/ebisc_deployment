@@ -3,7 +3,7 @@ ims_role: production
 log_mail_to: "johannes.dewender@charite.de,nils.bultjer@charite.de"
 
 main_ims_domain: cells.ebisc.org
-main_certificate: cells.ebisc.org
+main_certificate: cells.ebisc.org-0001
 ims_domains:
   - name: cells.ebisc.org
     letsencrypt: yes
