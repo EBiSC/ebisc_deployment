@@ -11,15 +11,9 @@ ims_domains:
     letsencrypt: yes
   - name: cell.ebisc.org
     letsencrypt: yes
-  - name: www.cell.ebisc.org
-    letsencrypt: yes
   - name: catalog.ebisc.org
     letsencrypt: yes
-  - name: www.catalog.ebisc.org
-    letsencrypt: yes
   - name: catalogue.ebisc.org
-    letsencrypt: yes
-  - name: www.catalogue.ebisc.org
     letsencrypt: yes
   - name: ebisc-ims.charite.de
     letsencrypt: no     # not with letsencrypt because of CAA record for charite.de in DNS
