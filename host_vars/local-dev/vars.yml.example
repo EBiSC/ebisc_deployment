@@ -3,8 +3,8 @@ ims_role: develop
 log_mail_to: "johannes.dewender@charite.de"
 #use_proxy: False
 #proxy_env:
-#  http_proxy ""
-#  https_proxy ""
+#  http_proxy: ""
+#  https_proxy: ""
 
 main_ims_domain: cells.ebisc.org
 main_certificate: cells.ebisc.org
