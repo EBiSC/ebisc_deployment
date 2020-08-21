@@ -6,9 +6,13 @@
     - common
     - mail
     - updates
-    - ims
+    - role: ims
+      tags:
+        - ims
     - tracker
-    - nginx-proxy
+    - role: nginx-proxy
+      tags:
+        - ims
   environment: "{{ proxy_env }}"
   vars:
     data_dir: /data01
@@ -41,3 +45,5 @@
   pre_tasks:
     - name: include vault vars
       include_vars: ims_vault.yml
+      tags:
+        - ims
