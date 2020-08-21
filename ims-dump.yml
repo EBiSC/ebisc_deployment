@@ -22,14 +22,47 @@
         PGPASSWORD: "{{ postgresql_password }}"
         PGUSER: "{{ postgresql_user }}"
         PGDATABASE: "{{ postgresql_database }}"
-      command: /var/projects/ebisc/scripts/dump_db.bash
+      command: "{{ item }}"
+      with_items:
+        - /var/projects/ebisc/scripts/dump_db.bash
+        - /var/projects/ebisc/scripts/export_db.bash celllines_celllinebatch batch.csv
+        - /var/projects/ebisc/scripts/export_db.bash celllines_celllinebatchimages batchimages.csv
+        - /var/projects/ebisc/scripts/export_db.bash celllines_batchcultureconditions batchculture.csv
+        - /var/projects/ebisc/scripts/export_db.bash celllines_celllinealiquot vial.csv
+        - /var/projects/ebisc/scripts/export_db.bash celllines_celllineinformationpack clip.csv
+        - /var/projects/ebisc/scripts/export_db.bash celllines_celllinestatus status.csv
+
+    - name: Create backup directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      delegate_to: localhost
+      with_items:
+        - "{{ playbook_dir }}/backup"
+        - "{{ playbook_dir }}/backup/sql"
+        - "{{ playbook_dir }}/backup/csv"
 
     - name: fetch the backup
       fetch:
-        dest: "{{ playbook_dir }}/"
+        dest: "{{ playbook_dir }}/backup/{{ item.dir }}/"
         fail_on_missing: yes
-        src: /tmp/db_dump/ebisc.sql.gz
+        src: "/tmp/db_dump/{{ item.src }}"
         flat: yes
+      with_items:
+        - src: ebisc.sql.gz
+          dir: sql
+        - src: batch.csv
+          dir: csv
+        - src: batchimages.csv
+          dir: csv
+        - src: batchculture.csv
+          dir: csv
+        - src: vial.csv
+          dir: csv
+        - src: clip.csv
+          dir: csv
+        - src: status.csv
+          dir: csv
 
     - name: delete the remote backup
       become: yes
@@ -47,7 +80,7 @@
       become: yes
       synchronize:
         src: "{{ data_dir }}/media"
-        dest: "{{ playbook_dir }}/"
+        dest: "{{ playbook_dir }}/backup/"
         delete: yes
         use_ssh_args: yes
         mode: pull

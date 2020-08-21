@@ -10,6 +10,8 @@ create_local-dev.sh
 packer/packer_cache
 packer/output-virtualbox-iso
 
+backup/
+
 # vim swap
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]

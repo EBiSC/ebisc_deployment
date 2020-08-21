@@ -81,6 +81,7 @@
   with_items:
     - dump_db.bash
     - import_db.bash
+    - export_db.bash
 
 - name: copy script templates
   template: "dest=/var/projects/ebisc/scripts/{{ item }} src=scripts/{{ item }}.j2 mode=0755"
