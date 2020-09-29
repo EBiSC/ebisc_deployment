@@ -3,11 +3,14 @@
   become: yes
 
 - name: create databases
-  command: postmap /etc/postfix/{{ item }}
+  command: postmap /etc/postfix/{{ item.name }}
   become: yes
   with_list:
-    - sasl_passwd
-    - sender_canonical
+    - name: sasl_passwd
+      skip: "{{ 'True' if smtp_relay_account == '' else 'False' }}"
+    - name: sender_canonical
+      skip: "{{ 'True' if canonical_sender == '' else 'False' }}"
+  when: not item.skip|default(false)|bool
 
 - name: restart postfix
   service:

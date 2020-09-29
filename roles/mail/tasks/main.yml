@@ -24,10 +24,13 @@
       dest: /etc/postfix/sasl_passwd
       mode: "0600"
       no_log: yes
+      skip: "{{ 'True' if (smtp_relay_account == '') else 'False' }}"
     - name: sender_canonical.j2
       dest: /etc/postfix/sender_canonical
+      skip: "{{ 'True' if (canonical_sender == '') else 'False' }}"
     - name: aliases.j2
       dest: /etc/aliases
+  when: not item.skip|default(false)|bool
 
 - name: enable postfix
   service:

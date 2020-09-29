@@ -6,11 +6,13 @@ recipient_delimiter = +
 inet_interfaces = loopback-only
 inet_protocols = all
 
-relayhost = {{ smtp_server }}:{{ smtp_port }}
+relayhost = {{ relayhost }}:{{ smtp_port }}
+{% if smtp_relay_account != '' %}
 smtp_tls_security_level = may
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+{% endif %}
 
 # at least for the dev machines no empty MAIL FROM is allowed
 # (at least Ubuntu keeps the sender in the envelope empty, set up as "satelite")

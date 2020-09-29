@@ -1,4 +1,10 @@
 ebisc-ims	ansible_host=141.42.207.1
 
+[charite]
+ebisc-ims
+
+[fh]
+local-dev
+
 [dev]
 local-dev
