@@ -21,7 +21,7 @@
 
     - name: upload the backup
       copy:
-        src: "{{ playbook_dir }}/ebisc.sql.gz"
+        src: "{{ playbook_dir }}/backup/sql/ebisc.sql.gz"
         dest: /tmp/db_dump
 
     - name: stop postgres
@@ -78,7 +78,7 @@
     - name: synchronize media files
       become: yes
       synchronize:
-        src: "{{ playbook_dir }}/media"
+        src: "{{ playbook_dir }}/backup/media"
         dest: "{{ data_dir }}/"
         delete: yes
         mode: push
