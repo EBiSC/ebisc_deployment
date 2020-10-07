@@ -1,6 +1,7 @@
 - name: Set up keys and docker
   hosts:
-    - ebisc-ims
     - local-dev
+    - ebisc-ims
+    - ebisc-ims-fh
   roles:
     - common
