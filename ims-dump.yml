@@ -1,5 +1,5 @@
 - name: Dump the database to localhost
-  hosts: ebisc-ims
+  hosts: ebisc-ims-ch
   tags: database
   vars:
     postgresql_database: ims
@@ -71,7 +71,7 @@
         state: absent
 
 - name: Dump the media files to localhost
-  hosts: ebisc-ims
+  hosts: ebisc-ims-ch
   tags: media
   vars:
     data_dir: /data01

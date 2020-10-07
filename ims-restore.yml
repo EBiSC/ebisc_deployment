@@ -1,6 +1,5 @@
 - name: restore the database to the IMS server
   hosts:
-    - ebisc-ims
     - local-dev
   tags: database
   vars:
@@ -68,7 +67,6 @@
 
 - name: upload the media files to localhost
   hosts:
-    - ebisc-ims
     - local-dev
   tags: media
   vars:
