@@ -3,16 +3,16 @@ ansible_python_interpreter: /usr/bin/python3
 server_admins:
   - name: Johannes Dewender
     user: dewendej
-    mail: johannes.dewender@charite.de
+    mail: johannes.dewender@ibmt.fraunhofer.de.de
   - name: Nils Bultjer
     user: bultjern
-    mail: nils.bultjer@charite.de
+    mail: nils.bultjer@ibmt.fraunhofer.de.de
 
 time_zone: Europe/Berlin
 nrpe_config_dir: /etc/nagios/nrpe.d
 
 users:
   - name: dewendej
-    mail: johannes.dewender@charite.de
+    mail: johannes.dewender@ibmt.fraunhofer.de.de
   - name: bultjern
-    mail: nils.bultjer@charite.de
+    mail: nils.bultjer@ibmt.fraunhofer.de.de
