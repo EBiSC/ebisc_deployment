@@ -1,4 +1,4 @@
-{% if ims_role == 'production' %}
+{% if ims_role == 'production' and inventory_hostname != 'ebisc-ims-fh' %}
 server {
   listen 8080 default_server;
   server_name _;
@@ -57,7 +57,7 @@ server {
     rewrite ^(.*)$ "http$1" break;		# split up so no automatic 302 redirect is made
     proxy_pass http://141.42.5.215:8080;	# proxy.charite.de IP
     proxy_read_timeout 300;
-{% elif ims_role != 'production' %}
+{% elif ims_role != 'production' or inventory_hostname == 'ebisc-ims-fh' %}
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_pass http://{{ ims_host }}:{{ ims_port }};
