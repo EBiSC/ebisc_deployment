@@ -1,5 +1,5 @@
 git_branch: production
-ims_role: production
+ims_role: staging
 log_mail_to: "johannes.dewender@charite.de,nils.bultjer@charite.de"
 
 main_ims_domain: cells.ebisc.org
