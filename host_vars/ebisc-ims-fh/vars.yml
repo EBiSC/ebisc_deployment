@@ -1,0 +1,19 @@
+git_branch: production
+ims_role: production
+log_mail_to: "johannes.dewender@ibmt.fraunhofer.de,nils.bultjer@ibmt.fraunhofer.de"
+
+main_ims_domain: cells.ebisc.org
+main_certificate: cells.ebisc.org
+ims_domains:
+  - name: cells.ebisc.org
+    letsencrypt: yes
+  - name: www.cells.ebisc.org
+    letsencrypt: yes
+  - name: cell.ebisc.org
+    letsencrypt: yes
+  - name: catalog.ebisc.org
+    letsencrypt: yes
+  - name: catalogue.ebisc.org
+    letsencrypt: yes
+
+tracker_domain: tracker.cell-type.org
