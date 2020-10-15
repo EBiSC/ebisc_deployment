@@ -10,7 +10,7 @@ proxy_host: "proxy.charite.de:141.42.5.215"     # not actually used, but valid f
 use_proxy: False
 ntp_server: ntp1.ptb.de
 
-nagios_server_ip: 10.32.39.75
+nagios_server_ip: 172.26.1.30
 
 smtp_server: "172.26.1.10"
 relayhost: "[{{ smtp_server }}]"
