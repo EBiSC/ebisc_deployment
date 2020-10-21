@@ -16,7 +16,12 @@ ExecStart=/usr/bin/docker run --name %p \
   --env-file /var/projects/ebisc/ebisc-ims/%p.service.env \
   --read-only \
   --net=ebisc \
+{% if proxy_host != '' %}
   --add-host={{ proxy_host }} \
+{% endif %}
+{% if hpscreg_host != '' %}
+  --add-host={{ hpscreg_host }} \
+{% endif %}
   --tmpfs /tmp \
   -v {{ data_dir }}/media:/app/var/media:z \
   -v {{ data_dir }}/static:/app/var/static:z \

@@ -12,7 +12,9 @@ ExecStart=/usr/bin/docker run --name %p --restart=always \
   --cap-drop=all \
   --user=${POSTGRES_USER_ID} \
   --net=ebisc \
+{% if proxy_host != '' %}
   --add-host={{ proxy_host }} \
+{% endif %}
   --env-file /var/projects/ebisc/postgres/%p.service.env \
   -v {{ data_dir }}/postgres:/var/lib/pgsql/data:z \
   ebisc/postgres:latest
