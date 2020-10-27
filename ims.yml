@@ -47,3 +47,13 @@
       include_vars: ims_vault.yml
       tags:
         - ims
+
+  tasks:
+    - name: disable docker
+      systemd:
+        name: docker
+        enabled: no
+        state: stopped
+        daemon_reload: yes
+      become: yes
+      when: inventory_hostname == "ebisc-ims-ch"
