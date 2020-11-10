@@ -1,3 +1,4 @@
+command[check_memory]=/usr/lib/nagios/plugins/check_memory -c 10% -w 25%
 command[check_http]=/usr/lib/nagios/plugins/check_http -c 10 -w 5 -H {{ main_ims_domain }}
 command[check_https]=/usr/lib/nagios/plugins/check_http -C 23,15 -H {{ main_ims_domain }}
 command[check_postgres]=/usr/lib/nagios/plugins/check_procs -c 1: -w 7: -C postgres
