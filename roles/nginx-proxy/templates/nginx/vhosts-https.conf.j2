@@ -1,4 +1,4 @@
-{% if ims_role == 'production' and inventory_hostname != 'ebisc-ims-fh' %}
+{% if ims_role == 'production' %}
 server {
   listen 8443 default_server;
   server_name _;
