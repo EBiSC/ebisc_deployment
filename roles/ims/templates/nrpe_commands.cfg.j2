@@ -1,4 +1,4 @@
-command[check_load]=/usr/lib/nagios/plugins/check_load -c .35,.3,.25 -w .2,.15,.1
+command[check_load]=/usr/lib/nagios/plugins/check_load -r -c .35,.3,.25 -w .2,.15,.1
 command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -c 300 -w 250
 command[check_memory]=/usr/lib/nagios/plugins/check_memory -c 10% -w 25%
 command[check_http]=/usr/lib/nagios/plugins/check_http -c 10 -w 5 -H {{ main_ims_domain }}
