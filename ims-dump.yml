@@ -25,12 +25,14 @@
       command: "{{ item }}"
       with_items:
         - /var/projects/ebisc/scripts/dump_db.bash
+        - /var/projects/ebisc/scripts/export_db.bash celllines_cellline cellline.csv
         - /var/projects/ebisc/scripts/export_db.bash celllines_celllinebatch batch.csv
         - /var/projects/ebisc/scripts/export_db.bash celllines_celllinebatchimages batchimages.csv
         - /var/projects/ebisc/scripts/export_db.bash celllines_batchcultureconditions batchculture.csv
         - /var/projects/ebisc/scripts/export_db.bash celllines_celllinealiquot vial.csv
         - /var/projects/ebisc/scripts/export_db.bash celllines_celllineinformationpack clip.csv
         - /var/projects/ebisc/scripts/export_db.bash celllines_celllinestatus status.csv
+        - /var/projects/ebisc/scripts/export_db.bash auth_user user.csv
 
     - name: Create backup directories
       file:
@@ -51,6 +53,8 @@
       with_items:
         - src: ebisc.sql.gz
           dir: sql
+        - src: cellline.csv
+          dir: csv
         - src: batch.csv
           dir: csv
         - src: batchimages.csv
@@ -62,6 +66,8 @@
         - src: clip.csv
           dir: csv
         - src: status.csv
+          dir: csv
+        - src: user.csv
           dir: csv
 
     - name: delete the remote backup
