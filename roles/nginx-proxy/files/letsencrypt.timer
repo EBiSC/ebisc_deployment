@@ -1,8 +1,9 @@
 [Unit]
-Description=Update Letsenrypt certificates at 23:00:00 on Mondays
+Description=Check for Letsenrypt certificate updates twice a day at random times
 
 [Timer]
-OnCalendar=Mon *-*-* 23:00:00
+OnCalendar=*-*-* 00,12:00:00
+RandomizedDelaySec=43200
 Unit=letsencrypt.service
 
 [Install]
