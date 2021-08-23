@@ -63,7 +63,7 @@ server {
     proxy_pass http://{{ ims_host }}:{{ ims_port }};
     proxy_read_timeout 300;
 {% else %}
-    rewrite ^/(.*) https://{{ main_ims_domain }}/$1 permanent;
+    rewrite ^/(.*) https://$host/$1 permanent;
 {% endif %}
   }
 }

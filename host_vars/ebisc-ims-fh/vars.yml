@@ -15,5 +15,7 @@ ims_domains:
     letsencrypt: yes
   - name: catalogue.ebisc.org
     letsencrypt: yes
+  - name: old-ims.cell-type.org
+    letsencrypt: yes
 
 tracker_domain: tracker.cell-type.org

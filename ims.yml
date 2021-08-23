@@ -13,6 +13,7 @@
     - role: nginx-proxy
       tags:
         - ims
+        - nginx
   environment: "{{ proxy_env }}"
   vars:
     data_dir: /data01
