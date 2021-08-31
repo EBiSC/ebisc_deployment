@@ -9,7 +9,7 @@
     - role: ims
       tags:
         - ims
-    - tracker
+    #- tracker
     - role: nginx-proxy
       tags:
         - ims
