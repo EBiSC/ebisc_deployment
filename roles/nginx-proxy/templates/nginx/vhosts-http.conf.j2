@@ -34,17 +34,10 @@ server {
     rewrite ^/contact https://ebisc.org/contact permanent;
   }
 
-{% if ims_role != 'production' and inventory_hostname == 'ebisc-ims-ch' %}
+{% if False %}
   location /executive/ {
     default_type text/plain;
     return 503 "migration in progress";
-  }
-{% endif %}
-
-{% if ims_role != 'production' and inventory_hostname == 'ebisc-ims-fh' %}
-  location /executive/ {
-    default_type text/plain;
-    return 503 "migration: not yet the main server";
   }
 {% endif %}
 
