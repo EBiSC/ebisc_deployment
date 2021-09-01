@@ -21,16 +21,10 @@ server {
 {% endif %}
 
   location /.well-known/ {
-{% if inventory_hostname == 'ebisc-ims-ch' %}
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    # use intermediate charite proxy
-    rewrite ^(.*)$ "://153.97.176.185$1";	# the actual target
-    rewrite ^(.*)$ "http$1" break;		# split up so no automatic 302 redirect is made
-    proxy_pass http://141.42.5.215:8080;	# proxy.charite.de IP
-{% else %}
-    root /usr/share/nginx/html;
-{% endif %}
+    proxy_pass http://ebisc.org;
+    proxy_read_timeout 300;
   }
 
   if ($host != 'ebisc.org') {
