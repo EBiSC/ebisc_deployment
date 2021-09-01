@@ -19,3 +19,5 @@ ims_domains:
     letsencrypt: yes
 
 tracker_domain: tracker.cell-type.org
+
+ebisc_host: 172.26.2.20
