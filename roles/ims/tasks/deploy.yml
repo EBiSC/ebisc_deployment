@@ -201,6 +201,19 @@
     - ims-backup-media.timer
   when: ims_role == "production"
 
+- name: disable timers
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: no
+    name: "{{ item }}"
+    state: stopped
+  with_items:
+    - ims-updates.timer
+    - ims-backup-postgres.timer
+    - ims-backup-media.timer
+  when: ims_role != "production"
+
 - name: install additional nrpe commands
   template:
     src: nrpe_commands.cfg.j2
