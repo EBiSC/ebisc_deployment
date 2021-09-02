@@ -1,5 +1,5 @@
 git_branch: production
-ims_role: production
+ims_role: staging
 log_mail_to: "johannes.dewender@ibmt.fraunhofer.de,nils.bultjer@ibmt.fraunhofer.de"
 
 main_ims_domain: cells.ebisc.org
