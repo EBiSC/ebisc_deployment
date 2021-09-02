@@ -23,7 +23,7 @@ server {
     rewrite ^/contact https://ebisc.org/contact permanent;
   }
 
-{% if False %}
+{% if True %}
   location /executive/ {
     default_type text/plain;
     return 503 "migration in progress";
