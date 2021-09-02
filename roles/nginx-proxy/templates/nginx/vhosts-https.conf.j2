@@ -23,13 +23,6 @@ server {
     rewrite ^/contact https://ebisc.org/contact permanent;
   }
 
-{% if True %}
-  location /executive/ {
-    default_type text/plain;
-    return 503 "migration in progress";
-  }
-{% endif %}
-
   # make sure we don't end up in forwarding loops for non-migrated pages
   location /faq/ {
 {% if domain.name == main_ims_domain or 'dev' in group_names %}
@@ -101,13 +94,6 @@ server {
 server {
   listen 8443 ssl;
   server_name old-ims.cell-type.org;
-
-{% if True %}
-  location /executive/ {
-    default_type text/plain;
-    return 503 "migration in progress";
-  }
-{% endif %}
 
   location / {
     proxy_set_header Host $host;

@@ -31,13 +31,6 @@ server {
     rewrite ^/contact https://ebisc.org/contact permanent;
   }
 
-{% if True %}
-  location /executive/ {
-    default_type text/plain;
-    return 503 "migration in progress";
-  }
-{% endif %}
-
   location / {
 {% if ims_role != 'production' and inventory_hostname != 'ebisc-ims-fh' %}
     proxy_set_header Host $host;
@@ -63,13 +56,6 @@ server {
   location /.well-known/ {
     root /usr/share/nginx/html;
   }
-
-{% if True %}
-  location /executive/ {
-    default_type text/plain;
-    return 503 "migration in progress";
-  }
-{% endif %}
 
   location / {
     rewrite ^/(.*) https://$host/$1 permanent;
