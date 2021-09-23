@@ -2,19 +2,19 @@ git_branch: production
 ims_role: staging
 log_mail_to: "johannes.dewender@ibmt.fraunhofer.de,nils.bultjer@ibmt.fraunhofer.de"
 
-main_ims_domain: cells.ebisc.org
+main_ims_domain: old-ims.cell-type.org
 main_certificate: cells.ebisc.org
 ims_domains:
   - name: cells.ebisc.org
-    letsencrypt: yes
+    letsencrypt: no
   - name: www.cells.ebisc.org
-    letsencrypt: yes
+    letsencrypt: no
   - name: cell.ebisc.org
-    letsencrypt: yes
+    letsencrypt: no
   - name: catalog.ebisc.org
-    letsencrypt: yes
+    letsencrypt: no
   - name: catalogue.ebisc.org
-    letsencrypt: yes
+    letsencrypt: no
   - name: old-ims.cell-type.org
     letsencrypt: yes
 
