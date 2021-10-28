@@ -1,51 +1,9 @@
-{% if ims_role == 'production' %}
 server {
   listen 8080 default_server;
   server_name _;
   # Django can only handle known/allowed names
   # so we keep away unknown server/host names
   return 444;
-}
-{% endif %}
-
-server {
-  listen 8080;
-{% if 'dev' not in group_names %}
-  server_name
-{% for domain in ims_domains %}
-{% if domain != 'old-ims.cell-type.org' %}
-		{{ domain.name }}
-{% endif %}
-{% endfor %}
-		;
-{% endif %}
-
-  location /.well-known/ {
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass http://ebisc.org;
-    proxy_read_timeout 300;
-  }
-
-  if ($host != 'ebisc.org') {
-    rewrite ^/contact https://ebisc.org/contact permanent;
-  }
-
-  location / {
-{% if ims_role != 'production' and inventory_hostname != 'ebisc-ims-fh' %}
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass http://{{ ebisc_host }};
-    proxy_read_timeout 300;
-{% elif ims_role != 'production' and False %}
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass http://{{ ims_host }}:{{ ims_port }};
-    proxy_read_timeout 300;
-{% else %}
-    rewrite ^/(.*) https://$host/$1 permanent;
-{% endif %}
-  }
 }
 
 # old-ims is only redirected to https
